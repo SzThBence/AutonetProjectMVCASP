@@ -66,6 +66,16 @@ footer {
     border-top: 3px solid #ff6000; /* Added */
 }
 
+.footer {
+    position: sticky;
+    clear: both;
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 3px solid #ff6000; /* Added */
+}
+
 .navbar-nav {
     margin-left: auto;
     justify-content: center;
