@@ -6,8 +6,7 @@ namespace AutonetProjectMVCASP.Data
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-        public DbSet<Appointments> Appointments { get; set; }
-
-        public DbSet<Employees> Employees { get; set; }
+        public virtual DbSet<Appointments> Appointments { get; set; }
+        public virtual DbSet<Employees> Employees { get; set; }
     }
 }
