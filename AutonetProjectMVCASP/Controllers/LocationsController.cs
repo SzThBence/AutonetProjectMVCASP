@@ -1,13 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutonetProjectMVCASP.Data;
+using AutonetProjectMVCASP.Migrations;
+using Microsoft.AspNetCore.Mvc;
+using AutonetProjectMVCASP.Models;
+
 
 namespace AutonetProjectMVCASP.Controllers
 {
     public class LocationsController : Controller
     {
+        private readonly ApplicationDbContext _db;
+
+        public LocationsController(ApplicationDbContext db)
+        {
+            _db = db;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<Models.Locations> obj = _db.Locations;
+            return View(obj);
         }
+
 
         public IActionResult Locations()
         {
