@@ -1,4 +1,4 @@
-.body {
+body {
     margin: 0;
     padding: 0;
     display: flex;
@@ -23,7 +23,7 @@
 }
 
 .container-fluid {
-    width: 100%;
+    width: 95%;
 }
 
 .startbutton {
