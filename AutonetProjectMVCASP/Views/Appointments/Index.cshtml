@@ -40,7 +40,7 @@
                                 @if (isOccupied)
                                 {
                                     var appointmentId = Model.FirstOrDefault(obj => obj.Time.Hour == i && obj.Time.Date == currentDate)?.Id;
-                                    <a class="text-danger" style="text-decoration:none; color:red;" asp-controller="Appointments" asp-action="Remove" asp-route-id="@appointmentId">Occupied</a>
+                                    <a class="text-danger" style="text-decoration:none; color:red;" href="@(Url.Action("Delete", "Appointments", new { id = appointmentId }))">Occupied</a>
                                 }
                                 else
                                 {
