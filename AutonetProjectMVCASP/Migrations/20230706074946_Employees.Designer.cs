@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutonetProjectMVCASP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230706062007_Employees")]
+    [Migration("20230706074946_Employees")]
     partial class Employees
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,6 +67,26 @@ namespace AutonetProjectMVCASP.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("AutonetProjectMVCASP.Models.Locations", b =>
+                {
+                    b.Property<string>("Place")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StaryTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Place");
+
+                    b.ToTable("Locations");
                 });
 #pragma warning restore 612, 618
         }
