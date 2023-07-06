@@ -76,5 +76,46 @@ namespace AutonetProjectMVCASP.Controllers
             return View(obj);
 
         }
+
+        public IActionResult Remove(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+
+            var obj = _db.Appointments.Find(id);
+
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+
+
+            _db.Appointments.Remove(obj);
+            _db.SaveChanges();
+
+            TempData["success"] = "Task completed!";
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Remove(Appointments obj)
+        {
+
+
+
+            _db.Appointments.Remove(obj);
+            _db.SaveChanges();
+
+            TempData["success"] = "Task completed!";
+
+            return RedirectToAction("Index");
+
+
+        }
     }
 }
