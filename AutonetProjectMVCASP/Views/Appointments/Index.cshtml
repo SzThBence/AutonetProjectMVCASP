@@ -1,7 +1,66 @@
-﻿
+﻿@model IEnumerable<Appointments>
 @{
     ViewData["Title"] = "Index";
+    DateTime startDate = DateTime.Today;
 }
 
-<h1>Index</h1>
+
+<div class="container">
+    <div class="row pt-3 ms-1">
+        <h1>Available Appointments</h1>
+    </div>
+</div>
+
+
+<table class="table table-bordered table-primary">
+    <thead>
+        <tr id="dateRow">
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 8; i <= 20; i++)
+        {
+            <tr>
+                <th>
+                    <div>@i</div>
+                </th>
+                @for (int j = 0; j < 5; j++)
+                {
+                    bool isOccupied = Model.Any(obj => obj != null && obj.Time.Hour == i && obj.Time.Date == startDate.AddDays(j));
+                    <td>
+                        <div class="@(isOccupied ? "text-danger" : "text-success")">
+                            @(isOccupied ? "Occupied" : "Free")
+                        </div>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    // Get the reference to the table header row
+    const dateRow = document.getElementById("dateRow");
+
+    // Get the current date
+    const today = new Date();
+
+    // Loop to populate the next 5 days
+    for (let i = 0; i < 5; i++) {
+        // Create a new date object for each day
+        const date = new Date(today);
+        date.setDate(today.getDate() + i);
+
+        // Extract the day and month from the date
+        const day = date.getDate();
+        const month = date.toLocaleString("default", { month: "short" });
+
+        // Create a new table cell for the date and append it to the header row
+        const th = document.createElement("th");
+        th.textContent = `${day} ${month}`;
+        dateRow.appendChild(th);
+    }
+</script>
+
 
