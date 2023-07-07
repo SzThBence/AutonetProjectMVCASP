@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AutonetProjectMVCASP.styles.css" asp-append-version="true" />
+
+    
+
+
 </head>
 <body>
     <header>
@@ -27,21 +31,25 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Appointments" asp-action="Index">Appointments</a>
-                    </li>
-                    <li class="nav-item">
-                            <a class="nav-link" asp-controller="Employees" asp-action="Index">Employees</a>
-                    </li>
-                    <li class="nav-item">
-                            <a class="nav-link" asp-controller="Locations" asp-action="Index">Locations</a>
-                    </li>
-                    <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Privacy">Contact</a>
-                    </li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")">
+                            <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active custom-nav-link" : "")" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Appointments" ? "active" : "")">
+                            <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Appointments" ? "active custom-nav-link" : "")" asp-controller="Appointments" asp-action="Index">Appointments</a>
+                        </li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Employees" ? "active" : "")">
+                            <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Employees" ? "active custom-nav-link" : "")" asp-controller="Employees" asp-action="Index">Employees</a>
+                        </li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Locations" ? "active" : "")">
+                            <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Locations" ? "active custom-nav-link" : "")" asp-controller="Locations" asp-action="Index">Locations</a>
+                        </li>
+                        <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "Privacy" && ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")">
+                            <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Privacy" && ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active custom-nav-link" : "")" asp-controller="Home" asp-action="Privacy">Contact</a>
+                        </li>
+
+
+
+
                     <li class="nav-item dropdown">
                         <a href="#"
                            class="nav-link dropdown-toggle custom-nav-link"
@@ -61,31 +69,36 @@
                             </li>
                         </ul>
                     </li>
+
+
                 </ul>
             </div>
         </div>
     </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="footer text-muted flex-fill bg-dark">
-        <div class="container-fluid">
-            <div class="text-center d-flex align-items-center justify-content-center bg-dark flex-fill"
-                 style="height: 100%; width:100%">
-                <span class="footertext">
-                    &copy; Autonet Import SRL - Practica
-                </span>
-            </div>
+    <footer class="footer bg-dark">
+        <div class="containerfooter">
+            
+            <span class="footertext">
+                &copy; Autonet Import SRL - Practica
+            </span>
+            
         </div>
     </footer>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
