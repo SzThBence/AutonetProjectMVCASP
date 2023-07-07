@@ -1,7 +1,48 @@
-﻿
+﻿@model IEnumerable<AutonetProjectMVCASP.Models.Employees>
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
+
+<div class="table table-primary" style="width=90%; height=auto">
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Surname
+                </th>
+                <th>
+                    Job
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var obj in Model)
+            {
+                <tr>
+                    <td>
+                        @obj.Id
+                    </td>
+                    <td>
+                        @obj.Name
+                    </td>
+                    <td>
+                        @obj.Surname
+                    </td>
+                    <td>
+                        @obj.Job
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
 
