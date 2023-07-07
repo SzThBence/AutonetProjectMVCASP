@@ -41,7 +41,7 @@ namespace AutonetProjectMVCASP.Controllers
                 return NotFound();
             }
 
-            return View();
+            return View(obj);
         }
     }
 }
