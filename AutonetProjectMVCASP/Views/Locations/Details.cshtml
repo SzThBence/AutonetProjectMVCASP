@@ -1,0 +1,84 @@
+﻿@using Newtonsoft.Json
+@model AutonetProjectMVCASP.Models.Locations
+
+@{
+    ViewData["Title"] = "Details";
+    var serializedData = JsonConvert.SerializeObject(Model);
+}
+
+<h1>Location Details</h1>
+
+<div class="container card card-body bg-dark text-white">
+    <div class="row">
+        <div class="col-lg-6 col-sm-12">
+            <h4>Locations</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Address)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Address)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.StaryTime)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.StaryTime)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.EndTime)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.EndTime)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Latitude)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Latitude)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Longitude)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Longitude)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Title)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Title)
+                </dd>
+            </dl>
+        </div>
+        <div class="col-lg-6 col-sm-12">
+            <div id="map" style="height: 400px;"></div>
+        </div>
+    </div>
+    <div>
+        <a class="btn btn-light align-self-center" asp-action="Index">Back to List</a>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: @Model.Latitude, lng: @Model.Longitude },
+                zoom: 12
+            });
+
+            var data = @Html.Raw(serializedData);
+            var marker = new google.maps.Marker({
+                position: { lat: @Model.Latitude, lng: @Model.Longitude },
+                map: map,
+                title: "@Model.Title"
+            });
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT7QWZaUcL4n36Dj8toB0Tui1Ur8vmFRg&callback=initMap" async defer></script>
+}

@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Index";
     DateTime startDate = DateTime.Today;
+    int end = 5;
 }
 
 
@@ -25,14 +26,30 @@
                 <th>
                     <div>@i</div>
                 </th>
-                @for (int j = 0; j < 5; j++)
+                @for (int j = 0, slotsAdded = 0; slotsAdded < 5; j++)
                 {
-                    bool isOccupied = Model.Any(obj => obj != null && obj.Time.Hour == i && obj.Time.Date == startDate.AddDays(j));
+                    DateTime currentDate = startDate.AddDays(j);
+                    if (currentDate.DayOfWeek == DayOfWeek.Saturday || currentDate.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        continue;
+                    }
+                    bool isOccupied = Model.Any(obj => obj != null && obj.Time.Hour == i && obj.Time.Date == currentDate);
                     <td>
-                        <div class="@(isOccupied ? "text-danger" : "text-success")">
-                            @(isOccupied ? "Occupied" : "Free")
-                        </div>
+                        <b>
+                            <div class="@(isOccupied ? "text-danger" : "text-success")">
+                                @if (isOccupied)
+                                {
+                                    var appointmentId = Model.FirstOrDefault(obj => obj.Time.Hour == i && obj.Time.Date == currentDate)?.Id;
+                                    <a class="text-danger" style="text-decoration:none; color:red;" asp-controller="Appointments" asp-action="Remove" asp-route-id="@appointmentId">Occupied</a>
+                                }
+                                else
+                                {
+                                    <div>Free</div>
+                                }
+                            </div>
+                        </b>
                     </td>
+                    slotsAdded++;
                 }
             </tr>
         }
@@ -40,7 +57,7 @@
 </table>
 
 <div>
-    <a class="btn btn-success" asp-action="Create">Create New</a>
+    <a class="btn btn-success mb-3" asp-action="Create">Create New</a>
 </div>
 
 <script>
@@ -50,11 +67,20 @@
     // Get the current date
     const today = new Date();
 
+    // Variable to keep track of the number of slots added
+    let slotsAdded = 0;
+
     // Loop to populate the next 5 days
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; slotsAdded < 5; i++) {
         // Create a new date object for each day
         const date = new Date(today);
         date.setDate(today.getDate() + i);
+
+        // Check if the current day is a weekend (Saturday or Sunday)
+        if (date.getDay() === 0 || date.getDay() === 6) {
+            // Skip weekends
+            continue;
+        }
 
         // Extract the day and month from the date
         const day = date.getDate();
@@ -64,6 +90,9 @@
         const th = document.createElement("th");
         th.textContent = `${day} ${month}`;
         dateRow.appendChild(th);
+
+        // Increment the number of slots added
+        slotsAdded++;
     }
 </script>
 

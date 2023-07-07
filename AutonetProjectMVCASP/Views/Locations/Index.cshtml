@@ -1,7 +1,44 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
-}
+﻿@using Newtonsoft.Json;
+@model IEnumerable<AutonetProjectMVCASP.Models.Locations>
 
-<h1>Index</h1>
+<div class="mt-5">
+    <h1>Index</h1>
+</div>
+
+
+<table class="table table-bordered table-primary">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Place)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => obj.Place)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => obj.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => obj.Title)
+                </td>
+                <td>
+                    <a class="btn btn-info" asp-action="Details" asp-route-place="@obj.Place">Details</a> @*asp-route-<variablename> is the main idea *@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
