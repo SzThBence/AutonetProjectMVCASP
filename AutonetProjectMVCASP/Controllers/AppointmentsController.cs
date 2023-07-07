@@ -93,10 +93,10 @@ namespace AutonetProjectMVCASP.Controllers
 
 
 
-            _db.Appointments.Remove(obj);
-            _db.SaveChanges();
+            //_db.Appointments.Remove(obj);
+            //_db.SaveChanges();
 
-            TempData["success"] = "Task completed!";
+            //TempData["success"] = "Task completed!";
 
             return View();
         }
