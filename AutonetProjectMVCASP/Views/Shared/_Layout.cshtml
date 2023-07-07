@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AutonetProjectMVCASP.styles.css" asp-append-version="true" />
+
+    
+
+
 </head>
 <body>
     <header>
@@ -66,26 +70,29 @@
         </div>
     </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="footer text-muted flex-fill bg-dark">
-        <div class="container-fluid">
-            <div class="text-center d-flex align-items-center justify-content-center bg-dark flex-fill"
-                 style="height: 100%; width:100%">
-                <span class="footertext">
-                    &copy; Autonet Import SRL - Practica
-                </span>
-            </div>
+    <footer class="footer bg-dark">
+        <div class="containerfooter">
+            
+            <span class="footertext">
+                &copy; Autonet Import SRL - Practica
+            </span>
+            
         </div>
     </footer>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
