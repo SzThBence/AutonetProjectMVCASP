@@ -1,7 +1,88 @@
-﻿
+﻿@using Newtonsoft.Json;
+@model IEnumerable<AutonetProjectMVCASP.Models.Locations>
 @{
     ViewData["Title"] = "Index";
+    var yourDataFromDatabase = Model.Select(x => new
+    {
+        latitude = x.Latitude,
+        longitude = x.Longitude,
+        title = x.Title
+    });
 }
 
-<h1>Index</h1>
+<div class="mt-5">
+    <h1>Index</h1>
+</div>
 
+
+<table class="table table-bordered table-primary">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Place)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => obj.Place)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => obj.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => obj.Title)
+                </td>
+                <td>
+                    <a class="btn btn-info" asp-controller="Locations" asp-action="Details" asp-route-id="@obj.Place">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 0, lng: 0 },
+                zoom: 10
+            });
+
+            var data = @Html.Raw(JsonConvert.SerializeObject(yourDataFromDatabase));
+
+            data.forEach(function (point) {
+                var marker = new google.maps.Marker({
+                    position: { lat: point.latitude, lng: point.longitude },
+                    map: map,
+                    title: point.title
+                });
+            });
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var userLatLng = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    map.setCenter(userLatLng);
+                }, function (error) {
+                    console.error('Error getting current position:', error);
+                });
+            }
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT7QWZaUcL4n36Dj8toB0Tui1Ur8vmFRg&callback=initMap" async defer></script>
+}
