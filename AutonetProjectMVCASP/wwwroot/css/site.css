@@ -1,6 +1,5 @@
 body {
-    
-    margin: 0px;
+    padding-top: 80px;
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -13,18 +12,59 @@ body {
     background-attachment: fixed;
 }
 
+h1 {
+    display: inline-block;
+    padding: 1vh 2vw 1vh 2vw;
+    color: #ff6000;
+    margin: 5vh 0 5vh 0;
+    background-color: rgb(33, 37, 41);
+    border-radius: 3px; /* Border with dulled edges */
+}
 
+.introtittle{
+    background: none;
+}
+
+.appointmentsTable{
+    background: rgb(33, 37, 41);
+    color: white;
+    border-radius: 5px;
+    
+}
+    .appointmentsTable th {
+        padding: 5px;
+        border: 1px dotted white;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 15px;
+        font-weight: 600;
+        color: white;
+    }
+
+    .appointmentsTable td {
+        padding: 5px;
+        border: 1px dotted white;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 15px;
+        font-weight: 600;
+        color: white;
+    }
+
+.appointmentsTable td:hover{
+    background-color: rgb(255, 96, 0, 0.65);
+
+    
+}
 
 .containermiddle {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 100vh;
-    
-    
-
-    
+    min-height: 80vh;
 }
+
+
 
 .center-div {
     display: flex;
@@ -85,6 +125,11 @@ body {
     color: #ff6000;
     font-size: 35px;
 }
+
+dd{
+    color: white;
+}
+
 
 @media (min-width: 40ch) {
 }

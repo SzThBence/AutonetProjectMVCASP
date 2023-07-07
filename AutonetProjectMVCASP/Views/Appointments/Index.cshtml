@@ -7,13 +7,11 @@
 
 
 <div class="container">
-    <div class="row pt-3 ms-1">
-        <h1>Available Appointments</h1>
-    </div>
+    <h1>Available Appointments</h1>
 </div>
 
 
-<table class="table table-bordered table-primary">
+<table class="table appointmentsTable">
     <thead>
         <tr id="dateRow">
             <th></th>
@@ -44,7 +42,12 @@
                                 }
                                 else
                                 {
-                                    <div>Free</div>
+                                    
+                                    DateTime date = startDate;
+                                    date.AddDays(j);
+                                    date.AddHours(i);
+                                    
+                                    <a class="text-success" style="text-decoration:none" asp-controller="Appointments" asp-action="CreateWithData" asp-route-date="@date">Free</a>
                                 }
                             </div>
                         </b>

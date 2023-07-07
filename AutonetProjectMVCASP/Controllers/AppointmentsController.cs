@@ -29,6 +29,14 @@ namespace AutonetProjectMVCASP.Controllers
             return View();
         }
 
+        public IActionResult CreateWithData(DateTime date)
+        {
+            ViewBag.DateData = date;
+
+
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Appointments obj)
@@ -77,6 +85,54 @@ namespace AutonetProjectMVCASP.Controllers
 
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateWithData(Appointments obj)
+        {
+            IEnumerable<Models.Locations> loc = _db.Locations;
+            if (obj.Time <= DateTime.Now)
+            {
+                ModelState.AddModelError("Time", "The date and time must be in the future");
+            }
+
+            if (obj.Time.DayOfWeek == DayOfWeek.Saturday || obj.Time.DayOfWeek == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError("Time", "The date and time must be a weekday");
+            }
+
+            if (obj.Time.Hour < 8 || obj.Time.Hour > 19)
+            {
+                ModelState.AddModelError("Time", "The date and time must be between 9am and 5pm");
+            }
+
+            bool isLocation = false;
+            foreach (var item in loc)
+            {
+                if (item.Place == obj.Location)
+                {
+                    isLocation = true;
+                }
+            }
+
+            if (!isLocation)
+            {
+                ModelState.AddModelError("Location", "The location must be a valid location");
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                _db.Appointments.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            TempData["success"] = "Task completed!";
+
+            return View(obj);
+
+        }
+
         public IActionResult Remove(int? id)
         {
             if (id == null || id == 0)
@@ -98,7 +154,7 @@ namespace AutonetProjectMVCASP.Controllers
 
             //TempData["success"] = "Task completed!";
 
-            return View();
+            return View(obj);
         }
 
         [HttpPost]

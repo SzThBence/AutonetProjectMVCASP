@@ -3,10 +3,12 @@ for details on configuring this project to bundle and minify static web assets. 
 
 
 body {
-    
+    margin-top: 80px;
 }
 
-
+.container {
+    margin-top: 75px;
+}
 
 .container-fluid {
     width: 95%;
