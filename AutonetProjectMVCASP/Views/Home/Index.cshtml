@@ -2,8 +2,9 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="center-div">
-    <div class="container2">
+<div class="containermiddle">
+
+    <div class="center-div">
         <h1 class="introtittle">
             At Car Service Booking, we are dedicated to providing you<br />
             with a convenient and hassle-free experience for scheduling<br />car
@@ -23,13 +24,14 @@
             Say goodbye to phone calls and waiting on hold,<br />book your
             appointments with just a few clicks!"
         </p>
-
     </div>
-    <span class="text-white text-secondary-hover">
-        <a class="startbutton bg-dark" style="text-decoration:none"asp-controller="Appointments" asp-action="Index">
-            Let's get started
-        </a>
-    </span>
-    
+
+    <div class="containerbutton">
+        <span class="text-white">
+            <a class="startbutton bg-dark" style="text-decoration:none" asp-controller="Appointments" asp-action="Index">
+                Let's get started
+            </a>
+        </span>
+    </div>
 
 </div>
