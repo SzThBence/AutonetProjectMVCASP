@@ -26,5 +26,22 @@ namespace AutonetProjectMVCASP.Controllers
         {
             return View();
         }
+
+        public IActionResult Details(string? place)
+        {
+            if (place == null)
+            {
+                return NotFound();
+            }
+
+            var obj = _db.Locations.Find(place);
+
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View();
+        }
     }
 }

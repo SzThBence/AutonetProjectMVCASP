@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutonetProjectMVCASP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230706075001_Locations")]
-    partial class Locations
+    [Migration("20230707083619_Appointments")]
+    partial class Appointments
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,9 +59,11 @@ namespace AutonetProjectMVCASP.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -81,8 +83,18 @@ namespace AutonetProjectMVCASP.Migrations
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<float>("Latitude")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Longitude")
+                        .HasColumnType("real");
+
                     b.Property<DateTime>("StaryTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Place");
 
