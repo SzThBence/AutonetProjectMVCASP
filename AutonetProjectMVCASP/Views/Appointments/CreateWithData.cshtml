@@ -24,9 +24,10 @@
                     </div>
                     <div class="container mt-4">
                         <div class="row d-flex justify-content-between">
-
+                            <input type="hidden" asp-for="Id" />
+                            <input type="hidden" asp-for="Location" />
                             <input type="submit" class="btn btn-primary" />
-
+                            
 
                             <a id="returnLink" class="backButton btn btn-danger btn-block mt-3" asp-action="Select" asp-route-location="">Back to Selection</a>
 

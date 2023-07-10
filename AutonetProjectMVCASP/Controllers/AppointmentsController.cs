@@ -40,6 +40,11 @@ namespace AutonetProjectMVCASP.Controllers
         }
     }
 
+    public class RemData
+    {
+        
+    }
+
 
     public class AppointmentsController : Controller
     {
@@ -136,7 +141,7 @@ namespace AutonetProjectMVCASP.Controllers
             {
                 _db.Appointments.Add(obj);
                 _db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Select");
             }
 
             TempData["success"] = "Task completed!";
@@ -175,7 +180,7 @@ namespace AutonetProjectMVCASP.Controllers
                 return NotFound();
             }
 
-
+            
 
             //_db.Appointments.Remove(obj);
             //_db.SaveChanges();
@@ -190,14 +195,16 @@ namespace AutonetProjectMVCASP.Controllers
         public IActionResult Remove(Appointments obj)
         {
 
-
+            string loc = obj.Location;
 
             _db.Appointments.Remove(obj);
             _db.SaveChanges();
 
             TempData["success"] = "Task completed!";
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new RouteValueDictionary { { "location", obj.Location } });
+
+
 
 
         }
