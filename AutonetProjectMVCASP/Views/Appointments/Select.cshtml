@@ -3,24 +3,46 @@
     ViewData["Title"] = "Select";
 }
 
-<h1>Select</h1>
-
-<div class="container card card-body bg-dark text-white">
-    <div class="row">
-        <div class="col-6">
-            <form method="get" asp-action="Index" style="min-width:300px;">
-                <select name="location">
-                    @foreach (var location in Model)
-                    {
-                        <option value="@location.Place">@location.Place</option>
-                    }
-                </select>
-                <input class="btn btn-success" type="submit" value="Submit" />
-            </form>
+<div class="container d-flex align-items-center justify-content-center flex-column content">
+    <div class="card bg-dark text-white">
+        <div class="card-body">
+            <div class="row pb-2">
+                <h1 class="pt-1">Select a Location</h1>
+            </div>
+            <div class="row">
+                <div class="col-12 pt-2">
+                    <form method="get" asp-action="Index" style="min-width:600px;">
+                        <select name="location" class="form-control">
+                            @if (Model.Count() == 0)
+                            {
+                                <option value="0" disabled>No Locations</option>
+                            }
+                            else
+                            {
+                                @foreach (var location in Model)
+                                {
+                                    <option value="@location.Place">@location.Place</option>
+                                }
+                            }
+                        </select>
+                        <div>
+                            <input class="btn btn-success mt-3 pt-3align-items-center justify-content-center" type="submit" value="Submit" />
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="col-3 align-content-end">
+    </div>
+ <!--
+
+    <div class="row">
+        <div class="col-12 pt-4">
             <a class="btn btn-primary" style="align-self:end" asp-action="Create">Create New Appointment Anywhere</a>
         </div>
+
+       </div>-->
         
-    </div>
 </div>
+
+
