@@ -64,6 +64,9 @@ namespace AutonetProjectMVCASP.Controllers
             }
 
             ViewData["Location"] = location;
+            ViewData["ActualLocation"] = _db?.Locations.Find(location);
+
+
 
 
             AppointmentsData obj = new AppointmentsData(location, _db);
@@ -109,7 +112,7 @@ namespace AutonetProjectMVCASP.Controllers
                 ModelState.AddModelError("Time", "The date and time must be a weekday");
             }   
 
-            if (obj.Time.Hour < 8 || obj.Time.Hour > 19)
+            if (obj.Time.Hour < _db.Locations.Find(obj.Location).StaryTime.Hour || obj.Time.Hour > _db.Locations.Find(obj.Location).EndTime.Hour)
             {
                 ModelState.AddModelError("Time", "The date and time must be between 9am and 5pm");
             }

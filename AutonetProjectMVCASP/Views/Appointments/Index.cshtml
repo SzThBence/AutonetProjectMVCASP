@@ -5,6 +5,7 @@
     DateTime startDate = DateTime.Today;
     int end = 5;
     string location = ViewData["Location"] as string;
+    Locations actualLocation = ViewData["ActualLocation"] as Locations;
 
 }
 
@@ -33,9 +34,12 @@
                         continue;
                     }
                     bool isOccupied = Model.Any(obj => obj != null && obj.Time.Hour == i && obj.Time.Date == currentDate);
+                    bool isValidTime = (actualLocation != null) && (actualLocation.StaryTime.Hour <= i) && (actualLocation.EndTime.Hour > i);
                     <td>
                         <b>
-                            <div class="@(isOccupied ? "text-danger" : "text-success")">
+                            @if(isValidTime)
+                            {
+                                <div class="@(isOccupied ? "text-danger" : "text-success")">
                                 @if (isOccupied)
                                 {
                                     var appointment = Model.FirstOrDefault(obj => obj.Time.Hour == i && obj.Time.Date == currentDate);
@@ -48,7 +52,7 @@
                                 else
                                 {
 
-                                    
+
                                     var loc = location;
                                     var date = startDate.AddDays(j).AddHours(i);
                                     string locEncoded = loc != null ? Uri.EscapeDataString(loc) : string.Empty;
@@ -56,6 +60,13 @@
                                     <a class="text-success" style="text-decoration:none" asp-controller="Appointments" asp-action="CreateWithData" asp-route-location="@locEncoded" asp-route-date="@date.ToString("yyyy-MM-ddTHH:mm:ss")">Free</a>
                                 }
                             </div>
+                            }
+                            else
+                            {
+                                <div style="color:orangered">
+                                    Closed
+                                </div>
+                            }
                         </b>
                     </td>
                     slotsAdded++;
