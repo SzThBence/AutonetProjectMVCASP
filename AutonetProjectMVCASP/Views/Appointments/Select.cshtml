@@ -4,9 +4,8 @@
 }
 
 <h1>Select</h1>
-<form method="get" asp-action="Index">
+<form method="get" asp-action="Index" style="min-width:300px;">
     <select name="location">
-        <option value="">Select a location</option>
         @foreach (var location in Model)
         {
             <option value="@location.Place">@location.Place</option>
