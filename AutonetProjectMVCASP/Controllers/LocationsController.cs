@@ -43,5 +43,42 @@ namespace AutonetProjectMVCASP.Controllers
 
             return View(obj);
         }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Models.Locations obj)
+        {
+            if (obj.Equals(null))
+            {
+                return NotFound();
+            }
+            if (Math.Abs(obj.Latitude) > 90)
+            {
+                ModelState.AddModelError("Latitude", "The latitude must be valid");
+            }
+            if (Math.Abs(obj.Longitude) > 180)
+            {
+                ModelState.AddModelError("Longitude", "The longitude must be valid");
+            }
+
+
+
+
+            if (ModelState.IsValid)
+            {
+                _db.Locations.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            TempData["success"] = "Task completed!";
+
+            return View(obj);
+        }
+
     }
 }
