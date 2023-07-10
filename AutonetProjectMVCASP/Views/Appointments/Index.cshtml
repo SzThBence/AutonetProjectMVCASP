@@ -1,15 +1,16 @@
 ﻿@model IEnumerable<Appointments>
+
 @{
     ViewData["Title"] = "Index";
     DateTime startDate = DateTime.Today;
     int end = 5;
-}
+    string location = ViewData["Location"] as string;
 
+}
 
 <div class="container">
     <h1>Available Appointments</h1>
 </div>
-
 
 <table class="table appointmentsTable">
     <thead>
@@ -37,17 +38,22 @@
                             <div class="@(isOccupied ? "text-danger" : "text-success")">
                                 @if (isOccupied)
                                 {
-                                    var appointmentId = Model.FirstOrDefault(obj => obj.Time.Hour == i && obj.Time.Date == currentDate)?.Id;
-                                    <a class="text-danger" style="text-decoration:none; color:red;" asp-controller="Appointments" asp-action="Remove" asp-route-id="@appointmentId">Occupied</a>
+                                    var appointment = Model.FirstOrDefault(obj => obj.Time.Hour == i && obj.Time.Date == currentDate);
+                                    var appointmentId = appointment?.Id;
+                                    if (appointmentId != null)
+                                    {
+                                        <a class="text-danger" style="text-decoration:none; color:red;" asp-controller="Appointments" asp-action="Remove" asp-route-id="@appointmentId">Occupied</a>
+                                    }
                                 }
                                 else
                                 {
+
                                     
-                                    DateTime date = startDate;
-                                    date.AddDays(j);
-                                    date.AddHours(i);
-                                    
-                                    <a class="text-success" style="text-decoration:none" asp-controller="Appointments" asp-action="CreateWithData" asp-route-date="@date">Free</a>
+                                    var loc = location;
+                                    var date = startDate.AddDays(j).AddHours(i);
+                                    string locEncoded = loc != null ? Uri.EscapeDataString(loc) : string.Empty;
+
+                                    <a class="text-success" style="text-decoration:none" asp-controller="Appointments" asp-action="CreateWithData" asp-route-location="@locEncoded" asp-route-date="@date.ToString("yyyy-MM-ddTHH:mm:ss")">Free</a>
                                 }
                             </div>
                         </b>
@@ -98,5 +104,3 @@
         slotsAdded++;
     }
 </script>
-
-
