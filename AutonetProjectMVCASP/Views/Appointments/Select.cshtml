@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Locations>
+@{
+    ViewData["Title"] = "Select";
+}
+
+<h1>Select</h1>
+<form method="get" asp-action="Index">
+    <select name="location">
+        <option value="">Select a location</option>
+        @foreach (var location in Model)
+        {
+            <option value="@location.Place">@location.Place</option>
+        }
+    </select>
+    <input type="submit" value="Submit" />
+</form>
+

@@ -2,8 +2,27 @@
 using Microsoft.AspNetCore.Mvc;
 using AutonetProjectMVCASP.Models;
 
+
+
 namespace AutonetProjectMVCASP.Controllers
 {
+    public class AppointmentsData
+    {
+        public string Location { get; set; }
+        public IEnumerable<Appointments> Obj { get; set; }
+        public AppointmentsData(string location, IEnumerable<Appointments> obj)
+        {
+            Location = location;
+            Obj = obj;
+        }
+
+        public AppointmentsData(string location, ApplicationDbContext db)
+        {
+            Location = location;
+            Obj = db.Appointments.Where(a => a.Location == location).ToList();
+        }
+    }
+
     public class AppointmentsController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -13,10 +32,23 @@ namespace AutonetProjectMVCASP.Controllers
             _db = db;
         }
 
-        public IActionResult Index()
+        public IActionResult Select()
         {
-            IEnumerable<Models.Appointments> obj = _db.Appointments;
-            return View(obj);
+            IEnumerable<Models.Locations> loc = _db.Locations;
+            return View(loc);
+        }
+
+        public IActionResult Index(string location)
+        {
+            if ((location == null))
+            {
+                ModelState.AddModelError("Location", "The location must be a valid location");
+            }
+
+
+            AppointmentsData obj = new AppointmentsData(location, _db);
+            IEnumerable<Models.Appointments> loc = obj.Obj;
+            return View(loc);
         }
 
         public IActionResult Appointments()
