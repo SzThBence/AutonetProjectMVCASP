@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Locations>
+@{
+    ViewData["Title"] = "Select";
+}
+
+<h1>Select</h1>
+
+<div class="container card card-body bg-dark text-white">
+    <div class="row pb-4">
+    <form method="get" asp-action="Index" style="min-width:300px;">
+        <select name="location">
+            @foreach (var location in Model)
+            {
+                <option value="@location.Place">@location.Place</option>
+            }
+        </select>
+        <input type="submit" value="Submit" />
+    </form>
+    </div>
+    <div class="row">
+        <a class="btn btn-success" style="width:auto" asp-action="Create">Create New Appointment Anywhere</a>
+    </div>
+</div>

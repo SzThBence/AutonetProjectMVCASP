@@ -2,8 +2,45 @@
 using Microsoft.AspNetCore.Mvc;
 using AutonetProjectMVCASP.Models;
 
+
+
 namespace AutonetProjectMVCASP.Controllers
 {
+    public class AppointmentsData
+    {
+        public string Location { get; set; }
+        public IEnumerable<Appointments> Obj { get; set; }
+        public AppointmentsData(string location, IEnumerable<Appointments> obj)
+        {
+            Location = location;
+            Obj = obj;
+        }
+
+        public AppointmentsData(string location, ApplicationDbContext db)
+        {
+            Location = location;
+            Obj = db.Appointments.Where(a => a.Location == location).ToList();
+        }
+    }
+
+    public class LocDateData
+    {
+        public string Location { get; set; } = "default";
+        public DateTime Date { get; set; } = DateTime.Now;
+        
+        public LocDateData(string location, DateTime date)
+        {
+            Location = location;
+            Date = date;
+        }
+
+        public LocDateData()
+        {
+
+        }
+    }
+
+
     public class AppointmentsController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -13,10 +50,25 @@ namespace AutonetProjectMVCASP.Controllers
             _db = db;
         }
 
-        public IActionResult Index()
+        public IActionResult Select()
         {
-            IEnumerable<Models.Appointments> obj = _db.Appointments;
-            return View(obj);
+            IEnumerable<Models.Locations> loc = _db.Locations;
+            return View(loc);
+        }
+
+        public IActionResult Index(string location)
+        {
+            if ((location == null))
+            {
+                ModelState.AddModelError("Location", "The location must be a valid location");
+            }
+
+            ViewData["Location"] = location;
+
+
+            AppointmentsData obj = new AppointmentsData(location, _db);
+            IEnumerable<Models.Appointments> loc = obj.Obj;
+            return View(loc);
         }
 
         public IActionResult Appointments()
@@ -29,12 +81,17 @@ namespace AutonetProjectMVCASP.Controllers
             return View();
         }
 
-        public IActionResult CreateWithData(DateTime date)
+        public IActionResult CreateWithData(LocDateData info)
         {
-            ViewBag.DateData = date;
+            //ViewBag.DateData = date;
+            var model = new Appointments 
+            {
+                Location = info.Location,
+                Time = info.Date
+            };
 
 
-            return View();
+            return View(model);
         }
 
         [HttpPost]
@@ -89,49 +146,17 @@ namespace AutonetProjectMVCASP.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateWithData(Appointments obj)
         {
-            IEnumerable<Models.Locations> loc = _db.Locations;
-            if (obj.Time <= DateTime.Now)
-            {
-                ModelState.AddModelError("Time", "The date and time must be in the future");
-            }
-
-            if (obj.Time.DayOfWeek == DayOfWeek.Saturday || obj.Time.DayOfWeek == DayOfWeek.Sunday)
-            {
-                ModelState.AddModelError("Time", "The date and time must be a weekday");
-            }
-
-            if (obj.Time.Hour < 8 || obj.Time.Hour > 19)
-            {
-                ModelState.AddModelError("Time", "The date and time must be between 9am and 5pm");
-            }
-
-            bool isLocation = false;
-            foreach (var item in loc)
-            {
-                if (item.Place == obj.Location)
-                {
-                    isLocation = true;
-                }
-            }
-
-            if (!isLocation)
-            {
-                ModelState.AddModelError("Location", "The location must be a valid location");
-            }
-
-
             if (ModelState.IsValid)
             {
                 _db.Appointments.Add(obj);
                 _db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new RouteValueDictionary { { "location", obj.Location } });
             }
 
             TempData["success"] = "Task completed!";
-
             return View(obj);
-
         }
+
 
         public IActionResult Remove(int? id)
         {

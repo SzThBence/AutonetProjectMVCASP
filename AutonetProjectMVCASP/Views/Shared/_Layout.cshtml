@@ -31,7 +31,7 @@
                             <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active custom-nav-link" : "")" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Appointments" ? "active" : "")">
-                            <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Appointments" ? "active custom-nav-link" : "")" asp-controller="Appointments" asp-action="Index">Appointments</a>
+                            <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Appointments" ? "active custom-nav-link" : "")" asp-controller="Appointments" asp-action="Select">Appointments</a>
                         </li>
                         <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Employees" ? "active" : "")">
                             <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Employees" ? "active custom-nav-link" : "")" asp-controller="Employees" asp-action="Index">Employees</a>

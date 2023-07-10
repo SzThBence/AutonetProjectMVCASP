@@ -1,49 +1,57 @@
 ﻿@model AutonetProjectMVCASP.Models.Appointments
-@{
-    ViewData["Title"] = "CreateWithData";
-}
 
-<h1>CreateWithData</h1>
+<h1>Create New Record</h1>
 
-<h1>Create</h1>
+<form method="post" asp-action="CreateWithData">
 
-<h4>Appointments</h4>
-<hr />
-<div class="card card-body bg-dark text-white">
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="Create">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control"/>
-                    <span asp-validation-for="Name" class="text-danger"></span>
+    <div class="containermiddleContact">
+        <div class="card card-body bg-dark text-white">
+            <div class="row">
+                <div class="col-md-4">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Time" class="control-label"></label>
+                            <input asp-for="Time" class="form-control" readonly/>
+                            <span asp-validation-for="Time" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Location" class="control-label"></label>
+                            <input asp-for="Location" class="form-control" readonly/>
+                            <span id="locationInput" asp-validation-for="Location" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mt-4">
+                            <input type="submit" class="btn btn-primary" />
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Time" class="control-label"></label>
-                    <input asp-for="Time" class="form-control" value="@ViewBag.DateData" />
-                    <span asp-validation-for="Time" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Location" class="control-label"></label>
-                    <input asp-for="Location" class="form-control" />
-                    <span asp-validation-for="Location" class="text-danger"></span>
-                </div>
-                <div class="form-group mt-4">
-                    <input type="submit" value="Create" class="btn btn-primary" />
-                </div>
-            </form>
+            </div>
         </div>
+        
     </div>
-</div>
-<div>
-    <a class="btn btn-danger mt-3" asp-action="Index">Back to List</a>
-</div>
 
-@section Scripts
-    {
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
+</form>
+
+<a id="returnLink" class="backButton btn btn-danger mt-3" asp-action="Select" asp-route-location="">Back to Selection</a>
+
+@section Scripts {
+    <script>
+       function beginning()
+       {
+            const locationInput = document.getElementById("locationInput");
+            const returnLink = document.getElementById("returnLink");
+            const location = encodeURIComponent(locationInput.value);
+
+            returnLink.setAttribute("asp-route-location", location);
+       }
+
+       beginning();
+
+    </script>
 }
 
