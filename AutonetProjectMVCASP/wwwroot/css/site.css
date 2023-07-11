@@ -253,14 +253,14 @@ body {
 .cardscontact {
     width: 23.33%;
     margin-bottom: 25px;
-    /*margin-left: 10px;
-    margin-right: 10px;*/
+    margin-left: 10px;
+    margin-right: 10px;
     padding: 10px;
     color: black;
     border-radius: 25px;
     box-sizing: border-box;
     overflow: hidden;
-    border: 2px solid white;
+    border: 3px solid white;
     min-height: 320px;
     background-color: white;
     text-align: center;
@@ -285,6 +285,7 @@ body {
     border-top-left-radius: 25px;
     border: 0px;
     margin-bottom: 15px;
+    
 }
 
 
