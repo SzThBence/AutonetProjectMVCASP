@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<AutonetProjectMVCASP.Models.Employees>
 @{
     ViewData["Title"] = "Index";
+    bool LoggedIn = (User != null) && (User.Identity.IsAuthenticated);
 }
 
 
@@ -14,6 +15,7 @@
                 <div style="width=90%; height=auto">
                     <table class="table appointmentsTable">
                         <thead>
+                            <div>
                             <tr>
 
                                 <th>
@@ -25,10 +27,15 @@
                                 <th>
                                     Job
                                 </th>
-                                <th>
+                                    @if (LoggedIn)
+                                    {
+                                    <th>
 
-                                </th>
+                                    </th>
+                                    }
                             </tr>
+                            </div>
+                            
                         </thead>
                         <tbody>
                             @if (Model.Count() == 0)
@@ -46,7 +53,7 @@
                                 @foreach (var obj in Model)
                                 {
                                     <tr>
-
+                                        
                                         <td>
                                             @obj.Name
                                         </td>
@@ -56,10 +63,13 @@
                                         <td>
                                             @obj.Job
                                         </td>
-                                        <td>
-                                            <a asp-action="Edit" class="btn btn-warning" asp-route-id="@obj.Id">Edit</a>
-                                            <a asp-action="Remove" class="btn btn-danger" asp-route-id="@obj.Id">Delete</a>
-                                        </td>
+                                        @if (LoggedIn)
+                                        {
+                                            <td>
+                                                <a asp-action="Edit" class="btn btn-warning" asp-route-id="@obj.Id">Edit</a>
+                                                <a asp-action="Remove" class="btn btn-danger" asp-route-id="@obj.Id">Delete</a>
+                                            </td>
+                                        }
                                     </tr>
                                 }
                             }
@@ -69,8 +79,11 @@
             </div>
             <div class="card-footer">
                 <div class="row">
+                    @if (LoggedIn)
+                    {
+                        <a asp-action="Create" class="btn btn-primary">Create New Employee</a>
+                    }
                     
-                     <a asp-action="Create" class="btn btn-primary">Create New Employee</a>
                     
                 </div>
             </div>
