@@ -5,12 +5,11 @@
 }
 
 <h1>Create</h1>
-<div class="card card-body bg-dark text-white">
-    <h4>Employees</h4>
-    <hr />
-
-    <div class="row">
-        <div class="col-md-4">
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="card bg-dark text-white">
+        <div class="card-body">
+            <h4>Employees</h4>
+            <hr />
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
@@ -39,4 +38,3 @@
 <div>
     <a class="btn btn-light text-black mt-2" asp-action="Index">Back to List</a>
 </div>
-

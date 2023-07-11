@@ -40,6 +40,11 @@ namespace AutonetProjectMVCASP.Controllers
         }
     }
 
+    public class RemData
+    {
+        
+    }
+
 
     public class AppointmentsController : Controller
     {
@@ -64,6 +69,9 @@ namespace AutonetProjectMVCASP.Controllers
             }
 
             ViewData["Location"] = location;
+            ViewData["ActualLocation"] = _db?.Locations.Find(location);
+
+
 
 
             AppointmentsData obj = new AppointmentsData(location, _db);
@@ -109,7 +117,7 @@ namespace AutonetProjectMVCASP.Controllers
                 ModelState.AddModelError("Time", "The date and time must be a weekday");
             }   
 
-            if (obj.Time.Hour < 8 || obj.Time.Hour > 19)
+            if (obj.Time.Hour < _db.Locations.Find(obj.Location).StaryTime.Hour || obj.Time.Hour > _db.Locations.Find(obj.Location).EndTime.Hour)
             {
                 ModelState.AddModelError("Time", "The date and time must be between 9am and 5pm");
             }
@@ -133,7 +141,7 @@ namespace AutonetProjectMVCASP.Controllers
             {
                 _db.Appointments.Add(obj);
                 _db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Select");
             }
 
             TempData["success"] = "Task completed!";
@@ -172,7 +180,7 @@ namespace AutonetProjectMVCASP.Controllers
                 return NotFound();
             }
 
-
+            
 
             //_db.Appointments.Remove(obj);
             //_db.SaveChanges();
@@ -187,14 +195,16 @@ namespace AutonetProjectMVCASP.Controllers
         public IActionResult Remove(Appointments obj)
         {
 
-
+            string loc = obj.Location;
 
             _db.Appointments.Remove(obj);
             _db.SaveChanges();
 
             TempData["success"] = "Task completed!";
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new RouteValueDictionary { { "location", obj.Location } });
+
+
 
 
         }

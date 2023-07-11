@@ -1,4 +1,8 @@
-
+header{
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: auto;
+}
 
 body {
     padding-top: 80px;
@@ -28,7 +32,12 @@ h1 {
     color: #ff6000;
     margin: 0vh 0 5vh 0;
     background-color: rgb(33, 37, 41);
-    border-radius: 3px; /* Border with dulled edges */
+    border-radius: 7px; /* Border with dulled edges */
+}
+
+div h1{
+    margin: 0;
+    padding: 0;
 }
 
 .introtittle{
@@ -47,6 +56,11 @@ h1 {
     
 }
 
+
+.introtext
+{
+    padding-left: 1em
+}
 
 
 .appointmentsTable{
@@ -138,11 +152,13 @@ h1 {
     margin-left: auto;
     justify-content: center;
     align-items: center;
+    margin-bottom: auto;
 }
 
 .navbar {
     border-bottom: 23px solid green; /* Added */
     height:75px;
+    margin-bottom: auto;
 }
 
 .navbar-brand {
@@ -166,7 +182,6 @@ dd{
 /*.card {
     display: flex;
     justify-content: flex-start;
-    max-height:40vh;
     color: white;
 }*/
 

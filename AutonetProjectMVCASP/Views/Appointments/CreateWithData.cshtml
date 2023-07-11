@@ -1,57 +1,55 @@
 ﻿@model AutonetProjectMVCASP.Models.Appointments
 
-<h1>Create New Record</h1>
 
-<form method="post" asp-action="CreateWithData">
-
-    <div class="containermiddleContact">
-        <div class="card card-body bg-dark text-white">
-            <div class="row">
-                <div class="col-md-4">
-                    <form asp-action="Create">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group">
-                            <label asp-for="Name" class="control-label"></label>
-                            <input asp-for="Name" class="form-control" />
-                            <span asp-validation-for="Name" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Time" class="control-label"></label>
-                            <input asp-for="Time" class="form-control" readonly/>
-                            <span asp-validation-for="Time" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="Location" class="control-label"></label>
-                            <input asp-for="Location" class="form-control" readonly/>
-                            <span id="locationInput" asp-validation-for="Location" class="text-danger"></span>
-                        </div>
-                        <div class="form-group mt-4">
+<div class="container d-flex flex-column justify-content-center align-items-center">
+    <div class="card h-100 bg-dark text-white">
+        <div class="card-body">
+            <div class="container">
+                <h1 class="card-title">Create New Record</h1>
+                <form method="post" asp-action="CreateWithData">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Time" class="control-label"></label>
+                        <input asp-for="Time" class="form-control" readonly />
+                        <span asp-validation-for="Time" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Location" class="control-label"></label>
+                        <input asp-for="Location" class="form-control" readonly />
+                        <span id="locationInput" asp-validation-for="Location" class="text-danger"></span>
+                    </div>
+                    <div class="container mt-4">
+                        <div class="row d-flex justify-content-between">
+                            <input type="hidden" asp-for="Id" />
+                            <input type="hidden" asp-for="Location" />
                             <input type="submit" class="btn btn-primary" />
+                            
+
+                            <a id="returnLink" class="backButton btn btn-danger btn-block mt-3" asp-action="Select" asp-route-location="">Back to Selection</a>
+
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
-        
+
     </div>
 
-</form>
-
-<a id="returnLink" class="backButton btn btn-danger mt-3" asp-action="Select" asp-route-location="">Back to Selection</a>
+</div>
 
 @section Scripts {
     <script>
-       function beginning()
-       {
-            const locationInput = document.getElementById("locationInput");
-            const returnLink = document.getElementById("returnLink");
-            const location = encodeURIComponent(locationInput.value);
-
-            returnLink.setAttribute("asp-route-location", location);
-       }
-
-       beginning();
-
+        // Get the reference to the location input field
+        const locationInput = document.getElementById("locationInput");
+        // Get the reference to the return link
+        const returnLink = document.getElementById("returnLink");
+        // Set the asp-route-location attribute of the return link when the input field changes
+        locationInput.addEventListener("input", function () {
+            returnLink.setAttribute("asp-route-location", locationInput.value);
+        });
     </script>
 }
-
