@@ -3,74 +3,82 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>List of All of our Employees</h1>
 
-<div  style="width=90%; height=auto">
-    <table class="table appointmentsTable">
-        <thead>
-            <tr>
-                <th>
-                    Id
-                </th>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Surname
-                </th>
-                <th>
-                    Job
-                </th>
-                <th>
-
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.Count() == 0)
-            {
-                <tr>
-                    <td colspan="5">
-                        <div class="alert alert-danger" role="alert">
-                            There are no employees in the database!
-                        </div>
-                    </td>
-                </tr>
-            }
-            else
-            {
-                @foreach(var obj in Model)
-                {
-                    <tr>
-                        <td>
-                            @obj.Id
-                        </td>
-                        <td>
-                            @obj.Name
-                        </td>
-                        <td>
-                            @obj.Surname
-                        </td>
-                        <td>
-                            @obj.Job
-                        </td>
-                        <td>
-                            <a asp-action="Edit" class="btn btn-warning" asp-route-id="@obj.Id">Edit</a>
-                            <a asp-action="Remove" class="btn btn-danger" asp-route-id="@obj.Id">Delete</a>
-                        </td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
-
-<div class="card">
+<div class="container d-flex flex-column">
     <div class="row">
-     <div class="col-md-4">
-            <a asp-action="Create" class="btn btn-primary">Create New Employee</a>
+        <div class="card bg-dark">
+            <div class="card-header">
+                <h1>List of All of our Employees</h1>
+            </div>
+            <div class="card-body">
+                <div style="width=90%; height=auto">
+                    <table class="table appointmentsTable">
+                        <thead>
+                            <tr>
+
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Surname
+                                </th>
+                                <th>
+                                    Job
+                                </th>
+                                <th>
+
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Count() == 0)
+                            {
+                                <tr>
+                                    <td colspan="5">
+                                        <div class="alert alert-danger" role="alert">
+                                            There are no employees in the database!
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var obj in Model)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            @obj.Name
+                                        </td>
+                                        <td>
+                                            @obj.Surname
+                                        </td>
+                                        <td>
+                                            @obj.Job
+                                        </td>
+                                        <td>
+                                            <a asp-action="Edit" class="btn btn-warning" asp-route-id="@obj.Id">Edit</a>
+                                            <a asp-action="Remove" class="btn btn-danger" asp-route-id="@obj.Id">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    
+                     <a asp-action="Create" class="btn btn-primary">Create New Employee</a>
+                    
+                </div>
+            </div>
+            </div>
         </div>
     </div>
-</div>
+
+<
 
 </div>
 
