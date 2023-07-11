@@ -2,6 +2,8 @@ using AutonetProjectMVCASP.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using NToastNotify;
+using AspNetCoreHero.ToastNotification;
+using AspNetCoreHero.ToastNotification.Extensions;
 
 namespace AutonetProjectMVCASP
 {
@@ -26,7 +28,14 @@ namespace AutonetProjectMVCASP
                 Timeout = 5000
             });
 
-        
+            builder.Services.AddNotyf(config =>
+            {
+                config.DurationInSeconds = 5;
+                config.IsDismissable = true;
+                config.Position = NotyfPosition.TopRight;
+            });
+
+
 
             var app = builder.Build();
 
@@ -46,6 +55,7 @@ namespace AutonetProjectMVCASP
             app.UseAuthorization();
 
             app.UseNToastNotify();
+            app.UseNotyf();
 
             app.MapControllerRoute(
                 name: "default",

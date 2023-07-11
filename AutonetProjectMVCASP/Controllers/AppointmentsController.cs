@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutonetProjectMVCASP.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NToastNotify;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 
 namespace AutonetProjectMVCASP.Controllers
@@ -51,10 +52,10 @@ namespace AutonetProjectMVCASP.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly ILogger<AppointmentsController> _logger;
-        private readonly IToastNotification _toastNotification;
+        private readonly INotyfService _toastNotification;
 
 
-        public AppointmentsController(ApplicationDbContext db, ILogger<AppointmentsController> logger, IToastNotification toastNotification)
+        public AppointmentsController(ApplicationDbContext db, ILogger<AppointmentsController> logger, INotyfService toastNotification)
         {
             _db = db;
             _logger = logger;
@@ -67,16 +68,16 @@ namespace AutonetProjectMVCASP.Controllers
         public IActionResult Select()
         {
             // Success Toast
-            _toastNotification.AddSuccessToastMessage("Woo hoo - it works!");
+            _toastNotification.Success("Woo hoo - it works!",3);
 
             // Info Toast
-            _toastNotification.AddInfoToastMessage("Here is some information.");
+            _toastNotification.Custom("Here is some information.",4);
 
             // Error Toast
-            _toastNotification.AddErrorToastMessage("Woops an error occured.");
+            _toastNotification.Error("Woops an error occured.",5);
 
             // Warning Toast
-            _toastNotification.AddWarningToastMessage("Here is a simple warning!");
+            _toastNotification.Warning("Here is a simple warning!",6);
 
             IEnumerable<Models.Locations> loc = _db.Locations;
             return View(loc);
