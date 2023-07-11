@@ -10,16 +10,20 @@
     int tableHeight = CalculateTableHeight(); // Call the method to calculate the table height
 }
 
-<div class="container d-flex justify-content-center align-items-center">
-
-            <div class="row">
+<div class="container d-flex align-items-center justify-content-evenly">
+    <div class="row">
+        <div class="card bg-dark w-100">
+            <div class="card-header">
+    
+            
        
-                <div class="container p-2">
+                <div class="p-2">
                     <h1>Available Appointments</h1>
                 </div>
-                <div class="container justify-content-center">
+            </div>
+            <div class="card-body w-100">
 
-                    <table class="table appointmentsTable">
+                    <table class="table appointmentsTable w-100">
                         <thead>
                             <tr id="dateRow">
                                 <th></th>
@@ -82,11 +86,11 @@
                         </tbody>
                     </table>
                 </div>
-                <div>
+                <div class="card-footer">
                     <a class="btn btn-success mb-3" asp-action="Select">Select New Location</a>
                 </div>
             </div>
-
+    </div>
 </div>
 <script>
     // Get the reference to the table header row

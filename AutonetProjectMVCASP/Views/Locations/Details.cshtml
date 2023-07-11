@@ -6,12 +6,12 @@
     var serializedData = JsonConvert.SerializeObject(Model);
 }
 
-<h1>Location Details</h1>
+
 
 <div class="container card card-body bg-dark text-white">
     <div class="row">
         <div class="col-lg-6 col-sm-12">
-            <h4>Locations</h4>
+            <h4>Location</h4>
             <hr />
             <dl class="row">
                 <dt class="col-sm-4">
@@ -52,12 +52,18 @@
                 </dd>
             </dl>
         </div>
-        <div class="col-lg-6 col-sm-12">
-            <div id="map" style="height: 400px;"></div>
+        <div class="col-lg-6 col-sm-12 align-items-center justify-content-center mt-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <div id="map" style="height: 400px;"></div>
+                </div>
+                
+            </div>
         </div>
     </div>
-    <div>
-        <a class="btn btn-light align-self-center" asp-action="Index">Back to List</a>
+    <hr/>
+    <div class="row align-items-center justify-content-center">
+        <a class="btn btn-light" style="width:max-content" asp-action="Index">Back to List</a>
     </div>
 </div>
 
