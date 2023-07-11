@@ -55,11 +55,13 @@ namespace AutonetProjectMVCASP.Controllers
         private readonly INotyfService _toastNotification;
 
 
+
         public AppointmentsController(ApplicationDbContext db, ILogger<AppointmentsController> logger, INotyfService toastNotification)
         {
             _db = db;
             _logger = logger;
             _toastNotification = toastNotification;
+            
         }
 
         
@@ -81,7 +83,7 @@ namespace AutonetProjectMVCASP.Controllers
             bool LoggedIn = (User != null) && (User.Identity.IsAuthenticated);
             if (!LoggedIn)
             {
-                _toastNotification.Information("You need to be logged in to make an appointment");
+                _toastNotification.Information("You need to be logged in to make an appointment",5);
             }
 
             if ((location == null))
@@ -160,10 +162,11 @@ namespace AutonetProjectMVCASP.Controllers
             {
                 _db.Appointments.Add(obj);
                 _db.SaveChanges();
+                _toastNotification.Success("Creation Successful!", 3);
                 return RedirectToAction("Select");
             }
 
-            _toastNotification.Success("Creation Successful!", 3);
+            
 
             return View(obj);
 
@@ -177,6 +180,7 @@ namespace AutonetProjectMVCASP.Controllers
             {
                 _db.Appointments.Add(obj);
                 _db.SaveChanges();
+                _toastNotification.Success("Creation Successful!", 3);
                 return RedirectToAction("Index", new RouteValueDictionary { { "location", obj.Location } });
             }
 

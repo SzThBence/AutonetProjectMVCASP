@@ -17,12 +17,12 @@ namespace AutonetProjectMVCASP.Controllers
             _logger = logger;
             _toastNotification = toastNotification;
         }
-
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
-
+        [HttpGet]
         public IActionResult Privacy()
         {
             return View();
