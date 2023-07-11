@@ -1,5 +1,6 @@
 using AutonetProjectMVCASP.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace AutonetProjectMVCASP
 {
@@ -15,6 +16,8 @@ namespace AutonetProjectMVCASP
                 options => options.UseSqlServer(
                     builder.Configuration.GetConnectionString("DefaultConnection")));
 
+                        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
 
             var app = builder.Build();
 
@@ -30,12 +33,13 @@ namespace AutonetProjectMVCASP
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.MapRazorPages();
 
             app.Run();
         }

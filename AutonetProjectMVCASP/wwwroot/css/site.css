@@ -163,12 +163,12 @@ dd{
     
 }
 
-.card {
+/*.card {
     display: flex;
     justify-content: flex-start;
     max-height:40vh;
     color: white;
-}
+}*/
 
 .containerbackButton {
     
@@ -232,11 +232,11 @@ body {
     margin-bottom: 25px;
 }
 
-.card {
+/*.card {
     width: 23.33%;
     margin-bottom: 25px;
     /*margin-left: 10px;
-    margin-right: 10px;*/
+    margin-right: 10px;
     padding: 10px;
     color: black;
     border-radius: 25px;
@@ -249,7 +249,7 @@ body {
 }
 
 .card__image {
-    padding-top: 56.25%; /* 16:9 aspect ratio */
+    padding-top: 56.25%; /* 16:9 aspect ratio 
     background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7)), url("Media/body_background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -274,4 +274,4 @@ body {
 .card__info {
     font-style: italic;
     margin-top: auto;
-}
+}*/
