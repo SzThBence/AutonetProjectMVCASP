@@ -1,5 +1,5 @@
 ﻿using AutonetProjectMVCASP.Data;
-using AutonetProjectMVCASP.Migrations;
+//using AutonetProjectMVCASP.Migrations;
 using Microsoft.AspNetCore.Mvc;
 using AutonetProjectMVCASP.Models;
 

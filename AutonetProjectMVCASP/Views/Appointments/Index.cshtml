@@ -56,15 +56,16 @@
                                                     {
                                                         var appointment = Model.FirstOrDefault(obj => obj.Time.Hour == i && obj.Time.Date == currentDate);
                                                         var appointmentId = appointment?.Id;
+                                                        var userId = appointment?.UserId;
                                                         if (appointmentId != null)
                                                         {
-                                                            if (LoggedIn)
+                                                            if (LoggedIn && User.Identity.Name == userId)
                                                             {
                                                                 <a class="text-danger" style="text-decoration:none; color:red;" asp-controller="Appointments" asp-action="Remove" asp-route-id="@appointmentId">Occupied</a>
                                                             }
                                                             else
                                                             {
-                                                                <div class="text-danger" style="text-decoration:none; color:red;">Occupied</div>
+                                                                <div style="text-decoration:none; color:darkred;">Occupied</div>
                                                             }
                                                         }
                                                     }
