@@ -2,6 +2,8 @@
 //using AutonetProjectMVCASP.Migrations;
 using Microsoft.AspNetCore.Mvc;
 using AutonetProjectMVCASP.Models;
+using Microsoft.Extensions.Logging;
+using NToastNotify;
 
 
 namespace AutonetProjectMVCASP.Controllers
@@ -9,10 +11,15 @@ namespace AutonetProjectMVCASP.Controllers
     public class LocationsController : Controller
     {
         private readonly ApplicationDbContext _db;
+        private readonly ILogger<LocationsController> _logger;
+        private readonly IToastNotification _toastNotification;
 
-        public LocationsController(ApplicationDbContext db)
+
+        public LocationsController(ApplicationDbContext db, ILogger<LocationsController> logger, IToastNotification toastNotification)
         {
             _db = db;
+            _logger = logger;
+            _toastNotification = toastNotification;
         }
 
         public IActionResult Index()

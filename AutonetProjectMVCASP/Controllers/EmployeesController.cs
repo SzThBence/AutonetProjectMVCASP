@@ -1,16 +1,23 @@
 ﻿using AutonetProjectMVCASP.Data;
 using Microsoft.AspNetCore.Mvc;
 using AutonetProjectMVCASP.Models;
+using NToastNotify;
+using Microsoft.Extensions.Logging;
 
 namespace AutonetProjectMVCASP.Controllers
 {
     public class EmployeesController : Controller
     {
         private readonly ApplicationDbContext _db;
+        private readonly ILogger<EmployeesController> _logger;
+        private readonly IToastNotification _toastNotification;
 
-        public EmployeesController(ApplicationDbContext db)
+
+        public EmployeesController(ApplicationDbContext db, ILogger<EmployeesController> logger, IToastNotification toastNotification)
         {
             _db = db;
+            _logger = logger;
+            _toastNotification = toastNotification;
         }
 
         public IActionResult Index()

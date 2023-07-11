@@ -1,7 +1,8 @@
 ﻿using AutonetProjectMVCASP.Data;
 using Microsoft.AspNetCore.Mvc;
 using AutonetProjectMVCASP.Models;
-
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using NToastNotify;
 
 
 namespace AutonetProjectMVCASP.Controllers
@@ -49,14 +50,34 @@ namespace AutonetProjectMVCASP.Controllers
     public class AppointmentsController : Controller
     {
         private readonly ApplicationDbContext _db;
+        private readonly ILogger<AppointmentsController> _logger;
+        private readonly IToastNotification _toastNotification;
 
-        public AppointmentsController(ApplicationDbContext db)
+
+        public AppointmentsController(ApplicationDbContext db, ILogger<AppointmentsController> logger, IToastNotification toastNotification)
         {
             _db = db;
+            _logger = logger;
+            _toastNotification = toastNotification;
         }
+
+        
+
 
         public IActionResult Select()
         {
+            // Success Toast
+            _toastNotification.AddSuccessToastMessage("Woo hoo - it works!");
+
+            // Info Toast
+            _toastNotification.AddInfoToastMessage("Here is some information.");
+
+            // Error Toast
+            _toastNotification.AddErrorToastMessage("Woops an error occured.");
+
+            // Warning Toast
+            _toastNotification.AddWarningToastMessage("Here is a simple warning!");
+
             IEnumerable<Models.Locations> loc = _db.Locations;
             return View(loc);
         }

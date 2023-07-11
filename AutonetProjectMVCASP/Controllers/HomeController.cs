@@ -1,5 +1,6 @@
 ﻿using AutonetProjectMVCASP.Models;
 using Microsoft.AspNetCore.Mvc;
+using NToastNotify;
 using System.Diagnostics;
 
 namespace AutonetProjectMVCASP.Controllers
@@ -7,10 +8,13 @@ namespace AutonetProjectMVCASP.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IToastNotification _toastNotification;
 
-        public HomeController(ILogger<HomeController> logger)
+
+        public HomeController(ILogger<HomeController> logger, IToastNotification toastNotification)
         {
             _logger = logger;
+            _toastNotification = toastNotification;
         }
 
         public IActionResult Index()
