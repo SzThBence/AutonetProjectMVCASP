@@ -26,7 +26,7 @@ namespace AutonetProjectMVCASP.Controllers
             bool LoggedIn = (User != null) && (User.Identity.IsAuthenticated);
             if (!LoggedIn)
             {
-                _toastNotification.Information("You need to be logged in to make changes to this page",5);
+                _toastNotification.Information("You need to be logged in to make changes to this page", 5);
             }
 
             IEnumerable<Models.Employees> obj = _db.Employees;
@@ -106,7 +106,7 @@ namespace AutonetProjectMVCASP.Controllers
                 _toastNotification.Success("Edit Successful!", 3);
                 return RedirectToAction("Index");
             }
-            
+
             return View(obj);
         }
         [HttpGet]

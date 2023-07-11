@@ -29,7 +29,7 @@ namespace AutonetProjectMVCASP.Controllers
     {
         public string Location { get; set; } = "default";
         public DateTime Date { get; set; } = DateTime.Now;
-        
+
         public LocDateData(string location, DateTime date)
         {
             Location = location;
@@ -44,7 +44,7 @@ namespace AutonetProjectMVCASP.Controllers
 
     public class RemData
     {
-        
+
     }
 
 
@@ -61,18 +61,18 @@ namespace AutonetProjectMVCASP.Controllers
             _db = db;
             _logger = logger;
             _toastNotification = toastNotification;
-            
+
         }
 
-        
+
 
 
         public IActionResult Select()
         {
-           
 
-            
-            
+
+
+
 
             IEnumerable<Models.Locations> loc = _db.Locations;
             return View(loc);
@@ -83,7 +83,7 @@ namespace AutonetProjectMVCASP.Controllers
             bool LoggedIn = (User != null) && (User.Identity.IsAuthenticated);
             if (!LoggedIn)
             {
-                _toastNotification.Information("You need to be logged in to make an appointment",5);
+                _toastNotification.Information("You need to be logged in to make an appointment", 5);
             }
 
             if ((location == null))
@@ -113,7 +113,7 @@ namespace AutonetProjectMVCASP.Controllers
         public IActionResult CreateWithData(LocDateData info)
         {
             //ViewBag.DateData = date;
-            var model = new Appointments 
+            var model = new Appointments
             {
                 Location = info.Location,
                 Time = info.Date
@@ -136,7 +136,7 @@ namespace AutonetProjectMVCASP.Controllers
             if (obj.Time.DayOfWeek == DayOfWeek.Saturday || obj.Time.DayOfWeek == DayOfWeek.Sunday)
             {
                 ModelState.AddModelError("Time", "The date and time must be a weekday");
-            }   
+            }
 
             if (obj.Time.Hour < _db.Locations.Find(obj.Location).StaryTime.Hour || obj.Time.Hour > _db.Locations.Find(obj.Location).EndTime.Hour)
             {
@@ -152,7 +152,7 @@ namespace AutonetProjectMVCASP.Controllers
                 }
             }
 
-            if (!isLocation) 
+            if (!isLocation)
             {
                 ModelState.AddModelError("Location", "The location must be a valid location");
             }
@@ -166,7 +166,7 @@ namespace AutonetProjectMVCASP.Controllers
                 return RedirectToAction("Select");
             }
 
-            
+
 
             return View(obj);
 
@@ -210,7 +210,7 @@ namespace AutonetProjectMVCASP.Controllers
 
             //TempData["success"] = "Task completed!";
 
-            
+
 
             return View(obj);
         }
