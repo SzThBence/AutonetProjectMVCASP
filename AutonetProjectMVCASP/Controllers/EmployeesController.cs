@@ -103,9 +103,10 @@ namespace AutonetProjectMVCASP.Controllers
             {
                 _db.Employees.Update(obj);
                 _db.SaveChanges();
+                _toastNotification.Success("Edit Successful!", 3);
                 return RedirectToAction("Index");
             }
-            _toastNotification.Success("Edit Successful!", 3);
+            
             return View(obj);
         }
         [HttpGet]
