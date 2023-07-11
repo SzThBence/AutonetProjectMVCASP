@@ -1,6 +1,7 @@
 using AutonetProjectMVCASP.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using NToastNotify;
 
 namespace AutonetProjectMVCASP
 {
@@ -19,6 +20,14 @@ namespace AutonetProjectMVCASP
                         builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            builder.Services.AddRazorPages().AddNToastNotifyNoty(new NotyOptions
+            {
+                ProgressBar = true,
+                Timeout = 5000
+            });
+
+        
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -35,6 +44,8 @@ namespace AutonetProjectMVCASP
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseNToastNotify();
 
             app.MapControllerRoute(
                 name: "default",
