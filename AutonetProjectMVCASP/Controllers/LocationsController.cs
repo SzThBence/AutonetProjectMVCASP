@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutonetProjectMVCASP.Models;
 using Microsoft.Extensions.Logging;
 using NToastNotify;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 
 namespace AutonetProjectMVCASP.Controllers
@@ -12,28 +13,33 @@ namespace AutonetProjectMVCASP.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly ILogger<LocationsController> _logger;
-        private readonly IToastNotification _toastNotification;
+        private readonly INotyfService _toastNotification;
 
 
-        public LocationsController(ApplicationDbContext db, ILogger<LocationsController> logger, IToastNotification toastNotification)
+        public LocationsController(ApplicationDbContext db, ILogger<LocationsController> logger, INotyfService toastNotification)
         {
             _db = db;
             _logger = logger;
             _toastNotification = toastNotification;
         }
-
+        [HttpGet]
         public IActionResult Index()
         {
+            bool LoggedIn = (User != null) && (User.Identity.IsAuthenticated);
+            if (!LoggedIn)
+            {
+                _toastNotification.Information("You need to be logged in to make changes to this page", 5);
+            }
             IEnumerable<Models.Locations> obj = _db.Locations;
             return View(obj);
         }
 
-
+        [HttpGet]
         public IActionResult Locations()
         {
             return View();
         }
-
+        [HttpGet]
         public IActionResult Details(string? place)
         {
             if (place == null)
@@ -50,7 +56,7 @@ namespace AutonetProjectMVCASP.Controllers
 
             return View(obj);
         }
-
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -79,10 +85,11 @@ namespace AutonetProjectMVCASP.Controllers
             {
                 _db.Locations.Add(obj);
                 _db.SaveChanges();
+                _toastNotification.Success("Creation Successful!", 3);
                 return RedirectToAction("Index");
             }
 
-            TempData["success"] = "Task completed!";
+            
 
             return View(obj);
         }
