@@ -27,19 +27,20 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                        <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")">
+                            <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active custom-nav-link" : "")" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item" >
-                            <a class="nav-link" asp-controller="Appointments" asp-action="Select">Appointments</a>
+                        <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Appointments" ? "active" : "")">
+                            <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Appointments" ? "active custom-nav-link" : "")" asp-controller="Appointments" asp-action="Select">Appointments</a>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " asp-controller="Employees" asp-action="Index">Employees</a>
+                        <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Employees" ? "active" : "")">
+                            <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Employees" ? "active custom-nav-link" : "")" asp-controller="Employees" asp-action="Index">Employees</a>
                         </li>
-                        <li class="nav-item" >
-                            <a class="nav-link" asp-controller="Locations" asp-action="Index">Locations</a>
+                        <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Locations" ? "active" : "")">
+                            <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "Locations" ? "active custom-nav-link" : "")" asp-controller="Locations" asp-action="Index">Locations</a>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link" asp-controller="Home" asp-action="Privacy">Contact</a>
+                        <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "Privacy" && ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active" : "")">
+                            <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Privacy" && ViewContext.RouteData.Values["controller"].ToString() == "Home" ? "active custom-nav-link" : "")" asp-controller="Home" asp-action="Privacy">Contact</a>
                         </li>
 
 
