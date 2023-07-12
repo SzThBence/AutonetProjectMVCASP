@@ -26,13 +26,15 @@ namespace AutonetProjectMVCASP
             {
                 ProgressBar = true,
                 Timeout = 5000
+                
             });
 
             builder.Services.AddNotyf(config =>
             {
                 config.DurationInSeconds = 5;
                 config.IsDismissable = true;
-                config.Position = NotyfPosition.TopRight;
+                config.Position = NotyfPosition.BottomRight;
+                //config.HasRippleEffect = true;
             });
 
 
