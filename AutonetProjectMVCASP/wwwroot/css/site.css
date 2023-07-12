@@ -112,7 +112,7 @@ div h1 {
 }
 
 .containerbutton {
-    margin-top: 15px;
+    margin-top:25px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -129,6 +129,9 @@ div h1 {
     border: solid 2px grey;
     color: white;
     font-weight: 600;
+
+    transition: 0.5s;
+
 }
 
     .startbutton:hover {
@@ -140,7 +143,7 @@ div h1 {
         padding-right: 20px;
         padding-left: 20px;
         border: solid 2px #ff6000;
-        color: #ff6000;
+        color: white;
         font-weight: 600;
     }
 
@@ -220,7 +223,7 @@ body {
 .containercontact {
     display: flex;
     flex-wrap: wrap;
-    height: 100vh;
+    
     justify-content: space-evenly;
     align-content: center;
     margin-left: -10px;
@@ -234,28 +237,35 @@ body {
     font-size: 20px;
     color: white;
     font-weight: 500;
-    margin-top: 25px;
+    margin-top: 20px;
     margin-bottom: 25px;
 }
 
-/*.card {
+.cardscontact {
     width: 23.33%;
     margin-bottom: 25px;
-    /*margin-left: 10px;
+    margin-left: 10px;
     margin-right: 10px;
     padding: 10px;
     color: black;
     border-radius: 25px;
     box-sizing: border-box;
     overflow: hidden;
-    border: 2px solid white;
+    border: 3px solid white;
     min-height: 320px;
-
+    background-color: white;
     text-align: center;
+    box-shadow: 8px 8px 0px rgb(128, 128, 128);
+    transition: 0.5s;
 }
 
+    .cardscontact:hover {
+        box-shadow: 8px 8px 0px rgb(175, 175, 175)
+    }
+
+
 .card__image {
-    padding-top: 56.25%; /* 16:9 aspect ratio 
+    padding-top: 56.25%; /* 16:9 aspect ratio */
     background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7)), url("Media/body_background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -265,6 +275,8 @@ body {
     border-top-right-radius: 25px;
     border-top-left-radius: 25px;
     border: 0px;
+    margin-bottom: 15px;
+    
 }
 
 
@@ -280,4 +292,5 @@ body {
 .card__info {
     font-style: italic;
     margin-top: auto;
-}*/
+}
+
