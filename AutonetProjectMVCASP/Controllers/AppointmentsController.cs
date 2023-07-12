@@ -42,10 +42,6 @@ namespace AutonetProjectMVCASP.Controllers
         }
     }
 
-    public class RemData
-    {
-
-    }
 
 
     public class AppointmentsController : Controller
@@ -66,18 +62,13 @@ namespace AutonetProjectMVCASP.Controllers
 
 
 
-
+        [HttpGet]
         public IActionResult Select()
         {
-
-
-
-
-
             IEnumerable<Models.Locations> loc = _db.Locations;
             return View(loc);
         }
-
+        [HttpGet]
         public IActionResult Index(string location)
         {
             bool LoggedIn = (User != null) && (User.Identity.IsAuthenticated);
@@ -99,17 +90,17 @@ namespace AutonetProjectMVCASP.Controllers
             IEnumerable<Models.Appointments> loc = obj.Obj;
             return View(loc);
         }
-
+        [HttpGet]
         public IActionResult Appointments()
         {
             return View();
         }
-
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
-
+        [HttpGet]
         public IActionResult CreateWithData(LocDateData info)
         {
             //ViewBag.DateData = date;
@@ -232,6 +223,22 @@ namespace AutonetProjectMVCASP.Controllers
 
 
 
+        }
+
+        [HttpGet]
+        public IActionResult Person()
+        {
+            IEnumerable<Models.Appointments> app = _db.Appointments;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                return View(app);
+            }
+            else
+            {
+                _toastNotification.Error("Unexpected Login Error", 3);
+                return RedirectToAction("Index", "Home");
+            }
         }
     }
 }

@@ -1,0 +1,85 @@
+﻿@model IEnumerable<AutonetProjectMVCASP.Models.Appointments>
+@{
+    ViewData["Title"] = "Person";
+    int counter = 0;
+}
+
+
+
+<div class="container">
+    <div class="card bg-dark text-white">
+        <div class="card-header">
+            <div class="row align-items-center justify-content-center">
+                <h1>Appointments associated with this account</h1>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-10 col-sm-12">
+
+
+                    <table class="table appointmentsTable">
+                        <thead>
+                        <th>
+                            <div style="color:orangered">
+                                Name
+                            </div>
+                        </th>
+                        <th>
+                            <div style="color:orangered">
+                            Location
+                            </div>
+                        </th>
+                        <th>
+                            <div style="color:orangered">
+                            Time
+                            </div>
+                        </th>
+                        </thead>
+                        <tbody>
+                            @foreach (var obj in Model)
+                            {
+                                @if (User.Identity.Name == obj.UserId)
+                                {
+                                    <tr>
+                                        <td>
+                                            @obj.Name
+                                        </td>
+                                        <td>
+                                            @obj.Location
+                                        </td>
+                                        <td>
+                                            @obj.Time
+                                        </td>
+                                        <td>
+                                           <a class="btn btn-primary" asp-controller="Appointments" asp-action="Remove" asp-route-id="@obj.Id">Remove</a>
+                                        </td>
+                                    </tr>
+                                    counter++;
+                                }
+                            })
+                            @if (counter == 0)
+                            {
+                                <div>
+                                    <tr>
+                                        <td colspan="5">
+                                            <div class="alert alert-danger" role="alert">
+                                                There are no appointments associated with this account!
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </div>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row align-items-center justify-content-center">
+                <a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Back to Main Page</a>
+            </div>
+
+        </div>
+    </div>
+</div>
