@@ -247,13 +247,13 @@ body {
     margin-left: 10px;
     margin-right: 10px;
     padding: 10px;
-    color: black;
+    color: white;
     border-radius: 25px;
     box-sizing: border-box;
     overflow: hidden;
     border: 3px solid white;
     min-height: 320px;
-    background-color: white;
+    
     text-align: center;
     box-shadow: 8px 8px 0px rgb(128, 128, 128);
     transition: 0.5s;
@@ -266,7 +266,7 @@ body {
 
 .card__image {
     padding-top: 56.25%; /* 16:9 aspect ratio */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7)), url("Media/body_background.jpg");
+    
     background-repeat: no-repeat;
     background-size: cover;
     margin-top: -11px;
@@ -275,9 +275,41 @@ body {
     border-top-right-radius: 25px;
     border-top-left-radius: 25px;
     border: 0px;
-    margin-bottom: 15px;
-    
+    margin-bottom: 15px;   
 }
+
+    .card__image.image1 {
+        background-image: url("Media/service1-min.jpg");
+    }
+
+    .card__image.image2 {
+        background-image: url("Media/service2-min.jpg");
+    }
+
+    .card__image.image3 {
+        background-image: url("Media/service3-min.jpg");
+    }
+
+    .card__image.image4 {
+        background-image: url("Media/service4-min.jpg");
+    }
+
+    .card__image.image5 {
+        background-image: url("Media/service5-min.jpg");
+    }
+
+    .card__image.image6 {
+        background-image: url("Media/service6-min.jpg");
+    }
+
+    .card__image.image7 {
+        background-image: url("Media/service7-min.jpg");
+    }
+
+    .card__image.image8 {
+        background-image: url("Media/service8-min.jpg");
+    }
+
 
 
 .card__title {
@@ -287,6 +319,7 @@ body {
 
 .card__text {
     margin-top: 10px;
+    font-weight: 500;
 }
 
 .card__info {
