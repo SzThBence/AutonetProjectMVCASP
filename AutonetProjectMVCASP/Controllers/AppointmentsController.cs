@@ -90,11 +90,7 @@ namespace AutonetProjectMVCASP.Controllers
             IEnumerable<Models.Appointments> loc = obj.Obj;
             return View(loc);
         }
-        [HttpGet]
-        public IActionResult Appointments()
-        {
-            return View();
-        }
+        
         [HttpGet]
         public IActionResult Create()
         {

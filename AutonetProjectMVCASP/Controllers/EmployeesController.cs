@@ -32,11 +32,8 @@ namespace AutonetProjectMVCASP.Controllers
             IEnumerable<Models.Employees> obj = _db.Employees;
             return View(obj);
         }
-        [HttpGet]
-        public IActionResult Controllers()
-        {
-            return View();
-        }
+
+        
         [HttpGet]
         public IActionResult Create()
         {

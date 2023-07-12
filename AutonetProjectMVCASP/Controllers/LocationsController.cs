@@ -34,11 +34,7 @@ namespace AutonetProjectMVCASP.Controllers
             return View(obj);
         }
 
-        [HttpGet]
-        public IActionResult Locations()
-        {
-            return View();
-        }
+
         [HttpGet]
         public IActionResult Details(string? place)
         {

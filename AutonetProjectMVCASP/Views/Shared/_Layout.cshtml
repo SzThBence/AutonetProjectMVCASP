@@ -10,68 +10,59 @@
 </head>
 <body>
     <header>
-    
-    <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
-        <div class="container-fluid">
+        <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
+            <div class="container-fluid">
                 <a class="navbar-brand mb-0 h1 custom-title" style="color:#ff6000" asp-controller="Home" asp-action="Index">Car Service Booking</a>
-
-            <button type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav"
-                    class="navbar-toggler"
-                    aria-controls="navbarNav"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">">
-                        <li class="nav-item ">
-                            <a class="nav-link " asp-controller="Home" asp-action="Index">Home</a>
+                <button type="button"
+                        class="navbar-toggler"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav"
+                        aria-controls="navbarNav"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-md-center bg-dark" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " asp-controller="Appointments" asp-action="Select">Appointments</a>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Appointments" asp-action="Select">Appointments</a>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " asp-controller="Employees" asp-action="Index">Employees</a>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Employees" asp-action="Index">Employees</a>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " asp-controller="Locations" asp-action="Index">Locations</a>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Locations" asp-action="Index">Locations</a>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " asp-controller="Home" asp-action="Privacy">Contact</a>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Privacy">Contact</a>
                         </li>
-
-
-
-
-                    <li class="nav-item dropdown">
-                        <a href="#"
-                           class="nav-link dropdown-toggle custom-nav-link"
-                           id="navbarDropdown"
-                           role="button"
-                           data-bs-toggle="dropdown"
-                           aria-expanded="false">Language</a>
-                        <ul class="dropdown-menu dropdown-menu-dark bg-dark" aria-labelledby="navbarDropdown">
-                            <li>
-                                <a href="#" class="dropdown-item custom-nav-link disabled">Română</a>
-                            </li>
-                            <li>
-                                <a href="#" class="dropdown-item custom-nav-link disabled">Magyar</a>
-                            </li>
-                            <li>
-                                <a href="#" class="dropdown-item custom-nav-link">English</a>
-                            </li>
-                        </ul>
-                    </li>
-
-
-                </ul>
-                <partial name="_LoginPartial"/>
+                        <li class="nav-item dropdown">
+                            <a href="#"
+                               class="nav-link dropdown-toggle custom-nav-link"
+                               id="navbarDropdown"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">Language</a>
+                            <ul class="dropdown-menu dropdown-menu-dark bg-dark pe-2" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a href="#" class="dropdown-item custom-nav-link disabled">Română</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-item custom-nav-link disabled">Magyar</a>
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-item custom-nav-link">English</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <partial name="_LoginPartial" />
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
     </header>
 
     <div class="container">
@@ -82,20 +73,14 @@
 
     <footer class="footer bg-dark">
         <div class="containerfooter">
-            
             <span class="footertext">
                 &copy; Autonet Import SRL - Practica
             </span>
-            
         </div>
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    
 
     @await RenderSectionAsync("Scripts", required: false)
     @await Component.InvokeAsync("NToastNotify")
