@@ -1,7 +1,9 @@
 ﻿using AutonetProjectMVCASP.Data;
 using Microsoft.AspNetCore.Mvc;
 using AutonetProjectMVCASP.Models;
-
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using NToastNotify;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 
 namespace AutonetProjectMVCASP.Controllers
@@ -27,7 +29,7 @@ namespace AutonetProjectMVCASP.Controllers
     {
         public string Location { get; set; } = "default";
         public DateTime Date { get; set; } = DateTime.Now;
-        
+
         public LocDateData(string location, DateTime date)
         {
             Location = location;
@@ -42,27 +44,48 @@ namespace AutonetProjectMVCASP.Controllers
 
     public class RemData
     {
-        
+
     }
 
 
     public class AppointmentsController : Controller
     {
         private readonly ApplicationDbContext _db;
+        private readonly ILogger<AppointmentsController> _logger;
+        private readonly INotyfService _toastNotification;
 
-        public AppointmentsController(ApplicationDbContext db)
+
+
+        public AppointmentsController(ApplicationDbContext db, ILogger<AppointmentsController> logger, INotyfService toastNotification)
         {
             _db = db;
+            _logger = logger;
+            _toastNotification = toastNotification;
+
         }
+
+
+
 
         public IActionResult Select()
         {
+
+
+
+
+
             IEnumerable<Models.Locations> loc = _db.Locations;
             return View(loc);
         }
 
         public IActionResult Index(string location)
         {
+            bool LoggedIn = (User != null) && (User.Identity.IsAuthenticated);
+            if (!LoggedIn)
+            {
+                _toastNotification.Information("You need to be logged in to make an appointment", 5);
+            }
+
             if ((location == null))
             {
                 ModelState.AddModelError("Location", "The location must be a valid location");
@@ -70,8 +93,6 @@ namespace AutonetProjectMVCASP.Controllers
 
             ViewData["Location"] = location;
             ViewData["ActualLocation"] = _db?.Locations.Find(location);
-
-
 
 
             AppointmentsData obj = new AppointmentsData(location, _db);
@@ -92,7 +113,7 @@ namespace AutonetProjectMVCASP.Controllers
         public IActionResult CreateWithData(LocDateData info)
         {
             //ViewBag.DateData = date;
-            var model = new Appointments 
+            var model = new Appointments
             {
                 Location = info.Location,
                 Time = info.Date
@@ -115,7 +136,7 @@ namespace AutonetProjectMVCASP.Controllers
             if (obj.Time.DayOfWeek == DayOfWeek.Saturday || obj.Time.DayOfWeek == DayOfWeek.Sunday)
             {
                 ModelState.AddModelError("Time", "The date and time must be a weekday");
-            }   
+            }
 
             if (obj.Time.Hour < _db.Locations.Find(obj.Location).StaryTime.Hour || obj.Time.Hour > _db.Locations.Find(obj.Location).EndTime.Hour)
             {
@@ -131,7 +152,7 @@ namespace AutonetProjectMVCASP.Controllers
                 }
             }
 
-            if (!isLocation) 
+            if (!isLocation)
             {
                 ModelState.AddModelError("Location", "The location must be a valid location");
             }
@@ -141,10 +162,11 @@ namespace AutonetProjectMVCASP.Controllers
             {
                 _db.Appointments.Add(obj);
                 _db.SaveChanges();
+                _toastNotification.Success("Creation Successful!", 3);
                 return RedirectToAction("Select");
             }
 
-            TempData["success"] = "Task completed!";
+
 
             return View(obj);
 
@@ -158,6 +180,7 @@ namespace AutonetProjectMVCASP.Controllers
             {
                 _db.Appointments.Add(obj);
                 _db.SaveChanges();
+                _toastNotification.Success("Creation Successful!", 3);
                 return RedirectToAction("Index", new RouteValueDictionary { { "location", obj.Location } });
             }
 
@@ -165,7 +188,7 @@ namespace AutonetProjectMVCASP.Controllers
             return View(obj);
         }
 
-
+        [HttpGet]
         public IActionResult Remove(int? id)
         {
             if (id == null || id == 0)
@@ -180,12 +203,14 @@ namespace AutonetProjectMVCASP.Controllers
                 return NotFound();
             }
 
-            
+
 
             //_db.Appointments.Remove(obj);
             //_db.SaveChanges();
 
             //TempData["success"] = "Task completed!";
+
+
 
             return View(obj);
         }
@@ -200,7 +225,7 @@ namespace AutonetProjectMVCASP.Controllers
             _db.Appointments.Remove(obj);
             _db.SaveChanges();
 
-            TempData["success"] = "Task completed!";
+            _toastNotification.Success("Removal Successful!", 3);
 
             return RedirectToAction("Index", new RouteValueDictionary { { "location", obj.Location } });
 

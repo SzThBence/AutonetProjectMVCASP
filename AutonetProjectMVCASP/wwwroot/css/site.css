@@ -1,4 +1,4 @@
-header{
+header {
     margin-left: 0px;
     margin-right: 0px;
     margin-bottom: auto;
@@ -19,7 +19,9 @@ body {
     background-attachment: fixed;
 }
 
-footer{
+
+
+footer {
     margin-top: auto;
     margin-left: 0px;
     margin-right: 0px;
@@ -27,7 +29,6 @@ footer{
 
 h1 {
     display: inline-block;
-    
     padding: 0vh 0vw 1vh 0vw;
     color: #ff6000;
     margin: 0vh 0 5vh 0;
@@ -35,17 +36,17 @@ h1 {
     border-radius: 7px; /* Border with dulled edges */
 }
 
-div h1{
+div h1 {
     margin: 0;
     padding: 0;
 }
 
-.introtittle{
+.introtittle {
     background: none;
     display: flex;
     justify-content: flex-start;
     width: 100%;
-    margin-left:0px;
+    margin-left: 0px;
 }
 
 .introtext {
@@ -53,22 +54,20 @@ div h1{
     display: flex;
     justify-content: flex-start;
     width: 100%;
-    
 }
 
 
-.introtext
-{
+.introtext {
     padding-left: 1em
 }
 
 
-.appointmentsTable{
+.appointmentsTable {
     background: rgb(33, 37, 41);
     color: white;
     border-radius: 5px;
-    
 }
+
     .appointmentsTable th {
         padding: 5px;
         border: 1px dotted white;
@@ -91,11 +90,9 @@ div h1{
         min-width: 100px;
     }
 
-.appointmentsTable td:hover{
-    background-color: rgb(255, 96, 0, 0.65);
-
-    
-}
+        .appointmentsTable td:hover {
+            background-color: rgb(255, 96, 0, 0.65);
+        }
 
 .containermiddle {
     display: flex;
@@ -122,7 +119,6 @@ div h1{
 }
 
 .startbutton {
-   
     border-radius: 25px;
     border-top-left-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -133,8 +129,9 @@ div h1{
     border: solid 2px grey;
     color: white;
     font-weight: 600;
+
     transition: 0.5s;
-    
+
 }
 
     .startbutton:hover {
@@ -160,7 +157,7 @@ div h1{
 
 .navbar {
     border-bottom: 23px solid green; /* Added */
-    height:75px;
+    height: 75px;
     margin-bottom: auto;
 }
 
@@ -169,7 +166,7 @@ div h1{
     font-size: 35px;
 }
 
-dd{
+dd {
     color: white;
 }
 
@@ -178,8 +175,6 @@ dd{
     flex-direction: column;
     justify-content: center;
     min-height: 77vh;
-    
-    
 }
 
 /*.card {
@@ -189,7 +184,6 @@ dd{
 }*/
 
 .containerbackButton {
-    
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -197,7 +191,6 @@ dd{
 }
 
 .backButton {
-    
     padding-top: 10px;
     padding-bottom: 10px;
     padding-right: 20px;
@@ -212,22 +205,21 @@ dd{
 
 
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  
 }
 
 body {
- 
 }
+
 .containercontact {
     display: flex;
     flex-wrap: wrap;
@@ -236,10 +228,9 @@ body {
     align-content: center;
     margin-left: -10px;
     margin-right: -10px;
-        
-}   
-  
-.ContactTittle{
+}
+
+.ContactTittle {
     display: flex;
     margin: auto;
     justify-content: flex-start;
@@ -302,3 +293,4 @@ body {
     font-style: italic;
     margin-top: auto;
 }
+

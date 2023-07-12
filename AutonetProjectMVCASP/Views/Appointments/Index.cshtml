@@ -8,6 +8,8 @@
     Locations actualLocation = ViewData["ActualLocation"] as Locations;
 
     int tableHeight = CalculateTableHeight(); // Call the method to calculate the table height
+
+    bool LoggedIn = (User != null) && (User.Identity.IsAuthenticated);
 }
 
 <div class="container d-flex align-items-center justify-content-evenly">
@@ -54,9 +56,17 @@
                                                     {
                                                         var appointment = Model.FirstOrDefault(obj => obj.Time.Hour == i && obj.Time.Date == currentDate);
                                                         var appointmentId = appointment?.Id;
+                                                        var userId = appointment?.UserId;
                                                         if (appointmentId != null)
                                                         {
-                                                            <a class="text-danger" style="text-decoration:none; color:red;" asp-controller="Appointments" asp-action="Remove" asp-route-id="@appointmentId">Occupied</a>
+                                                            if (LoggedIn && User.Identity.Name == userId)
+                                                            {
+                                                                <a class="text-danger" style="text-decoration:none; color:red;" asp-controller="Appointments" asp-action="Remove" asp-route-id="@appointmentId">Occupied</a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div style="text-decoration:none; color:darkred;">Occupied</div>
+                                                            }
                                                         }
                                                     }
                                                     else
@@ -66,8 +76,14 @@
                                                         var loc = location;
                                                         var date = startDate.AddDays(j).AddHours(i);
                                                         string locEncoded = loc != null ? Uri.EscapeDataString(loc) : string.Empty;
-
-                                                        <a class="text-success" style="text-decoration:none" asp-controller="Appointments" asp-action="CreateWithData" asp-route-location="@locEncoded" asp-route-date="@date.ToString("yyyy-MM-ddTHH:mm:ss")">Free</a>
+                                                        if (LoggedIn)
+                                                        {
+                                                            <a class="text-success" style="text-decoration:none" asp-controller="Appointments" asp-action="CreateWithData" asp-route-location="@locEncoded" asp-route-date="@date.ToString("yyyy-MM-ddTHH:mm:ss")">Free</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="text-success" style="text-decoration:none">Free</div>
+                                                        }
                                                     }
                                                 </div>
                                                 }
@@ -87,7 +103,7 @@
                     </table>
                 </div>
                 <div class="card-footer">
-                    <a class="btn btn-success mb-3" asp-action="Select">Select New Location</a>
+                    <a class="btn btn-light mb-3" asp-action="Select">Select New Location</a>
                 </div>
             </div>
     </div>
