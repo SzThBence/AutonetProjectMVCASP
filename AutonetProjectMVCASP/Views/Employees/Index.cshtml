@@ -2,7 +2,37 @@
 @{
     ViewData["Title"] = "Index";
     bool LoggedIn = (User != null) && (User.Identity.IsAuthenticated);
+    int counter = 1;
+    string img = "image1";
 }
+
+
+<div class="containercontact">
+    @foreach (var person in Model)
+    {
+        img = "image" + counter;
+
+        <div class="cardscontact bg-dark">
+            <div class="card__image @img"></div>
+            <div class="card__content">
+                <h3 class="card__title">@person.Surname @person.Name</h3>
+                <div class="card__text">
+                    Job: @person.Job
+                </div>
+                <div class="card__info">
+                    <br /><a asp-action="Edit" class="btn btn-warning" asp-route-id="@person.Id">Edit</a>
+                    <a asp-action="Remove" class="btn btn-danger" asp-route-id="@person.Id">Delete</a>
+                </div>
+            </div>
+        </div>
+
+        counter++;
+        if (counter > 8)
+        {
+            counter = 1;
+        }
+    }
+</div>
 
 
 <div class="container d-flex flex-column">
