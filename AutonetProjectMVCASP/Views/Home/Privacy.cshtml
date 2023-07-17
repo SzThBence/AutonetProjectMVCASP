@@ -1,5 +1,8 @@
-﻿@{
+﻿@model IEnumerable<AutonetProjectMVCASP.Models.Locations>
+@{
     ViewData["Title"] = "Privacy Policy";
+    int counter = 1;
+    string img = "image1";
 }
 
 
@@ -8,7 +11,29 @@
 
 <div class="containercontact">
 
+    @foreach(var loc in Model)
+    {
+        img = "image" + counter;
 
+        <div class="cardscontact bg-dark">
+            
+            <div class="card__image @img"></div>
+            <div class="card__content">
+                <h3 class="card__title">@loc.Place</h3>
+                <div class="card__text">
+                    L-V: @loc.StaryTime.Hour:00 - @loc.EndTime.Hour:00 <br />
+                    S-D: Closed
+                </div>
+                <div class="card__info"><br /><a class="btn btn-primary" asp-controller="Locations" asp-action="Details" asp-route-place="@loc.Place">Details</a></div>
+            </div>
+        </div>
+        counter++;
+        if (counter > 8)
+        {
+            counter = 1;
+        }
+    }
+    
 
     <div class="cardscontact bg-dark">
         <div class="card__image image1"></div>

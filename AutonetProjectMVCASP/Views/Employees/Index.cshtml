@@ -2,97 +2,51 @@
 @{
     ViewData["Title"] = "Index";
     bool LoggedIn = (User != null) && (User.Identity.IsAuthenticated);
+    int counter = 1;
+    string img = "Media/employee1";
 }
 
 
-<div class="container d-flex flex-column">
-    <div class="row">
-        <div class="card bg-dark">
-            <div class="card-header">
-                <h1>List of All of our Employees</h1>
-            </div>
-            <div class="card-body">
-                <div style="width=90%; height=auto">
-                    @if (Model.Count() == 0)
-                            {
-                                
-                                        <div class="alert alert-danger" role="alert">
-                                            There are no employees in the database!
-                                        </div>
-                                    
-                                
-                            }
-                            else
-                            {
-                    <table class="table appointmentsTable">
-                        <thead>
-                            <div>
-                            <tr>
+<div class="containercontact">
+    @foreach (var person in Model)
+    {
+        img = "employee" + counter;
 
-                                <th>
-                                    Name
-                                </th>
-                                <th>
-                                    Surname
-                                </th>
-                                <th>
-                                    Job
-                                </th>
-                                    @if (LoggedIn)
-                                    {
-                                    <th>
-
-                                    </th>
-                                    }
-                            </tr>
-                            </div>
-                            
-                        </thead>
-                        <tbody>
-                            
-                                @foreach (var obj in Model)
-                                {
-                                    <tr>
-                                        
-                                        <td>
-                                            @obj.Name
-                                        </td>
-                                        <td>
-                                            @obj.Surname
-                                        </td>
-                                        <td>
-                                            @obj.Job
-                                        </td>
-                                        @if (LoggedIn)
-                                        {
-                                            <td>
-                                                <a asp-action="Edit" class="btn btn-warning" asp-route-id="@obj.Id">Edit</a>
-                                                <a asp-action="Remove" class="btn btn-danger" asp-route-id="@obj.Id">Delete</a>
-                                            </td>
-                                        }
-                                    </tr>
-                                }
-                            }
-                        </tbody>
-                    </table>
-                    }
+        <div class="cardscontact bg-dark">
+            <div class="employee_image @img" style="width:100%; height:200px; align-content:center"></div>
+            <div class="card__content">
+                <h3 class="card__title">@person.Surname @person.Name</h3>
+                <div class="card__text">
+                    Job: @person.Job
                 </div>
-            </div>
-            <div class="card-footer">
-                <div class="row">
+                <div class="card__info">
                     @if (LoggedIn)
                     {
-                        <a asp-action="Create" class="btn btn-primary">Create New Employee</a>
+                        <br />
+
+                        <a asp-action="Edit" class="btn btn-warning" asp-route-id="@person.Id">Edit</a>
+                        <a asp-action="Remove" class="btn btn-danger" asp-route-id="@person.Id">Delete</a>
                     }
-                    
-                    
                 </div>
             </div>
-            </div>
         </div>
-    </div>
 
-
-
+        counter++;
+        if (counter > 8)
+        {
+            counter = 1;
+        }
+    }
 </div>
+
+<div class="row justify-content-center pt-3">
+    <div class="text-center ms-2 me-2">
+    @if (LoggedIn)
+    {
+        <a asp-action="Create" class="btn btn-primary">Create New</a>
+    }
+    </div> 
+</div>
+
+
 

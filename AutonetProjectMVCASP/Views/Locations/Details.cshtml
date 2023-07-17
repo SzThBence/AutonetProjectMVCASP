@@ -74,7 +74,7 @@
         function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {
                 center: { lat: @Model.Latitude, lng: @Model.Longitude },
-                zoom: 12
+                zoom: 9
             });
 
             var data = @Html.Raw(serializedData);
