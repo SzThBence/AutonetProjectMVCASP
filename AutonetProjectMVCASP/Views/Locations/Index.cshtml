@@ -3,76 +3,92 @@
 
 @{
     bool LoggedIn = (User != null) && (User.Identity.IsAuthenticated);
+    int counter = 1;
+    string img = "image1";
 }
 
-<div class="container d-flex flex-column">
-<div class="row">
-    <div class="card bg-dark">
-        <div class="card-header">
-            <h1>List of All of our Locations</h1>
-        </div>
-        <div class="card-body">
-            <div style="width=90%; height=auto">
-                @if (Model.Count() == 0)
-                    {
-                        <div class="alert alert-danger" role="alert">
-                            There are no employees in the database!
-                        </div>
-                    }
-                    else
-                    {
-                    <table class="table appointmentsTable">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Place)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Address)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Title)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var obj in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => obj.Place)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => obj.Address)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => obj.Title)
-                                </td>
-                                <td>
-                                    <a class="btn btn-info" asp-action="Details" asp-route-place="@obj.Place">Details</a> @*asp-route-<variablename> is the main idea *@
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-                }
+
+<div class="containercontact">
+    @foreach (var loc in Model)
+    {
+        img = "image" + counter;
+
+        <div class="cardscontact bg-dark">
+            <div id="@img" style="height: 200px;"></div>
+            <div class="card__content">
+                <h3 class="card__title">@loc.Place</h3>
+                <div class="card__text">
+                    L-V: @loc.StaryTime.Hour:00 - @loc.EndTime.Hour:00 <br />
+                    S-D: Closed
+                </div>
+                <div class="card__info"><br /><a class="btn btn-primary" asp-controller="Locations" asp-action="Details" asp-route-place="@loc.Place">Details</a></div>
             </div>
         </div>
-        @if(LoggedIn)
+
+        counter++;
+        if (counter > 8)
+        {
+            counter = 1;
+        }
+    }
+</div>
+
+@if (LoggedIn)
+{
+    <div class="card-body">
+        <div class="row">
+            <a class="btn btn-primary" asp-action="Create">Create New</a>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        var locations = [];
+
+        @{
+            counter = 1;
+        }
+
+        @foreach (var loc in Model)
+        {
+            img = "image" + counter;
+            @:locations.push({
+            @:id: '@img',
+            @:latitude: @loc.Latitude,
+            @:longitude: @loc.Longitude,
+            @:place: '@loc.Place'
+            @:});
+            counter++;
+            if (counter > 8)
             {
-                <div class="card-footer">
-                    <div class="row">
-                        <a class="btn btn-primary" asp-action="Create">Create New</a>
-                    </div>
-                </div>
+                counter = 1;
             }
-            
-    </div>
-</div>
-    </div>
+        }
 
+            function initializeMaps() {
+                locations.forEach(function (loc) {
+                    var map = new google.maps.Map(document.getElementById(loc.id), {
+                        center: { lat: loc.latitude, lng: loc.longitude },
+                        zoom: 9
+                    });
 
+                    console.log('Map initialized for:', loc.place);
 
-</div>
+                    var marker = new google.maps.Marker({
+                        position: { lat: loc.latitude, lng: loc.longitude },
+                        map: map,
+                        title: loc.place
+                    });
+                });
+            }
 
+        // Call the initialization function after the Google Maps API has loaded
+        function initMap() {
+            console.log('Google Maps API loaded');
+            initializeMaps();
+        }
+    </script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT7QWZaUcL4n36Dj8toB0Tui1Ur8vmFRg&callback=initMap" async defer></script>
+}
