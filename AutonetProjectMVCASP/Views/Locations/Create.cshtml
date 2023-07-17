@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
+    string loc = "image1";
 }
 
 <div class="container mt-3">
@@ -51,6 +52,17 @@
                                 <label asp-for="Title" class="control-label"></label>
                                 <input asp-for="Title" class="form-control" />
                                 <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                            <div>
+                                <label asp-for="ImagePath" class="control-label"></label>
+                                <select asp-for="ImagePath" class="form-control">
+                                @for (int i = 1; i <= 6; i++)
+                                {
+                                    loc = "image" + i;
+                                    <option value=@loc><div class="employee_image @loc">@i</option>
+                                }
+                                </select>
+                                <span asp-validation-for="ImagePath" class="text-danger"></span>
                             </div>
                             <hr />
                             <div class="form-group">

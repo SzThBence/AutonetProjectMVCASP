@@ -13,7 +13,7 @@
 
     @foreach(var loc in Model)
     {
-        img = "image" + counter;
+        img = loc.ImagePath;
 
         <div class="cardscontact bg-dark">
             
@@ -27,11 +27,7 @@
                 <div class="card__info"><br /><a class="btn btn-primary" asp-controller="Locations" asp-action="Details" asp-route-place="@loc.Place">Details</a></div>
             </div>
         </div>
-        counter++;
-        if (counter > 8)
-        {
-            counter = 1;
-        }
+        
     }
     
 
