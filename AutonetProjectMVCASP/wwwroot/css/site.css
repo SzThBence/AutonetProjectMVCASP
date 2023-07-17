@@ -311,6 +311,30 @@ body {
     .card__image.image8 {
         background-image: url("Media/service8-min.jpg");
     }
+.employee_image {
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 25px;
+}
+
+    .employee_image.employee1 {
+        background-image: url("Media/employee1.jpg");
+    }
+    .employee_image.employee2 {
+        background-image: url("Media/employee2.jpg");
+    }
+    .employee_image.employee3 {
+        background-image: url("Media/employee3.jpg");
+    }
+    .employee_image.employee4 {
+        background-image: url("Media/employee4.jpg");
+    }
+    .employee_image.employee5 {
+        background-image: url("Media/employee5.jpg");
+    }
+    .employee_image.employee6 {
+        background-image: url("Media/employee6.jpg");
+    }
 
 
 
