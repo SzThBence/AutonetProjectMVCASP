@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutonetProjectMVCASP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230711104839_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20230717093544_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,7 +43,6 @@ namespace AutonetProjectMVCASP.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

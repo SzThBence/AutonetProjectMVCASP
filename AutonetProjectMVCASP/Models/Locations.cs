@@ -13,5 +13,6 @@ namespace AutonetProjectMVCASP.Models
         public float Latitude { get; set; }
         public float Longitude { get; set; }
         public string Title { get; set; }
+        public string ImagePath { get; set; }
     }
 }

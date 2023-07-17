@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
+    string emp = "employee1";
 }
 
 <div class="container d-flex justify-content-center align-items-center">
@@ -25,6 +26,17 @@
                     <label asp-for="Job" class="control-label"></label>
                     <input asp-for="Job" class="form-control" />
                     <span asp-validation-for="Job" class="text-danger"></span>
+                </div>
+                <div>
+                    <label asp-for="ImagePath" class="control-label"></label>
+                    <select asp-for="ImagePath" class="form-control">
+                    @for (int i = 1; i <= 6; i++)
+                    {
+                        emp = "employee" + i;
+                        <option value=@emp><div class="employee_image @emp">@i</option>
+                    }
+                    </select>
+                    <span asp-validation-for="ImagePath" class="text-danger"></span>
                 </div>
                 <hr/>
                 <div class="form-group">

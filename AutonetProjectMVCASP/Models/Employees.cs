@@ -11,5 +11,6 @@ namespace AutonetProjectMVCASP.Models
         [Required]
         public string? Surname { get; set; }
         public string? Job { get; set; }
+        public string? ImagePath { get; set; }
     }
 }
