@@ -60,23 +60,21 @@ namespace AutonetProjectMVCASP
                 }
             }
 
-            // Assign roles to users - normal Users
             var users = await userManager.Users.ToListAsync();
-            Console.WriteLine(users);
             foreach (var user in users)
             {
-                if (!(await userManager.IsInRoleAsync(user, "User")))
+                if (!await userManager.IsInRoleAsync(user, "User"))
                 {
                     await userManager.AddToRoleAsync(user, "User");
                 }
             }
 
-            // Assign roles to users - admin User
-            var admin = await userManager.FindByEmailAsync("admin@admin.com");
-            if (admin != null && !(await userManager.IsInRoleAsync(admin, "Admin")))
+            var adminUser = await userManager.FindByEmailAsync("admin@admin.com");
+            if (adminUser != null && !(await userManager.IsInRoleAsync(adminUser, "Admin")))
             {
-                await userManager.AddToRoleAsync(admin, "Admin");
+                await userManager.AddToRoleAsync(adminUser, "Admin");
             }
+
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

@@ -15,10 +15,16 @@
                 <a class="nav-link">Admin</a>
             </li>
         }
-        else
+        else if (User.IsInRole("User"))
         {
             <li class="nav-item">
                     <a class="nav-link">User</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link">Something's wrong</a>
             </li>
         }
 
@@ -35,6 +41,7 @@
                 <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
             </li>
         }
+
         <li class="nav-item">
             <a id="details" class="nav-link" asp-controller="Appointments" asp-action="Person">Details</a>
         </li>

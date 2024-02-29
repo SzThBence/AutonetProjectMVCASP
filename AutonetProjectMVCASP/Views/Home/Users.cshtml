@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNetCore.Identity;
+
+@model List<IdentityUser>
+
+<h1>List of Users</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Email</th>
+            <th>Username</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.Email</td>
+                <td>@user.UserName</td>
+            </tr>
+        }
+    </tbody>
+</table>
