@@ -39,12 +39,12 @@ namespace AutonetProjectMVCASP.Controllers
             return View(loc);
         }
 
-        /*[HttpGet]
+        [HttpGet]
         public async Task<IActionResult> Users()
         {
             var users = await _userManager.Users.ToListAsync();
             return View(users);
-        }*/
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
