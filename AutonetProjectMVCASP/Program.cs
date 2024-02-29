@@ -4,12 +4,13 @@ using Microsoft.AspNetCore.Identity;
 using NToastNotify;
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
+using Microsoft.Extensions.Logging;
 
 namespace AutonetProjectMVCASP
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -19,14 +20,14 @@ namespace AutonetProjectMVCASP
                 options => options.UseSqlServer(
                     builder.Configuration.GetConnectionString("DefaultConnection")));
 
-                        builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>() // Add Role Management
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddRazorPages().AddNToastNotifyNoty(new NotyOptions
             {
                 ProgressBar = true,
                 Timeout = 5000
-                
             });
 
             builder.Services.AddNotyf(config =>
@@ -34,10 +35,7 @@ namespace AutonetProjectMVCASP
                 config.DurationInSeconds = 5;
                 config.IsDismissable = true;
                 config.Position = NotyfPosition.BottomRight;
-                //config.HasRippleEffect = true;
             });
-
-
 
             var app = builder.Build();
 
@@ -45,8 +43,39 @@ namespace AutonetProjectMVCASP
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+            }
+
+            using var scope = app.Services.CreateScope();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            // Create roles if they don't exist
+            var roles = new List<string> { "Admin", "User" };
+            foreach (var role in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
+
+            // Assign roles to users - normal Users
+            var users = await userManager.Users.ToListAsync();
+            Console.WriteLine(users);
+            foreach (var user in users)
+            {
+                if (!(await userManager.IsInRoleAsync(user, "User")))
+                {
+                    await userManager.AddToRoleAsync(user, "User");
+                }
+            }
+
+            // Assign roles to users - admin User
+            var admin = await userManager.FindByEmailAsync("admin@admin.com");
+            if (admin != null && !(await userManager.IsInRoleAsync(admin, "Admin")))
+            {
+                await userManager.AddToRoleAsync(admin, "Admin");
             }
 
             app.UseHttpsRedirection();
@@ -67,4 +96,5 @@ namespace AutonetProjectMVCASP
             app.Run();
         }
     }
+
 }

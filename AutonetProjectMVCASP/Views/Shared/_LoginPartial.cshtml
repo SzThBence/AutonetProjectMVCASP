@@ -6,12 +6,35 @@
 
 
     <ul class="navbar-nav">
+    
     @if (SignInManager.IsSignedIn(User))
     {
-    
-        <li class="nav-item">
-            <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-        </li>
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+                <a class="nav-link">Admin</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                    <a class="nav-link">User</a>
+            </li>
+        }
+
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item">
+                    <a id="admin" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index">Welcome Big ADMIN MAN</a>
+            </li>
+        }
+        else
+        {
+           
+            <li class="nav-item">
+                <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+            </li>
+        }
         <li class="nav-item">
             <a id="details" class="nav-link" asp-controller="Appointments" asp-action="Person">Details</a>
         </li>
@@ -20,6 +43,7 @@
                 <button id="logout" type="submit" class="nav-link btn btn-link text-white">Logout</button>
             </form>
         </li>
+        
     }
     else
     {
