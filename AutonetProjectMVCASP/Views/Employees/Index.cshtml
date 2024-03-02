@@ -8,40 +8,49 @@
 
 
 <div class="containercontact">
-    @foreach (var person in Model)
+    @if (Model.Count() == 0)
     {
-        img = @person.ImagePath;
+        <h2 class="text-center" style="color:antiquewhite">No Employees Found</h2>
+    }
+    else
+    {
+        <h2 class="text-center">Employees</h2>
+        @foreach (var person in Model)
+        {
+            img = @person.ImagePath;
 
-        <div class="cardscontact bg-dark">
-            <div class="employee_image @img" style="width:100%; height:200px; align-content:center"></div>
-            <div class="card__content">
-                <h3 class="card__title">@person.Surname @person.Name</h3>
-                <div class="card__text">
-                    Job: @person.Job
-                </div>
-                <div class="card__info">
-                    @if (LoggedIn)
-                    {
-                        <br />
+            <div class="cardscontact bg-dark">
+                <div class="employee_image @img" style="width:100%; height:200px; align-content:center"></div>
+                <div class="card__content">
+                    <h3 class="card__title">@person.Surname @person.Name</h3>
+                    <div class="card__text">
+                        Job: @person.Job
+                    </div>
+                    <div class="card__info">
+                        @if (LoggedIn)
+                        {
+                            <br />
 
-                        <a asp-action="Edit" class="btn btn-warning" asp-route-id="@person.Id">Edit</a>
-                        <a asp-action="Remove" class="btn btn-danger" asp-route-id="@person.Id">Delete</a>
-                    }
+                            <a asp-action="Edit" class="btn btn-warning" asp-route-id="@person.Id">Edit</a>
+                            <a asp-action="Remove" class="btn btn-danger" asp-route-id="@person.Id">Delete</a>
+                        }
+                    </div>
                 </div>
             </div>
-        </div>
 
-        counter++;
-        if (counter > 8)
-        {
-            counter = 1;
+            counter++;
+            if (counter > 8)
+            {
+                counter = 1;
+            }
         }
+    
     }
 </div>
 
 <div class="row justify-content-center pt-3">
     <div class="text-center ms-2 me-2">
-    @if (LoggedIn)
+    @if (LoggedIn && User.IsInRole("Admin"))
     {
         <a asp-action="Create" class="btn btn-primary">Create New</a>
     }

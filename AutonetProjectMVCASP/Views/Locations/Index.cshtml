@@ -7,37 +7,45 @@
     string img = "image1";
 }
 
-
-<div class="containercontact">
-    @foreach (var loc in Model)
+@if (Model.Count() == 0)
     {
-        img = "image" + counter;
+        <h2 class="text-center" style="color:antiquewhite">No Locations Found</h2>
+    }
+    else
+    {
 
-        <div class="cardscontact bg-dark">
-            <div id="@img" style="height: 200px;"></div>
-            <div class="card__content">
-                <h3 class="card__title">@loc.Place</h3>
-                <div class="card__text">
-                    L-V: @loc.StaryTime.Hour:00 - @loc.EndTime.Hour:00 <br />
-                    S-D: Closed
+        <div class="containercontact">
+            @foreach (var loc in Model)
+            {
+                img = "image" + counter;
+
+                <div class="cardscontact bg-dark">
+                    <div id="@img" style="height: 200px;"></div>
+                    <div class="card__content">
+                        <h3 class="card__title">@loc.Place</h3>
+                        <div class="card__text">
+                            L-V: @loc.StaryTime.Hour:00 - @loc.EndTime.Hour:00 <br />
+                            S-D: Closed
+                        </div>
+                        <div class="card__info"><br /><a class="btn btn-primary" asp-controller="Locations" asp-action="Details" asp-route-place="@loc.Place">Details</a></div>
+                    </div>
                 </div>
-                <div class="card__info"><br /><a class="btn btn-primary" asp-controller="Locations" asp-action="Details" asp-route-place="@loc.Place">Details</a></div>
-            </div>
+
+                counter++;
+        
+            }
         </div>
 
-        counter++;
-        
     }
+<div class="row justify-content-center pt-3">
+    <div class="text-center ms-2 me-2">
+        @if (LoggedIn && User.IsInRole("Admin"))
+        {
+            <a asp-action="Create" class="btn btn-primary">Create New</a>
+        }
+    </div>
 </div>
 
-@if (LoggedIn)
-{
-    <div class="card-body">
-        <div class="row">
-            <a class="btn btn-primary" asp-action="Create">Create New</a>
-        </div>
-    </div>
-}
 
 @section Scripts {
     <script>
