@@ -4,6 +4,9 @@ using AutonetProjectMVCASP.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NToastNotify;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
 
 
 namespace AutonetProjectMVCASP.Controllers
@@ -234,6 +237,53 @@ namespace AutonetProjectMVCASP.Controllers
             {
                 _toastNotification.Error("Unexpected Login Error", 3);
                 return RedirectToAction("Index", "Home");
+            }
+        }
+
+        public List<Appointments> GetData()
+        {
+            return _db.Appointments.ToList();
+        }
+
+
+
+        [HttpGet]
+        public IActionResult GeneratePdf()
+        {
+            // Define the file path where the PDF will be saved
+            string filePath = "example.pdf";
+
+            try
+            {
+                // Create a FileStream to write the PDF content
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    PdfWriter writer = new PdfWriter(fileStream);
+                    PdfDocument pdf = new PdfDocument(writer);
+                    Document document = new Document(pdf);
+
+                    // Add content to the PDF document
+                    document.Add(new Paragraph("Hello, World!"));
+
+                    // Add more content as needed
+                    var data = GetData();
+                    foreach (var item in data)
+                    {
+                        document.Add(new Paragraph(item.ToString()));
+                    }
+
+                    // Close the document
+                    document.Close();
+                }
+
+                // Return the PDF file as a response
+                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+                return File(fileBytes, "application/pdf", filePath);
+            }
+            catch (IOException ex)
+            {
+                // Handle IO exceptions
+                return BadRequest("Error generating PDF: " + ex.Message);
             }
         }
     }

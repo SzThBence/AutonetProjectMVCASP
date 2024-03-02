@@ -13,5 +13,10 @@ namespace AutonetProjectMVCASP.Models
         public string? Location { get; set; }
         [ForeignKey("AspNetUsers")]
         public string? UserId { get; set; }
+
+        public string ToString()
+        {
+            return Name + " " + Time + " " + Location;
+        }
     }
 }
