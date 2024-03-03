@@ -14,9 +14,12 @@ namespace AutonetProjectMVCASP.Models
         [ForeignKey("AspNetUsers")]
         public string? UserId { get; set; }
 
-        public string ToString()
+        [ForeignKey("Employees")]
+        public int EmployeeId { get; set; }
+
+        public override string ToString() 
         {
-            return Name + " " + Time + " " + Location;
+            return Name + " " + Time + " " + Location + " " + UserId + " " + EmployeeId;
         }
     }
 }

@@ -50,6 +50,28 @@
                 <dd class="col-sm-8">
                     @Html.DisplayFor(model => model.Title)
                 </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.LocationEmployees)
+                </dt>
+                <dd class="col-sm-8">
+                    @if (Model.LocationEmployees != null)
+                    {
+                        @if (Model.LocationEmployees.Count == 0)
+                        {
+                            <div>No employees assigned to this location</div>
+                        }
+                            else
+                        {
+                            @foreach (var employee in Model.LocationEmployees)
+                            {
+                                <div>@employee.Employee.Name</div>
+                                <!-- Display other relevant employee details as needed -->
+                            }
+                        }
+                    }
+                    
+                    
+                </dd>
             </dl>
         </div>
         <div class="col-lg-6 col-sm-12 align-items-center justify-content-center mt-3">

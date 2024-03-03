@@ -63,6 +63,7 @@ namespace AutonetProjectMVCASP.Controllers
                 _toastNotification.Success("Creation Successful!", 3);
                 return RedirectToAction("Index");
             }
+            _toastNotification.Error("Creation Failed!", 3);
             return View(obj);
         }
         [HttpGet]

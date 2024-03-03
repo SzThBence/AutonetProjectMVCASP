@@ -5,6 +5,7 @@ using AutonetProjectMVCASP.Models;
 using Microsoft.Extensions.Logging;
 using NToastNotify;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 namespace AutonetProjectMVCASP.Controllers
@@ -55,12 +56,19 @@ namespace AutonetProjectMVCASP.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            // Retrieve the list of Employees from the database
+            var employees = _db.Employees?.ToList();
+
+            // Ensure ViewBag.Employees is initialized
+            ViewBag.Employees = employees ?? new List<Employees>();
+
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Models.Locations obj)
+        public IActionResult Create(Models.Locations obj, List<int> employeeIds)
         {
+
             if (obj.Equals(null))
             {
                 return NotFound();
@@ -81,6 +89,20 @@ namespace AutonetProjectMVCASP.Controllers
             {
                 _db.Locations.Add(obj);
                 _db.SaveChanges();
+                // Add the selected Employees to the Location
+                if (employeeIds != null && employeeIds.Any())
+                {
+                    foreach (int employeeId in employeeIds)
+                    {
+                        var locationEmployee = new LocationEmployee
+                        {
+                            LocationPlace = obj.Place, // Assuming Place is the primary key of Locations
+                            EmployeeId = employeeId
+                        };
+                        _db.LocationEmployees.Add(locationEmployee);
+                    }
+                    _db.SaveChanges();
+                }
                 _toastNotification.Success("Creation Successful!", 3);
                 return RedirectToAction("Index");
             }

@@ -7,6 +7,7 @@ using AspNetCoreHero.ToastNotification.Abstractions;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 namespace AutonetProjectMVCASP.Controllers
@@ -108,6 +109,12 @@ namespace AutonetProjectMVCASP.Controllers
                 Location = info.Location,
                 Time = info.Date
             };
+
+            // Retrieve the list of Employees from the database
+            var employees = _db.Employees?.ToList();
+
+            // Ensure ViewBag.Employees is initialized
+            ViewBag.Employees = employees ?? new List<Employees>();
 
 
             return View(model);
