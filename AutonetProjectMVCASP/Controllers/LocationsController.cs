@@ -51,6 +51,17 @@ namespace AutonetProjectMVCASP.Controllers
                 return NotFound();
             }
 
+            var locationEmployees = _db.LocationEmployees
+                                    .Where(le => le.LocationPlace == place)
+                                    .Select(le => new
+                                    {
+                                        // Select only the properties you need
+                                        EmployeeId = le.Employee.Name,
+                                    })
+                                    .ToList();
+
+            ViewBag.LocationEmployees = locationEmployees;
+
             return View(obj);
         }
         [HttpGet]
@@ -68,7 +79,7 @@ namespace AutonetProjectMVCASP.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Models.Locations obj, List<int> employeeIds)
         {
-
+            obj.LocationEmployees = new List<LocationEmployee>();
             if (obj.Equals(null))
             {
                 return NotFound();
@@ -99,7 +110,9 @@ namespace AutonetProjectMVCASP.Controllers
                             LocationPlace = obj.Place, // Assuming Place is the primary key of Locations
                             EmployeeId = employeeId
                         };
+                        //obj.LocationEmployees.Add(locationEmployee);
                         _db.LocationEmployees.Add(locationEmployee);
+                        
                     }
                     _db.SaveChanges();
                 }

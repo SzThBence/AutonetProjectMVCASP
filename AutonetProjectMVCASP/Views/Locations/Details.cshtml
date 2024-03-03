@@ -54,17 +54,17 @@
                     @Html.DisplayNameFor(model => model.LocationEmployees)
                 </dt>
                 <dd class="col-sm-8">
-                    @if (Model.LocationEmployees != null)
+                    @if (ViewBag.LocationEmployees != null)
                     {
-                        @if (Model.LocationEmployees.Count == 0)
+                        @if (ViewBag.LocationEmployees.Count == 0)
                         {
                             <div>No employees assigned to this location</div>
                         }
                             else
                         {
-                            @foreach (var employee in Model.LocationEmployees)
+                            @foreach (var employee in ViewBag.LocationEmployees)
                             {
-                                <div>@employee.Employee.Name</div>
+                                <div>@employee.EmployeeId</div>
                                 <!-- Display other relevant employee details as needed -->
                             }
                         }
