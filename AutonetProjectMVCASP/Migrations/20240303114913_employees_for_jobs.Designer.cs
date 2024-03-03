@@ -4,6 +4,7 @@ using AutonetProjectMVCASP.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutonetProjectMVCASP.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240303114913_employees_for_jobs")]
+    partial class employees_for_jobs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,21 +80,6 @@ namespace AutonetProjectMVCASP.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("AutonetProjectMVCASP.Models.LocationEmployee", b =>
-                {
-                    b.Property<string>("LocationPlace")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("LocationPlace", "EmployeeId");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("LocationEmployees");
-                });
-
             modelBuilder.Entity("AutonetProjectMVCASP.Models.Locations", b =>
                 {
                     b.Property<string>("Place")
@@ -106,6 +93,7 @@ namespace AutonetProjectMVCASP.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ImagePath")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("Latitude")
@@ -118,6 +106,7 @@ namespace AutonetProjectMVCASP.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Place");
@@ -327,25 +316,6 @@ namespace AutonetProjectMVCASP.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AutonetProjectMVCASP.Models.LocationEmployee", b =>
-                {
-                    b.HasOne("AutonetProjectMVCASP.Models.Employees", "Employee")
-                        .WithMany("LocationEmployees")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AutonetProjectMVCASP.Models.Locations", "Location")
-                        .WithMany("LocationEmployees")
-                        .HasForeignKey("LocationPlace")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-
-                    b.Navigation("Location");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -395,16 +365,6 @@ namespace AutonetProjectMVCASP.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("AutonetProjectMVCASP.Models.Employees", b =>
-                {
-                    b.Navigation("LocationEmployees");
-                });
-
-            modelBuilder.Entity("AutonetProjectMVCASP.Models.Locations", b =>
-                {
-                    b.Navigation("LocationEmployees");
                 });
 #pragma warning restore 612, 618
         }

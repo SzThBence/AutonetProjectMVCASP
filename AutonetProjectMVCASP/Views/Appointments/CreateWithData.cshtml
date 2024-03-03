@@ -23,6 +23,25 @@
                         <input asp-for="Location" class="form-control" readonly />
                         <span id="locationInput" asp-validation-for="Location" class="text-danger"></span>
                     </div>
+                    <div class="form-group">
+                        <label asp-for="EmployeeId" class="control-label"></label>
+                        <select asp-for="EmployeeId" class="form-control">
+                        @if (ViewBag.Employees != null)
+                        {
+                            foreach (var employee in ViewBag.Employees)
+                            {
+                                <div>
+                                    <option value="@employee.Id">@employee.Name @employee.Surname</option>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <option value="0" disabled>No Employees</option>
+                        }
+                        </select>
+                        <span asp-validation-for="EmployeeId" class="text-danger"></span>
+                    </div>
                     <div class="form-group" hidden>
                         <label asp-for="UserId" class="control-label"></label>
                         <input asp-for="UserId" class="form-control" value="@User.Identity.Name" />
