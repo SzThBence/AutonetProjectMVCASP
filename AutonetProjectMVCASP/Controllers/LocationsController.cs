@@ -56,7 +56,7 @@ namespace AutonetProjectMVCASP.Controllers
                                     .Select(le => new
                                     {
                                         // Select only the properties you need
-                                        EmployeeId = le.Employee.Name,
+                                        EmployeeId = le.Employee.Name
                                     })
                                     .ToList();
 

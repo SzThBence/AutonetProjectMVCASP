@@ -111,10 +111,19 @@ namespace AutonetProjectMVCASP.Controllers
             };
 
             // Retrieve the list of Employees from the database
-            var employees = _db.Employees?.ToList();
+            var locationEmployees = _db.LocationEmployees
+                                    .Where(le => le.LocationPlace == info.Location)
+                                    .Select(le => new
+                                    {
+                                        // Select only the properties you need
+                                        Id = le.EmployeeId,
+                                        Name = le.Employee.Name,
+                                        Surname = le.Employee.Surname
+                                    })
+                                    .ToList();
 
             // Ensure ViewBag.Employees is initialized
-            ViewBag.Employees = employees ?? new List<Employees>();
+            ViewBag.Employees = locationEmployees;
 
 
             return View(model);
