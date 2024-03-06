@@ -8,35 +8,35 @@
 }
 
 @if (Model.Count() == 0)
-    {
-        <h2 class="text-center" style="color:antiquewhite">No Locations Found</h2>
-    }
-    else
-    {
+{
+    <h2 class="text-center" style="color:antiquewhite">No Locations Found</h2>
+}
+else
+{
 
-        <div class="containercontact">
-            @foreach (var loc in Model)
-            {
-                img = "image" + counter;
+    <div class="containercontact">
+        @foreach (var loc in Model)
+        {
+            img = "image" + counter;
 
-                <div class="cardscontact bg-dark">
-                    <div id="@img" style="height: 200px;"></div>
-                    <div class="card__content">
-                        <h3 class="card__title">@loc.Place</h3>
-                        <div class="card__text">
-                            L-V: @loc.StaryTime.Hour:00 - @loc.EndTime.Hour:00 <br />
-                            S-D: Closed
-                        </div>
-                        <div class="card__info"><br /><a class="btn btn-primary" asp-controller="Locations" asp-action="Details" asp-route-place="@loc.Place">Details</a></div>
+            <div class="cardscontact bg-dark">
+                <div id="@img" style="height: 200px;"></div>
+                <div class="card__content">
+                    <h3 class="card__title">@loc.Place</h3>
+                    <div class="card__text">
+                        L-V: @loc.StartTime.Hour:00 - @loc.EndTime.Hour:00 <br />
+                        S-D: Closed
                     </div>
+                    <div class="card__info"><br /><a class="btn btn-primary" asp-controller="Locations" asp-action="Details" asp-route-place="@loc.Place">Details</a></div>
                 </div>
+            </div>
 
-                counter++;
-        
-            }
-        </div>
+            counter++;
 
-    }
+        }
+    </div>
+
+}
 <div class="row justify-content-center pt-3">
     <div class="text-center ms-2 me-2">
         @if (LoggedIn && User.IsInRole("Admin"))
@@ -65,7 +65,7 @@
             @:place: '@loc.Place'
             @:});
             counter++;
-            
+
         }
 
             function initializeMaps() {
@@ -92,5 +92,5 @@
         }
     </script>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT7QWZaUcL4n36Dj8toB0Tui1Ur8vmFRg&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBT7QWZaUcL4n36Dj8toB0Tui1Ur8vmFRg&callback=initMap" async defer></script>
 }
