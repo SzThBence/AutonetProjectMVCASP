@@ -21,7 +21,7 @@
             <div class="card__content">
                 <h3 class="card__title">@loc.Place</h3>
                 <div class="card__text">
-                    L-V: @loc.StaryTime.Hour:00 - @loc.EndTime.Hour:00 <br />
+                    L-V: @loc.StartTime.Hour:00 - @loc.EndTime.Hour:00 <br />
                     S-D: Closed
                 </div>
                 <div class="card__info"><br /><a class="btn btn-primary" asp-controller="Locations" asp-action="Details" asp-route-place="@loc.Place">Details</a></div>

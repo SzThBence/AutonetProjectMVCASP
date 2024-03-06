@@ -46,7 +46,7 @@
                                             continue;
                                         }
                                         bool isOccupied = Model.Any(obj => obj != null && obj.Time.Hour == i && obj.Time.Date == currentDate);
-                                        bool isValidTime = (actualLocation != null) && (actualLocation.StaryTime.Hour <= i) && (actualLocation.EndTime.Hour > i);
+                                        bool isValidTime = (actualLocation != null) && (actualLocation.StartTime.Hour <= i) && (actualLocation.EndTime.Hour > i) && currentDate >= DateTime.Now;
                                         <td>
                                             <b>
                                                 @if(isValidTime)
@@ -54,20 +54,28 @@
                                                     <div class="@(isOccupied ? "text-danger" : "text-success")">
                                                     @if (isOccupied)
                                                     {
-                                                        var appointment = Model.FirstOrDefault(obj => obj.Time.Hour == i && obj.Time.Date == currentDate);
-                                                        var appointmentId = appointment?.Id;
-                                                        var userId = appointment?.UserId;
-                                                        if (appointmentId != null)
+                                                        if (currentDate >= DateTime.Now)
                                                         {
-                                                            if (LoggedIn && User.Identity.Name == userId)
+                                                            <div style="text-decoration:none; color:dimgrey;">Not Available</div>
+                                                        }
+                                                        else
+                                                        {
+                                                            var appointment = Model.FirstOrDefault(obj => obj.Time.Hour == i && obj.Time.Date == currentDate);
+                                                            var appointmentId = appointment?.Id;
+                                                            var userId = appointment?.UserId;
+                                                            if (appointmentId != null)
                                                             {
-                                                                <a class="text-danger" style="text-decoration:none; color:red;" asp-controller="Appointments" asp-action="Remove" asp-route-id="@appointmentId">Occupied</a>
-                                                            }
-                                                            else
-                                                            {
-                                                                <div style="text-decoration:none; color:darkred;">Occupied</div>
+                                                                if (LoggedIn && User.Identity.Name == userId)
+                                                                {
+                                                                    <a class="text-danger" style="text-decoration:none; color:red;" asp-controller="Appointments" asp-action="Remove" asp-route-id="@appointmentId">Occupied</a>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div style="text-decoration:none; color:darkred;">Occupied</div>
+                                                                }
                                                             }
                                                         }
+                                                        
                                                     }
                                                     else
                                                     {
