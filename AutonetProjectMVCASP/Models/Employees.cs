@@ -12,5 +12,9 @@ namespace AutonetProjectMVCASP.Models
         public string? Surname { get; set; }
         public string? Job { get; set; }
         public string? ImagePath { get; set; }
+
+        // Navigation property for many-to-many relationship
+        public ICollection<LocationEmployee>? LocationEmployees { get; set; }
+
     }
 }

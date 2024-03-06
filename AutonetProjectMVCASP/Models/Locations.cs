@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AutonetProjectMVCASP.Models
 {
@@ -12,7 +13,17 @@ namespace AutonetProjectMVCASP.Models
         public DateTime EndTime { get; set; }
         public float Latitude { get; set; }
         public float Longitude { get; set; }
-        public string Title { get; set; }
-        public string ImagePath { get; set; }
+        public string? Title { get; set; }
+        public string? ImagePath { get; set; }
+        // Navigation property for many-to-many relationship
+        public ICollection<LocationEmployee>? LocationEmployees { get; set; }
+
+    }
+
+    public class EmployeeId
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
 }

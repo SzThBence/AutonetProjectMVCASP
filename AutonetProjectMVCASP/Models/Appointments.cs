@@ -14,9 +14,12 @@ namespace AutonetProjectMVCASP.Models
         [ForeignKey("AspNetUsers")]
         public string? UserId { get; set; } //this will be the email, not the user Id, just keep that in mind (shit name)
 
-        public string ToString()
+        [ForeignKey("Employees")]
+        public int EmployeeId { get; set; }
+
+        public override string ToString() 
         {
-            return Name + " " + Time + " " + Location;
+            return Name + " " + Time + " " + Location + " " + UserId + " " + EmployeeId;
         }
     }
 }

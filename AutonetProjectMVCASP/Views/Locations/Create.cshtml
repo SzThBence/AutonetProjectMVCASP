@@ -54,6 +54,20 @@
                                 <span asp-validation-for="Title" class="text-danger"></span>
                             </div>
                             <div>
+                                <label asp-for="LocationEmployees" class="control-label"></label>
+                                @if (ViewBag.Employees != null)
+                                {
+                                    foreach (var employee in ViewBag.Employees)
+                                    {
+                                        <div>
+                                            <input type="checkbox" name="employeeIds" value="@employee.Id" />
+                                            <label>@employee.Name</label>
+                                        </div>
+                                    }
+                                }
+                                <span asp-validation-for="LocationEmployees" class="text-danger"></span>
+                            </div>
+                            <div>
                                 <label asp-for="ImagePath" class="control-label"></label>
                                 <select asp-for="ImagePath" class="form-control">
                                 @for (int i = 1; i <= 6; i++)
