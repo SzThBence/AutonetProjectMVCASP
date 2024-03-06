@@ -278,7 +278,7 @@ namespace AutonetProjectMVCASP.Controllers
         public IActionResult GeneratePdf()
         {
             // Define the file path where the PDF will be saved
-            string filePath = "example.pdf";
+            string filePath = "AllAppointments.pdf";
 
             try
             {
@@ -347,6 +347,105 @@ namespace AutonetProjectMVCASP.Controllers
                         }
 
                         table.AddCell(employeeName);
+                    }
+
+                    //Add the table to the document
+                    document.Add(table);
+
+                    // Close the document
+                    document.Close();
+                }
+
+                // Return the PDF file as a response
+                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+                return File(fileBytes, "application/pdf", filePath);
+            }
+            catch (IOException ex)
+            {
+                // Handle IO exceptions
+                return BadRequest("Error generating PDF: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GeneratePersonPdf(Appointments obj)
+        {
+            string Name = obj.UserId;
+            // Define the file path where the PDF will be saved
+            string filePath = Name + "Appointments.pdf";
+
+            try
+            {
+                // Create a FileStream to write the PDF content
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    PdfWriter writer = new PdfWriter(fileStream);
+                    PdfDocument pdf = new PdfDocument(writer);
+                    Document document = new Document(pdf);
+
+                    // Create a font for the title with bigger size and bold style
+                    var boldFont = PdfFontFactory.CreateFont(StandardFonts.HELVETICA_BOLD);
+
+                    // Add content to the PDF document
+                    document.Add(new Paragraph(Name + "'s appointments in the database")
+                        .SetFont(boldFont) // Set the font to the boldFont
+                        .SetFontSize(16)    // Set the font size
+                        .SetTextAlignment(TextAlignment.CENTER)); // Align the text to the center;
+
+                    //Creating table
+                    float[] columnWidths = { 75F, 75F, 75F, 75F, 75F, 75F };
+                    Table table = new Table(UnitValue.CreatePointArray(columnWidths));
+
+                    //Add Headers
+                    table.AddHeaderCell(new Cell().Add(new Paragraph("Id")).SetFont(boldFont));
+                    table.AddHeaderCell(new Cell().Add(new Paragraph("Appointment Name")).SetFont(boldFont));
+                    table.AddHeaderCell(new Cell().Add(new Paragraph("Time of Appointment")).SetFont(boldFont));
+                    table.AddHeaderCell(new Cell().Add(new Paragraph("Location")).SetFont(boldFont));
+                    table.AddHeaderCell(new Cell().Add(new Paragraph("User")).SetFont(boldFont));
+                    table.AddHeaderCell(new Cell().Add(new Paragraph("Employee")).SetFont(boldFont));
+
+
+
+                    // Add more content as needed
+                    var data = GetData();
+                    foreach (var item in data)
+                    {
+                        if (item.UserId == Name)
+                        {
+
+                        
+                            //document.Add(new Paragraph(item.ToString()));
+                            table.AddCell(item.Id.ToString());
+                            table.AddCell(item.Name);
+                            table.AddCell(item.Time.ToString());
+                            table.AddCell(item.Location);
+
+                            string userName = "No User"; // Default value if user is not found or Email is null
+
+                            // Find the User object by UserId
+                            var user = _db.Users.FirstOrDefault(u => u.UserName == item.UserId);
+
+                            // Check if the User object is not null and Email is not null
+                            if (user != null && user.UserName != null)
+                            {
+                                userName = user.UserName;
+                            }
+
+                            table.AddCell(userName);
+
+                            string employeeName = "No Employee"; // Default value if employee is not found or Name is null
+
+                            // Find the Employee object by EmployeeId
+                            var employee = _db.Employees.Find(item.EmployeeId);
+
+                            // Check if the Employee object is not null and Name is not null
+                            if (employee != null && employee.Name != null)
+                            {
+                                employeeName = employee.Name;
+                            }
+
+                            table.AddCell(employeeName);
+                        }
                     }
 
                     //Add the table to the document
