@@ -78,7 +78,7 @@ namespace AutonetProjectMVCASP.Controllers
 
             //create list of locations
             IEnumerable<Models.Locations> loc = _db.Locations;
-            
+
             return View(loc);
         }
         [HttpGet]
@@ -103,7 +103,7 @@ namespace AutonetProjectMVCASP.Controllers
             IEnumerable<Models.Appointments> loc = obj.Obj;
             return View(loc);
         }
-        
+
         [HttpGet]
         public IActionResult Create()
         {

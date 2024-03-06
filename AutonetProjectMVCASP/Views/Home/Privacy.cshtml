@@ -11,12 +11,12 @@
 
 <div class="containercontact">
 
-    @foreach(var loc in Model)
+    @foreach (var loc in Model)
     {
         img = loc.ImagePath;
 
         <div class="cardscontact bg-dark">
-            
+
             <div class="card__image @img"></div>
             <div class="card__content">
                 <h3 class="card__title">@loc.Place</h3>
@@ -27,9 +27,9 @@
                 <div class="card__info"><br /><a class="btn btn-primary" asp-controller="Locations" asp-action="Details" asp-route-place="@loc.Place">Details</a></div>
             </div>
         </div>
-        
+
     }
-    
+
 
     <div class="cardscontact bg-dark">
         <div class="card__image image1"></div>
