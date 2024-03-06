@@ -45,21 +45,28 @@
                                     {
                                         continue;
                                     }
+                                    bool isTooLate = currentDate.Date == DateTime.Today && i <= DateTime.Now.Hour;
                                     bool isOccupied = Model.Any(obj => obj != null && obj.Time.Hour == i && obj.Time.Date == currentDate);
-                                    bool isValidTime = (actualLocation != null) && (actualLocation.StartTime.Hour <= i) && (actualLocation.EndTime.Hour > i) && (currentDate >= DateTime.Now);
+                                    DateTime nowDate = DateTime.Now;
+                                    bool isValidTime = (actualLocation != null) && (actualLocation.StartTime.Hour <= i) && (actualLocation.EndTime.Hour > i);
                                     <td>
                                         <b>
                                             @if (isValidTime)
                                             {
                                                 <div class="@(isOccupied ? "text-danger" : "text-success")">
-                                                    @if (isOccupied)
+                                                    @if (isTooLate)
                                                     {
-                                                        if (currentDate >= DateTime.Now)
                                                         {
-                                                            <div style="text-decoration:none; color:dimgrey;">Not Available</div>
+                                                            <div style="text-decoration:none; color:dimgray;">Not Available</div>
                                                         }
-                                                        else
+                                                    }
+                                                    else
+                                                    {
+                                                   
+                                                        @if (isOccupied)
                                                         {
+                                                       
+                                                        
                                                             var appointment = Model.FirstOrDefault(obj => obj.Time.Hour == i && obj.Time.Date == currentDate);
                                                             var appointmentId = appointment?.Id;
                                                             var userId = appointment?.UserId;
@@ -74,23 +81,24 @@
                                                                     <div style="text-decoration:none; color:darkred;">Occupied</div>
                                                                 }
                                                             }
-                                                        }
+                                                        
 
-                                                    }
-                                                    else
-                                                    {
-
-
-                                                        var loc = location;
-                                                        var date = startDate.AddDays(j).AddHours(i);
-                                                        string locEncoded = loc != null ? Uri.EscapeDataString(loc) : string.Empty;
-                                                        if (LoggedIn)
-                                                        {
-                                                            <a class="text-success" style="text-decoration:none" asp-controller="Appointments" asp-action="CreateWithData" asp-route-location="@locEncoded" asp-route-date="@date.ToString("yyyy-MM-ddTHH:mm:ss")">Free</a>
                                                         }
                                                         else
                                                         {
-                                                            <div class="text-success" style="text-decoration:none">Free</div>
+
+
+                                                            var loc = location;
+                                                            var date = startDate.AddDays(j).AddHours(i);
+                                                            string locEncoded = loc != null ? Uri.EscapeDataString(loc) : string.Empty;
+                                                            if (LoggedIn)
+                                                            {
+                                                                <a class="text-success" style="text-decoration:none" asp-controller="Appointments" asp-action="CreateWithData" asp-route-location="@locEncoded" asp-route-date="@date.ToString("yyyy-MM-ddTHH:mm:ss")">Free</a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="text-success" style="text-decoration:none">Free</div>
+                                                            }
                                                         }
                                                     }
                                                 </div>
