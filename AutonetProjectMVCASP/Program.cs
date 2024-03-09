@@ -51,7 +51,7 @@ namespace AutonetProjectMVCASP
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
             // Create roles if they don't exist
-            var roles = new List<string> { "Admin", "User" };
+            var roles = new List<string> { "Admin", "User", "Boss", "Architect" };
             foreach (var role in roles)
             {
                 if (!await roleManager.RoleExistsAsync(role))
