@@ -4,9 +4,12 @@
 @inject UserManager<IdentityUser> UserManager
 
 @{
-    var isAdmin = User.IsInRole("Admin");
-    var isUser = User.IsInRole("User");
+    
     var user = UserManager.GetUserAsync(User).Result;
+    var isAdmin = user != null && (await UserManager.IsInRoleAsync(user, "Admin"));
+    var isUser = user != null && (await UserManager.IsInRoleAsync(user, "User"));
+    var isArchitect = user != null && (await UserManager.IsInRoleAsync(user, "Admin"));
+    var isBoss = user != null && (await UserManager.IsInRoleAsync(user, "User"));
 }
 <div class="justify-content-center">
 
@@ -15,13 +18,13 @@
     
     @if (SignInManager.IsSignedIn(User))
     {
-        @if (user != null && (await UserManager.IsInRoleAsync(user,"Admin")))
+            @if (isAdmin)
         {
             <li class="nav-item">
                 <a class="nav-link">Admin</a>
             </li>
         }
-            else if (user != null && (await UserManager.IsInRoleAsync(user, "User")))
+            else if (isUser)
         {
             <li class="nav-item">
                     <a class="nav-link">User</a>
@@ -34,7 +37,7 @@
             </li>
         }
 
-        @if (user != null && (await UserManager.IsInRoleAsync(user, "Admin")))
+            @if (isAdmin)
         {
             <li class="nav-item">
                     <a id="admin" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index">Welcome Big ADMIN MAN</a>
