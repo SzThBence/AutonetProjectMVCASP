@@ -1,25 +1,44 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 
-@model List<IdentityUser>
+@model AutonetProjectMVCASP.Controllers.UsersAndRolesManagers;
+@{
+    var users = Model._userManager.Users.ToList();
+    var roles = Model._roleManager.Roles.ToList();
+}
 
 <h1>List of Users</h1>
 
-<table>
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Email</th>
-            <th>Username</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>@user.Id</td>
-                <td>@user.Email</td>
-                <td>@user.UserName</td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="card bg-dark text-white">
+        <div class="card-body">
+            <div class="row">
+                
+                    <form asp-action="RoleChanger">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        @foreach (var user in users)
+                        {
+                        <p>
+                            <div>
+                                @user.Email
+
+                                <div class="form-group">
+                                    <label class="control-label">Roles:</label><br />
+                                    @foreach (var role in roles)
+                                    {
+                                        var isChecked = await Model._userManager.IsInRoleAsync(user, role.Name);
+                                        <input type="checkbox" name="roles[@user.Id]" value="@role.Name" @(isChecked ? "checked" : "")/>
+                                        <label>@role.Name</label>
+                                    }
+                                </div>
+                            </div>
+                        </p>
+                        }
+
+                        <button type="submit" class="btn btn-primary">Update Roles</button>
+                    </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
