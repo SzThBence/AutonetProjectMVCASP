@@ -26,10 +26,15 @@ else
                 <div class="card__content">
                     <h3 class="card__title">@loc.Place</h3>
                     <div class="card__text">
-                        L-V: @loc.StartTime.Hour:00 - @loc.EndTime.Hour:00 <br />
-                        S-D: Closed
+                        Mon-Fri: @loc.StartTime.Hour:00 - @loc.EndTime.Hour:00 <br />
+                        Sat-Sun: Closed
                     </div>
                     <div class="card__info"><br /><a class="btn btn-primary" asp-controller="Locations" asp-action="Details" asp-route-place="@loc.Place">Details</a></div>
+                    @if (LoggedIn && (User.IsInRole("Admin") || User.IsInRole("Architect")))
+                    {
+                        <a asp-action="Edit" class="btn btn-warning" asp-route-id="@loc.Place">Edit</a>
+                        <a asp-action="Remove" class="btn btn-danger" asp-route-id="@loc.Place">Delete</a>
+                    }
                 </div>
             </div>
 
@@ -45,6 +50,7 @@ else
         {
             <a asp-action="Create" class="btn btn-primary">Create New</a>
         }
+        <a asp-action="BigMap" class="btn btn-secondary">Big Map</a>
     </div>
 </div>
 

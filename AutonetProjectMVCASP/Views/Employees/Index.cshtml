@@ -27,7 +27,7 @@
                         Job: @person.Job
                     </div>
                     <div class="card__info">
-                        @if (LoggedIn)
+                        @if (LoggedIn && (User.IsInRole("Admin") || User.IsInRole("Boss")) )
                         {
                             <br />
 

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using NToastNotify;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 
 namespace AutonetProjectMVCASP.Controllers
@@ -123,6 +124,104 @@ namespace AutonetProjectMVCASP.Controllers
 
 
             return View(obj);
+        }
+        [HttpGet]
+        public IActionResult BigMap()
+        {
+            IEnumerable<Models.Locations> obj = _db.Locations;
+            return View(obj);
+        }
+        [HttpGet]
+        public IActionResult Edit(string? id)
+        {
+
+            if (id == null || id == "")
+            {
+                return NotFound();
+            }
+
+            var obj = _db.Locations.Find(id);
+
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Locations obj,List<int> employeeIds)
+        {
+            obj.LocationEmployees = new List<LocationEmployee>();
+            if (obj.Equals(null))
+            {
+                return NotFound();
+            }
+            if (Math.Abs(obj.Latitude) > 90)
+            {
+                ModelState.AddModelError("Latitude", "The latitude must be valid");
+            }
+            if (Math.Abs(obj.Longitude) > 180)
+            {
+                ModelState.AddModelError("Longitude", "The longitude must be valid");
+            }
+
+            if (ModelState.IsValid)
+            {
+                _db.Locations.Add(obj);
+                _db.SaveChanges();
+                // Add the selected Employees to the Location
+                if (employeeIds != null && employeeIds.Any())
+                {
+                    foreach (int employeeId in employeeIds)
+                    {
+                        var locationEmployee = new LocationEmployee
+                        {
+                            LocationPlace = obj.Place, // Assuming Place is the primary key of Locations
+                            EmployeeId = employeeId
+                        };
+                        //obj.LocationEmployees.Add(locationEmployee);
+                        _db.LocationEmployees.Add(locationEmployee);
+
+                    }
+                    _db.SaveChanges();
+                }
+                _toastNotification.Success("Creation Successful!", 3);
+                return RedirectToAction("Index");
+            }
+
+
+
+            return View(obj);
+        }
+
+        [HttpGet]
+        public IActionResult Remove(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = _db.Locations.Find(id);
+
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Remove(Locations obj)
+        {
+            _db.Locations.Remove(obj);
+            _db.SaveChanges();
+            _toastNotification.Success("Removal Successful!", 3);
+            return RedirectToAction("Index");
         }
 
     }
