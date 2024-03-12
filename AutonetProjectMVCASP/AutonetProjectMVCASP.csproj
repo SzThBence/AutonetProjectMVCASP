@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCoreHero.ToastNotification" Version="1.1.0" />
+    <PackageReference Include="EPPlus" Version="7.0.10" />
     <PackageReference Include="GoogleMapsHelpers" Version="0.1.4.1" />
     <PackageReference Include="itext7" Version="8.0.3" />
     <PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.3" />

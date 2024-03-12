@@ -81,6 +81,10 @@
                 <input type="hidden" name="userId" value="@User.Identity.Name" />
                 <button type="submit">Generate PDF</button>
             </form>
+            <form asp-action="GeneratePersonExcel" method="get">
+                <input type="hidden" name="userId" value="@User.Identity.Name" />
+                <button type="submit">Generate Excel</button>
+            </form>
             </div>
             <div class="row align-items-center justify-content-center">
                 <a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Back to Main Page</a>

@@ -12,7 +12,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using iText.Layout.Properties;
 using iText.Kernel.Font;
 using iText.IO.Font.Constants;
-
+using System.IO;
+using OfficeOpenXml;
 
 
 namespace AutonetProjectMVCASP.Controllers
@@ -60,12 +61,12 @@ namespace AutonetProjectMVCASP.Controllers
         private readonly INotyfService _toastNotification;
 
 
-
         public AppointmentsController(ApplicationDbContext db, ILogger<AppointmentsController> logger, INotyfService toastNotification)
         {
             _db = db;
             _logger = logger;
             _toastNotification = toastNotification;
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
         }
 
@@ -464,6 +465,31 @@ namespace AutonetProjectMVCASP.Controllers
                 // Handle IO exceptions
                 return BadRequest("Error generating PDF: " + ex.Message);
             }
+        }
+
+        public byte[] GenerateExcelFile (List<Appointments> data)
+        {
+            using (var package = new ExcelPackage())
+            {
+                var workSheet = package.Workbook.Worksheets.Add("Appointments");
+                workSheet.Cells.LoadFromCollection(data, true);
+                return package.GetAsByteArray();
+            }
+        }
+        [HttpGet]
+        public IActionResult GenerateExcel()
+        {
+            var data = _db.Appointments.ToList();
+            var fileBytes = GenerateExcelFile(data);
+            return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Appointments.xlsx");
+        }
+        [HttpGet]
+        public IActionResult GeneratePersonExcel()
+        {
+            string Name = User.Identity.Name;
+            var data = _db.Appointments.Where(a => a.UserId == Name).ToList();
+            var fileBytes = GenerateExcelFile(data);
+            return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", Name + ".xlsx");
         }
     }
 }
