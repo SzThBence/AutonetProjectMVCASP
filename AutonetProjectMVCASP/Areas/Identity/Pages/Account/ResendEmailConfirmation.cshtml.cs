@@ -7,12 +7,17 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using AutonetProjectMVCASP.Controllers;
+using MailKit.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using MailKit;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace AutonetProjectMVCASP.Areas.Identity.Pages.Account
 {
@@ -76,13 +81,32 @@ namespace AutonetProjectMVCASP.Areas.Identity.Pages.Account
                 pageHandler: null,
                 values: new { userId = userId, code = code },
                 protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(
-                Input.Email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            await SendEmailAsync(Input.Email, "Confirm your email",
+                               $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
             ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
             return Page();
+        }
+
+        public async Task SendEmailAsync(string to, string subject, string body)
+        {
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("carservicemanagerproject@gmail.com", "carservicemanagerproject@gmail.com"));
+            message.To.Add(new MailboxAddress(to, to));
+            message.Subject = subject;
+            
+            var bodyBuilder = new BodyBuilder();
+            bodyBuilder.HtmlBody = body;
+            message.Body = bodyBuilder.ToMessageBody();
+
+            using (var client = new SmtpClient())
+            {
+                client.CheckCertificateRevocation = false;
+                await client.ConnectAsync("smtp.gmail.com", 465, SecureSocketOptions.Auto); // Connect to the SMTP server
+                await client.AuthenticateAsync("carservicemanagerproject@gmail.com", "krwcxbwjwoozckvu"); // Authenticate if required
+                await client.SendAsync(message); // Send the message
+                await client.DisconnectAsync(true); // Disconnect from the SMTP server
+            }
         }
     }
 }

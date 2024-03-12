@@ -5,6 +5,7 @@ using NToastNotify;
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
 using Microsoft.Extensions.Logging;
+using System.Net.Mail;
 
 namespace AutonetProjectMVCASP
 {
@@ -82,6 +83,7 @@ namespace AutonetProjectMVCASP
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+
 
             app.UseNToastNotify();
             app.UseNotyf();

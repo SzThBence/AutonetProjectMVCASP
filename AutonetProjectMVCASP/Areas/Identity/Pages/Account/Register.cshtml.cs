@@ -18,6 +18,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using AutonetProjectMVCASP.Controllers;
+using MailKit.Net.Smtp;
+using MailKit;
+using MimeKit;
+
+using System.Configuration;
+//using System.Net.Mail;
+using System.Net;
+using MailKit.Security;
 
 namespace AutonetProjectMVCASP.Areas.Identity.Pages.Account
 {
@@ -29,13 +39,15 @@ namespace AutonetProjectMVCASP.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly SmtpSettings _smtpSettings;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -43,6 +55,9 @@ namespace AutonetProjectMVCASP.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+
+            _smtpSettings = new SmtpSettings();
+            configuration.GetSection("SmtpSettings").Bind(_smtpSettings);
         }
 
         /// <summary>
@@ -131,8 +146,29 @@ namespace AutonetProjectMVCASP.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    //create the message
+                    await SendEmailAsync(Input.Email, "Confirm your email",
+                                               $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    /*var emailMessage = new MailMessage
+                    {
+                        From = new MailAddress(_smtpSettings.FromAddress),
+                        Subject = "Confirm your email",
+                        Body = $"Please confirm your email by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.",
+                        IsBodyHtml = true,
+                    };
+                    emailMessage.To.Add(user.Email);
+
+                    //recipient of the message
+                    using var client = new SmtpClient();
+                    //google privacy exception stopper, use default credentials
+                    client.UseDefaultCredentials = false;
+                    client.Credentials = new NetworkCredential(_smtpSettings.Username, _smtpSettings.Password);
+                    client.EnableSsl = _smtpSettings.UseSSL;
+                    //send the message
+                    await client.SendMailAsync(emailMessage);*/
+
+                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
@@ -175,6 +211,53 @@ namespace AutonetProjectMVCASP.Areas.Identity.Pages.Account
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
             return (IUserEmailStore<IdentityUser>)_userStore;
+        }
+
+        //private async Task SendConfirmationEmail(IdentityUser user)
+        //{
+        //    var callbackUrl = Url.Page(
+        //        "/Account/ConfirmEmail",
+        //        pageHandler: null,
+        //        values: new { userId = user.Id, code = confirmationCode },
+        //        protocol: Request.Scheme);
+
+        //    var emailMessage = new MailMessage
+        //    {
+        //        From = new MailAddress(_smtpSettings.FromAddress),
+        //        Subject = "Confirm your email",
+        //        Body = $"Please confirm your email by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.",
+        //        IsBodyHtml = true,
+        //    };
+        //    emailMessage.To.Add(user.Email);
+
+        //    using var client = new SmtpClient(_smtpSettings.Server, _smtpSettings.Port)
+        //    {
+        //        Credentials = new NetworkCredential(_smtpSettings.Username, _smtpSettings.Password),
+        //        EnableSsl = _smtpSettings.UseSSL
+        //    };
+
+        //    await client.SendMailAsync(emailMessage);
+        //}
+
+        public async Task SendEmailAsync(string to, string subject, string body)
+        {
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("carservicemanagerproject@gmail.com", "carservicemanagerproject@gmail.com"));
+            message.To.Add(new MailboxAddress(to, to));
+            message.Subject = subject;
+
+            var bodyBuilder = new BodyBuilder();
+            bodyBuilder.HtmlBody = body;
+            message.Body = bodyBuilder.ToMessageBody();
+
+            using (var client = new SmtpClient())
+            {
+                client.CheckCertificateRevocation = false;
+                await client.ConnectAsync(_smtpSettings.Server, 465, SecureSocketOptions.Auto); // Connect to the SMTP server
+                await client.AuthenticateAsync("carservicemanagerproject@gmail.com", "krwcxbwjwoozckvu"); // Authenticate if required
+                await client.SendAsync(message); // Send the message
+                await client.DisconnectAsync(true); // Disconnect from the SMTP server
+            }
         }
     }
 }
