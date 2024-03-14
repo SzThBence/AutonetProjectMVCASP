@@ -6,6 +6,10 @@ using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Net.Mail;
+using Hangfire;
+//using NToastNotify.MessageContainers;
+using AspNetCoreHero.ToastNotification.Containers;
+using NToastNotify.MessageContainers;
 
 namespace AutonetProjectMVCASP
 {
@@ -16,7 +20,7 @@ namespace AutonetProjectMVCASP
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            
             builder.Services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(
                     builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -38,6 +42,17 @@ namespace AutonetProjectMVCASP
                 config.Position = NotyfPosition.BottomRight;
             });
 
+            
+
+
+            builder.Services.AddHangfire(config =>
+            {
+                config.UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+            builder.Services.AddHangfireServer();
+            builder.Services.AddControllersWithViews();
+
+            //Start configuration
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -77,16 +92,22 @@ namespace AutonetProjectMVCASP
             }
 
 
+            //Configure services
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            //roles and users
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
 
-
+            //Notyf
             app.UseNToastNotify();
             app.UseNotyf();
+
+            //Hangfire
+            app.UseHangfireDashboard();
+            app.UseHangfireServer();
 
             app.MapControllerRoute(
                 name: "default",

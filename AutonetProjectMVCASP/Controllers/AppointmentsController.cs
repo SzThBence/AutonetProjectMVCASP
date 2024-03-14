@@ -14,10 +14,22 @@ using iText.Kernel.Font;
 using iText.IO.Font.Constants;
 using System.IO;
 using OfficeOpenXml;
+using MailKit.Security;
+using MimeKit;
+using MailKit;
+using MailKit.Net.Smtp;
+using System.Configuration;
+using System.Net;
+using Hangfire;
+using SendGrid.Helpers.Mail;
 
 
 namespace AutonetProjectMVCASP.Controllers
 {
+
+
+
+
     public class AppointmentsData
     {
         public string Location { get; set; }
@@ -52,6 +64,57 @@ namespace AutonetProjectMVCASP.Controllers
         }
     }
 
+    //From now on always use static methods with hangfire, this piece of garbage tries to instantiate stuff it just can't. After 2 hours of pure hell, it finally works
+    public static class EmailMethods
+    {
+        //also you can't use IConfiguration in hangfire, I baked all the data in for the schedule
+        public static async Task SendEmailAsync(string to, string subject, string body, IConfiguration configuration)
+        {
+            var _smtpSettings = new SmtpSettings();
+            configuration.GetSection("SmtpSettings").Bind(_smtpSettings);
+
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("carservicemanagerproject@gmail.com", "carservicemanagerproject@gmail.com"));
+            message.To.Add(new MailboxAddress(to, to));
+            message.Subject = subject;
+
+            var bodyBuilder = new BodyBuilder();
+            bodyBuilder.HtmlBody = body;
+            message.Body = bodyBuilder.ToMessageBody();
+
+            using (var client = new SmtpClient())
+            {
+                client.CheckCertificateRevocation = false;
+                await client.ConnectAsync(_smtpSettings.Server, _smtpSettings.Port, SecureSocketOptions.Auto); // Connect to the SMTP server
+                await client.AuthenticateAsync("carservicemanagerproject@gmail.com", "krwcxbwjwoozckvu"); // Authenticate if required
+                await client.SendAsync(message); // Send the message
+                await client.DisconnectAsync(true); // Disconnect from the SMTP server
+            }
+        }
+
+        //used specifically with hangfire, always use this with that
+        public static async Task SendEmailAsyncFixed(string to, string subject, string body)
+        {
+           
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("carservicemanagerproject@gmail.com", "carservicemanagerproject@gmail.com"));
+            message.To.Add(new MailboxAddress(to, to));
+            message.Subject = subject;
+
+            var bodyBuilder = new BodyBuilder();
+            bodyBuilder.HtmlBody = body;
+            message.Body = bodyBuilder.ToMessageBody();
+
+            using (var client = new SmtpClient())
+            {
+                client.CheckCertificateRevocation = false;
+                await client.ConnectAsync("smtp.gmail.com", 465, SecureSocketOptions.Auto); // Connect to the SMTP server
+                await client.AuthenticateAsync("carservicemanagerproject@gmail.com", "krwcxbwjwoozckvu"); // Authenticate if required
+                await client.SendAsync(message); // Send the message
+                await client.DisconnectAsync(true); // Disconnect from the SMTP server
+            }
+        }
+    }
 
 
     public class AppointmentsController : Controller
@@ -59,15 +122,27 @@ namespace AutonetProjectMVCASP.Controllers
         private readonly ApplicationDbContext _db;
         private readonly ILogger<AppointmentsController> _logger;
         private readonly INotyfService _toastNotification;
+        private readonly SmtpSettings _smtpSettings;
+        private readonly IConfiguration _configuration;
+        //private readonly EmailController _emailController;
 
 
-        public AppointmentsController(ApplicationDbContext db, ILogger<AppointmentsController> logger, INotyfService toastNotification)
+        public AppointmentsController(ApplicationDbContext db,
+            ILogger<AppointmentsController> logger,
+            INotyfService toastNotification,
+            IConfiguration configuration)
         {
             _db = db;
             _logger = logger;
             _toastNotification = toastNotification;
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
+            _configuration = configuration;
+
+            _smtpSettings = new SmtpSettings();
+            configuration.GetSection("SmtpSettings").Bind(_smtpSettings);
+
+            //_emailController = emailController;
         }
 
 
@@ -81,6 +156,16 @@ namespace AutonetProjectMVCASP.Controllers
 
             //create list of locations
             IEnumerable<Models.Locations> loc = _db.Locations;
+
+            //testing for hangfire
+            //if ((User != null) && (User.Identity.IsAuthenticated))
+            //{
+            //    var mailSubject = $"Welcome " + User.Identity.Name;
+            //    var mailBody = $"<p>Thanks for join us!</p>";
+            //    var jobId = BackgroundJob.Schedule(() => EmailMethods.SendEmailAsyncFixed(User.Identity.Name, mailSubject, mailBody), TimeSpan.FromSeconds(10));
+
+            //}
+
 
             return View(loc);
         }
@@ -178,6 +263,21 @@ namespace AutonetProjectMVCASP.Controllers
 
             if (ModelState.IsValid)
             {
+                // Schedule email reminder
+                var reminderTime = obj.Time.AddDays(-1); // Send reminder one day before the appointment
+                var subject = "Reminder: Appointment Tomorrow";
+                var body = $"This is a reminder that your appointment is scheduled for {obj.Time.ToString("dddd, MMMM dd, yyyy HH:mm")}.";
+
+                //get the email we use
+                var email = obj.UserId;
+
+                //SendEmailAsync(email, subject, body);
+
+
+                BackgroundJob.Schedule(() => EmailMethods.SendEmailAsync(email, subject, body,_configuration),
+                    reminderTime);
+
+                //Save appointment to database
                 _db.Appointments.Add(obj);
                 _db.SaveChanges();
                 _toastNotification.Success("Creation Successful!", 3);
@@ -196,6 +296,43 @@ namespace AutonetProjectMVCASP.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                // Schedule email
+                var subjectNow = "New Appointment";
+                var bodyNow = $"You have created a new appointment, which will start at {obj.Time.ToString("dddd, MMMM dd, yyyy HH:mm")}.";
+
+                //get the email we use
+                var email = obj.UserId;
+
+                //Send creation confirmation
+                EmailMethods.SendEmailAsync(email, subjectNow, bodyNow, _configuration);
+
+                // Schedule email reminder
+
+                DateTime reminderTime = obj.Time.AddDays(-1); // Send reminder one day before the appointment
+                //reminderTime = reminderTime.AddHours(2); // No need for this, i had a different kind of problem
+                var subject = "Reminder: Appointment Tomorrow";
+                var body = $"This is a reminder that your appointment is scheduled for {obj.Time.ToString("dddd, MMMM dd, yyyy HH:mm")}.";
+
+                
+
+                //schedule the email
+                obj.JobId = BackgroundJob.Schedule(() => EmailMethods.SendEmailAsyncFixed(email, subject, body),
+                    reminderTime);
+
+                //Testing code, if everything starts to break down again
+                //DateTime testTime1 = DateTime.Now;
+                //testTime1 = testTime1.AddMinutes(1);
+                //obj.JobId = BackgroundJob.Schedule(() => EmailMethods.SendEmailAsyncFixed(email, "Test1", "No compensation"),
+                //    testTime1);
+
+                //DateTime testTime2 = DateTime.Now;
+                //testTime2 = testTime2.AddHours(2);
+                //testTime2 = testTime2.AddMinutes(1);
+                //obj.JobId = BackgroundJob.Schedule(() => EmailMethods.SendEmailAsyncFixed(email, "Test2", "2 hour compensation"),
+                //    testTime2);
+
+                //save appointment to database
                 _db.Appointments.Add(obj);
                 _db.SaveChanges();
                 _toastNotification.Success("Creation Successful!", 3);
@@ -221,7 +358,7 @@ namespace AutonetProjectMVCASP.Controllers
                 return NotFound();
             }
 
-
+            
 
             //_db.Appointments.Remove(obj);
             //_db.SaveChanges();
@@ -238,7 +375,19 @@ namespace AutonetProjectMVCASP.Controllers
         public IActionResult Remove(Appointments obj)
         {
 
+            // Schedule email
+            var subjectNow = "Appointment Deletion";
+            var bodyNow = $"You have deleted an appointment with the following start time:{obj.Time.ToString("dddd, MMMM dd, yyyy HH:mm")}.";
+
+            //get the email we use
+            var email = obj.UserId;
+
+            //Send creation confirmation
+            EmailMethods.SendEmailAsync(email, subjectNow, bodyNow,_configuration);
+
             string loc = obj.Location;
+
+            BackgroundJob.Delete(obj.JobId);
 
             _db.Appointments.Remove(obj);
             _db.SaveChanges();
@@ -491,5 +640,8 @@ namespace AutonetProjectMVCASP.Controllers
             var fileBytes = GenerateExcelFile(data);
             return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", Name + ".xlsx");
         }
+
+        
+
     }
 }

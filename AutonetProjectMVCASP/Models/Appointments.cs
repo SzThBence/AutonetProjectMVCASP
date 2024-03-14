@@ -17,6 +17,7 @@ namespace AutonetProjectMVCASP.Models
         [ForeignKey("Employees")]
         public int EmployeeId { get; set; }
 
+        public string? JobId {  get; set; }
         public override string ToString() 
         {
             return Name + " " + Time + " " + Location + " " + UserId + " " + EmployeeId;
