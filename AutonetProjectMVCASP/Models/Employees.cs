@@ -11,6 +11,7 @@ namespace AutonetProjectMVCASP.Models
         [Required]
         public string? Surname { get; set; }
         public string? Job { get; set; }
+        // Property to store the path of the uploaded image
         public string? ImagePath { get; set; }
 
         // Navigation property for many-to-many relationship

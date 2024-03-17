@@ -10,41 +10,34 @@
 <div class="containercontact">
     @if (Model.Count() == 0)
     {
-        <h2 class="text-center" style="color:antiquewhite">No Employees Found</h2>
+        <h2 class="text-center" style="color: antiquewhite">No Employees Found</h2>
     }
     else
     {
         <h2 class="text-center">Employees</h2>
         @foreach (var person in Model)
         {
-            img = @person.ImagePath;
-
             <div class="cardscontact bg-dark">
-                <div class="employee_image @img" style="width:100%; height:200px; align-content:center"></div>
+                <div class="image-wrapper">
+                    <img src="@Url.Content(person.ImagePath)" class="employee-image" alt="Employee Image" />
+                </div>
+                
                 <div class="card__content">
                     <h3 class="card__title">@person.Surname @person.Name</h3>
                     <div class="card__text">
                         Job: @person.Job
                     </div>
                     <div class="card__info">
-                        @if (LoggedIn && (User.IsInRole("Admin") || User.IsInRole("Boss")) )
+                        @if (LoggedIn && (User.IsInRole("Admin") || User.IsInRole("Boss")))
                         {
                             <br />
-
                             <a asp-action="Edit" class="btn btn-warning" asp-route-id="@person.Id">Edit</a>
                             <a asp-action="Remove" class="btn btn-danger" asp-route-id="@person.Id">Delete</a>
                         }
                     </div>
                 </div>
             </div>
-
-            counter++;
-            if (counter > 8)
-            {
-                counter = 1;
-            }
         }
-    
     }
 </div>
 
