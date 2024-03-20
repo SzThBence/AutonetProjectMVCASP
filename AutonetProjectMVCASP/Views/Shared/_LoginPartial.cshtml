@@ -18,29 +18,12 @@
     
     @if (SignInManager.IsSignedIn(User))
     {
-            @if (isAdmin)
-        {
-            <li class="nav-item">
-                <a class="nav-link">Admin</a>
-            </li>
-        }
-            else if (isUser)
-        {
-            <li class="nav-item">
-                    <a class="nav-link">User</a>
-            </li>
-        }
-        else
-        {
-            <li class="nav-item">
-                <a class="nav-link">Something's wrong</a>
-            </li>
-        }
+        
 
-            @if (isAdmin)
+        @if (isAdmin)
         {
             <li class="nav-item">
-                    <a id="admin" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index">Welcome Big ADMIN MAN</a>
+                    <a id="admin" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index">Hello @UserManager.GetUserName(User)! - Admin mode activated</a>
             </li>
         }
         else

@@ -5,6 +5,7 @@ using NToastNotify;
 using Microsoft.Extensions.Logging;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutonetProjectMVCASP.Controllers
 {
@@ -112,27 +113,59 @@ namespace AutonetProjectMVCASP.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Employees obj)
+        public IActionResult Edit(int id, Employees updatedEmployee, IFormFile imageFile)
         {
-            if (obj.Name == null)
+            if (id != updatedEmployee.Id)
             {
-                ModelState.AddModelError("Name", "The name field is required");
-            }
-
-            if (obj.Surname == null)
-            {
-                ModelState.AddModelError("Surname", "The surname field is required");
+                return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                _db.Employees.Update(obj);
-                _db.SaveChanges();
-                _toastNotification.Success("Edit Successful!", 3);
-                return RedirectToAction("Index");
+                try
+                {
+                    var existingEmployee = _db.Employees.Find(id);
+
+                    if (existingEmployee == null)
+                    {
+                        return NotFound();
+                    }
+
+                    existingEmployee.Name = updatedEmployee.Name;
+                    existingEmployee.Surname = updatedEmployee.Surname;
+                    existingEmployee.Job = updatedEmployee.Job;
+
+                    if (imageFile != null && imageFile.Length > 0)
+                    {
+                        // Save the uploaded image file to a directory or store it in the database
+                        var imagePath = Path.Combine("images", imageFile.FileName);
+                        using (var stream = new FileStream(Path.Combine(_hostingEnvironment.WebRootPath, imagePath), FileMode.Create))
+                        {
+                            imageFile.CopyTo(stream);
+                        }
+                        existingEmployee.ImagePath = imagePath;
+                    }
+                    else
+                    {
+                        _toastNotification.Error("Please select an image file", 3);
+                        ModelState.AddModelError("ImageFile", "Please select an image file");
+                    }
+
+                    _db.SaveChanges();
+                    _toastNotification.Success("Edit Successful!", 3);
+                    return RedirectToAction("Index");
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    // Handle concurrency exception if necessary
+                    _toastNotification.Error("Concurrency error occurred!", 3);
+                    return View(updatedEmployee);
+                }
             }
 
-            return View(obj);
+            _toastNotification.Error("Edit Failed!", 3);
+            // If ModelState is not valid, return to the edit view with errors
+            return View(updatedEmployee);
         }
         [HttpGet]
         public IActionResult Remove(int? id)

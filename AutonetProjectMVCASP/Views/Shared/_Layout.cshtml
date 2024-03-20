@@ -2,6 +2,19 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
+
+    var user = UserManager.GetUserAsync(User).Result;
+    var isAdmin = user != null && (await UserManager.IsInRoleAsync(user, "Admin"));
+    var isUser = user != null && (await UserManager.IsInRoleAsync(user, "User"));
+    var isArchitect = user != null && (await UserManager.IsInRoleAsync(user, "Admin"));
+    var isBoss = user != null && (await UserManager.IsInRoleAsync(user, "User"));
+}
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,7 +22,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/AutonetProjectMVCASP.styles.css" asp-append-version="true" />
-
+    
 </head>
 <body>
     <header>
@@ -42,28 +55,12 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Privacy">Contact</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Users">All Users</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a href="#"
-                               class="nav-link dropdown-toggle custom-nav-link"
-                               id="navbarDropdown"
-                               role="button"
-                               data-bs-toggle="dropdown"
-                               aria-expanded="false">Language</a>
-                            <ul class="dropdown-menu dropdown-menu-dark bg-dark pe-2" aria-labelledby="navbarDropdown">
-                                <li>
-                                    <a href="#" class="dropdown-item custom-nav-link disabled">Română</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="dropdown-item custom-nav-link disabled">Magyar</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="dropdown-item custom-nav-link">English</a>
-                                </li>
-                            </ul>
-                        </li>
+                        @if (isAdmin)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Users">All Users</a>
+                            </li>
+                        }
 
                         <partial name="_LoginPartial" />
                     </ul>

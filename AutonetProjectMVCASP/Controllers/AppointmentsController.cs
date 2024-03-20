@@ -197,34 +197,7 @@ namespace AutonetProjectMVCASP.Controllers
         {
             return View();
         }
-        [HttpGet]
-        public IActionResult CreateWithData(LocDateData info)
-        {
-            //ViewBag.DateData = date;
-            var model = new Appointments
-            {
-                Location = info.Location,
-                Time = info.Date
-            };
-
-            // Retrieve the list of Employees from the database
-            var locationEmployees = _db.LocationEmployees
-                                    .Where(le => le.LocationPlace == info.Location)
-                                    .Select(le => new
-                                    {
-                                        // Select only the properties you need
-                                        Id = le.EmployeeId,
-                                        Name = le.Employee.Name,
-                                        Surname = le.Employee.Surname
-                                    })
-                                    .ToList();
-
-            // Ensure ViewBag.Employees is initialized
-            ViewBag.Employees = locationEmployees;
-
-
-            return View(model);
-        }
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -290,6 +263,35 @@ namespace AutonetProjectMVCASP.Controllers
 
         }
 
+        [HttpGet]
+        public IActionResult CreateWithData(LocDateData info)
+        {
+            //ViewBag.DateData = date;
+            var model = new Appointments
+            {
+                Location = info.Location,
+                Time = info.Date
+            };
+
+            // Retrieve the list of Employees from the database
+            var locationEmployees = _db.LocationEmployees
+                                    .Where(le => le.LocationPlace == info.Location)
+                                    .Select(le => new
+                                    {
+                                        // Select only the properties you need
+                                        Id = le.EmployeeId,
+                                        Name = le.Employee.Name,
+                                        Surname = le.Employee.Surname
+                                    })
+                                    .ToList();
+
+            // Ensure ViewBag.Employees is initialized
+            ViewBag.Employees = locationEmployees;
+
+
+            return View(model);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateWithData(Appointments obj)
@@ -346,6 +348,9 @@ namespace AutonetProjectMVCASP.Controllers
         [HttpGet]
         public IActionResult Remove(int? id)
         {
+            //ViewBag.DateData = date;
+            
+
             if (id == null || id == 0)
             {
                 return NotFound();
@@ -357,8 +362,15 @@ namespace AutonetProjectMVCASP.Controllers
             {
                 return NotFound();
             }
+            // Retrieve the list of Employees from the database
+            var locationEmployee = _db.Employees.Where(e => e.Id == obj.EmployeeId).FirstOrDefault().Name != null ? 
+                _db.Employees.Where(e => e.Id == obj.EmployeeId).FirstOrDefault().Name : 
+                "No Employee Associated With This Appointment";
 
-            
+            // Ensure ViewBag.Employees is initialized
+            ViewBag.locationEmployee = locationEmployee;
+
+
 
             //_db.Appointments.Remove(obj);
             //_db.SaveChanges();

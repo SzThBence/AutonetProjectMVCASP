@@ -29,7 +29,7 @@ else
                         Mon-Fri: @loc.StartTime.Hour:00 - @loc.EndTime.Hour:00 <br />
                         Sat-Sun: Closed
                     </div>
-                    <div class="card__info"><br /><a class="btn btn-primary" asp-controller="Locations" asp-action="Details" asp-route-place="@loc.Place">Details</a></div>
+                    <div class="card__info"><br /><a class="btn btn-primary mb-2" asp-controller="Locations" asp-action="Details" asp-route-place="@loc.Place">Details</a></div>
                     @if (LoggedIn && (User.IsInRole("Admin") || User.IsInRole("Architect")))
                     {
                         <a asp-action="Edit" class="btn btn-warning" asp-route-id="@loc.Place">Edit</a>
