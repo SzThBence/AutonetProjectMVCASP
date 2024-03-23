@@ -141,6 +141,10 @@ div h1 {
     overflow-x: auto; /* Allow horizontal scroll if needed */
 }
 
+    .navbar-collapse.collapsing ul {
+        background-color: #212529 !important;
+        border: solid 2px #ff6000 !important;
+    }
 .navbar {
     width: auto !important;
 }
