@@ -7,16 +7,16 @@
 }
 
 
-<div class="containercontact">
+<div class="container-fluid align-items-center justify-content-evenly p-0">
     @if (Model.Count() == 0)
     {
         <h2 class="text-center" style="color: antiquewhite">No Employees Found</h2>
     }
     else
     {
-        <div class="container align-items-center justify-content-evenly">
+        
             <div class="row align-items-center justify-content-evenly pb-5">
-                <div class="col-4 align-items-center justify-content-evenly">
+            <div class="col-4 align-items-center justify-content-evenly text-center">
                     <h1 class="text-center"> Employees</h1>
                 </div>
 
@@ -42,20 +42,22 @@
                         <div class="card__text">
                             Job: @person.Job
                         </div>
+                                @if (LoggedIn && (User.IsInRole("Admin") || User.IsInRole("Boss")))
+                                {
                         <div class="card__info">
-                            @if (LoggedIn && (User.IsInRole("Admin") || User.IsInRole("Boss")))
-                            {
+                            
                                 <br />
                                 <a asp-action="Edit" class="btn btn-warning" asp-route-id="@person.Id">Edit</a>
                                 <a asp-action="Remove" class="btn btn-danger" asp-route-id="@person.Id">Delete</a>
-                            }
+                           
                         </div>
+                                    }
                     </div>
                 </div>
             }
             </div>
             </div>
-            </div>
+            
 
     }
 </div>
