@@ -101,16 +101,14 @@ div h1 {
     border-color: #ff6000 !important;
 }
 
-.small-menu{
+.nav-item{
     justify-content: center;
     align-items: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
 
 }
 
 
-.navbar-collapse {
+.navbar-collapse.collapse {
     border: none !important;
     flex-basis: 100%;
     flex-grow: 1;
@@ -118,19 +116,30 @@ div h1 {
 }
 
     /* Show border when navbar is expanded */
-    .navbar-collapse.show {
-        border: none !important;
-        align-items: end;
-        justify-content: end;
-        background: none !important;
+.navbar-collapse.show {
+    background-color: transparent !important;
+    display: flex;
+    align-items: flex-end; /* Align items to the end */
+    justify-content: flex-end; /* Align items to the end */
+    flex-basis: 100%; /* Auto width */
+    flex-grow: 1;
+    overflow-x: auto; /* Allow horizontal scroll if needed */
+}
+
+    .navbar-collapse.show ul {
+        background-color: #212529 !important;
+        border: solid 2px #ff6000 !important;
     }
-    .navbar-collapse.collapsing
-    {
-        border: none !important;
-        align-items: end;
-        justify-content: end;
-        background: none !important;
-    }
+
+.navbar-collapse.collapsing {
+    background-color: transparent !important;
+    display: flex;
+    align-items: flex-end; /* Align items to the end */
+    justify-content: flex-end; /* Align items to the end */
+    flex-basis: 100%; /* Auto width */
+    flex-grow: 1;
+    overflow-x: auto; /* Allow horizontal scroll if needed */
+}
 
 .navbar {
     width: auto !important;

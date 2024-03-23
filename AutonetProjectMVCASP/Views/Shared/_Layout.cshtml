@@ -26,8 +26,8 @@
 </head>
 <body>
     <header>
-        <nav class="navbar fixed-top navbar-expand-xxl navbar-dark bg-dark border border-bottom d-flex">
-            <div class="container-fluid bg-dark">
+        <nav class="navbar fixed-top navbar-expand-xxl navbar-dark bg-dark">
+            <div class="container-fluid">
                 <a class="navbar-brand mb-0 h1 custom-title" style="color:#ff6000" asp-controller="Home" asp-action="Index">Car Service Booking</a>
                 <button type="button"
                         class="navbar-toggler"
@@ -38,13 +38,8 @@
                         aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
-                <div class="collapse navbar-collapse justify-content-md-center bg-dark" id="navbarNav">
-                    
-                    <ul class="navbar-nav align-content-end align-items-end">
-                        <div class="bg-dark align-content-end align-items-end text-center small-menu border border-2 border-custom">
-
-                       
+                <div class="collapse navbar-collapse justify-content-end bg-dark" id="navbarNav">
+                    <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
@@ -68,7 +63,6 @@
                         }
 
                         <partial name="_LoginPartial" />
-                        </div>
                     </ul>
                 </div>
             </div>
