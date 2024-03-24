@@ -37,20 +37,27 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group mt-2">
+                        <div class="form-group mt-2 mb-2">
                             <button id="login-submit" type="submit" class="btn btn-primary">Log in</button>
                         </div>
-                        <div class="form-group mt-2">
-                            <p>
-                                <a id="forgot-password" style="color:white" asp-page="./ForgotPassword">Forgot your password?</a>
-                            </p>
-                            <p>
-                                <a style="color:white" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                            </p>
-                            <p>
-                                <a style="color:white" id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                            </p>
+                        <div class="card-footer">
+                            <div class="form-group mt-2">
+                                <div class="row align-items-center pb-3">
+                                    <div class="col-12">
+                                        <a class="hover_grey" style="color:white" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-12 pb-lg-0 pb-3">
+                                        <a class="hover_grey" id="forgot-password" style="color:white" asp-page="./ForgotPassword">Forgot your password?</a>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <a class="hover_grey" style="color:white" id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        
                     </form>
                 </div>
             </div>

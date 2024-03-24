@@ -69,6 +69,7 @@ div h1 {
     background: rgb(33, 37, 41);
     color: white;
     border-radius: 5px;
+    border: solid
 }
 
     .appointmentsTable th {
@@ -129,6 +130,7 @@ div h1 {
     .navbar-collapse.show ul {
         background-color: #212529 !important;
         border: solid 2px #ff6000 !important;
+        padding: 1px 10px 1px 10px;
     }
 
 .navbar-collapse.collapsing {
@@ -144,6 +146,7 @@ div h1 {
     .navbar-collapse.collapsing ul {
         background-color: #212529 !important;
         border: solid 2px #ff6000 !important;
+        padding: 1px 10px 1px 10px;
     }
 .navbar {
     width: auto !important;
@@ -461,3 +464,34 @@ body {
     margin-top: auto;
 }
 
+.hover_grey {
+    color: white;
+    border-radius: 25px;
+    transition: 0.5s;
+    padding: 10px;
+}
+
+    .hover_grey:hover {
+        background-color: rgba(175, 175, 175, 0.1);
+        color: white;
+        border-radius: 25px;
+        padding: 10px;
+
+    }
+
+.hover_text_red {
+    color:rgba(255,0,0,.7) ;
+    background-color: transparent !important;
+    border: none;
+    padding:0.5rem;
+    transition: 0.5s;
+}
+
+    .hover_text_red:hover {
+        background-color: transparent !important;
+        border: none;
+        padding: 0;
+        color: darkred;
+        border-radius: 25px;
+        padding: 0.5rem;
+    }

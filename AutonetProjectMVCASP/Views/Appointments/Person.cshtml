@@ -10,14 +10,16 @@
     <div class="card bg-dark text-white">
         <div class="card-header">
             <div class="row align-items-center justify-content-center">
-                <h1>Appointments associated with this account</h1>
+                <div class="col-lg-10 col-sm-12 text-center">
+                    <div>
+                        <h1>Appointments associated with this account</h1>
+                    </div>
             </div>
         </div>
         <div class="card-body">
             <div class="row align-items-center justify-content-center">
                 <div class="col-lg-10 col-sm-12">
-
-
+                    what
                     <table class="table appointmentsTable">
                         <thead>
                         <th>
@@ -79,9 +81,13 @@
                 </div>
             </div>
            </div>
-        <div class="card-footer pt-3">
-            <div>
-                <h2>Export Options</h2>
+        </div>
+    <div class="card bg-dark text-white">
+        <div class="card-body pt-3">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12 text-center">
+                    <h2>Export Options</h2>
+                </div>
             </div>
             <div class="row pt-3">
                 <form asp-action="GeneratePdf" method="get">
