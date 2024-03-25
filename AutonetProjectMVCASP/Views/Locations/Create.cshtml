@@ -59,10 +59,12 @@
                                 {
                                     foreach (var employee in ViewBag.Employees)
                                     {
-                                        <div>
-                                            <input type="checkbox" name="employeeIds" value="@employee.Id" />
+                                        
+                                            <div class="checkbox-wrapper-2">
+                                            <input class="sc-gJwTLC ikxBAC" type="checkbox" name="employeeIds" value="@employee.Id" />
                                             <label>@employee.Name</label>
-                                        </div>
+                                            </div>
+                                        
                                     }
                                 }
                                 <span asp-validation-for="LocationEmployees" class="text-danger"></span>
