@@ -14,7 +14,7 @@ using System.IO;
 using System.Linq;
 using AutonetProjectMSTEST;
 
-namespace AutonetProjectMVCASP.Tests
+namespace AutonetProjectMSTEST
 {
     
 
