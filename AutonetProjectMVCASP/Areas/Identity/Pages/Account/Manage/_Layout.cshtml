@@ -9,20 +9,53 @@
     }
 }
 
-<h1>Manage your account</h1>
+<style>
+    .card{
+        margin-bottom: 25px;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 10px;
+        color: white;
+        border-radius: 25px;
+        box-sizing: border-box;
+        overflow: hidden;
+        border: 3px solid white;
+        /*    min-height: 320px;*/
 
-<div>
-    <h2>Change your account settings</h2>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
-            <partial name="_ManageNav" />
+
+        box-shadow: 8px 8px 0px rgb(128, 128, 128) !important;
+        transition: 0.5s;
+    }
+
+    .card:hover {
+        box-shadow: 8px 8px 0px rgb(175, 175, 175) !important;
+    }
+</style>
+
+
+<div class="container-fluid d-inline align-items-center justify-content-center">
+    
+        <div class="card text-white bg-dark mx-auto" style="min-width: auto; max-width:auto">
+        <div class="card-body">
+            <h1>Manage your account</h1>
+
+
+            <h2 style="padding: 0px 5px 0px 5px">Change your account settings</h2>
+                <hr />
+                <div class="row">
+                <div class="col-md-3" style="border-right:1px solid rgba(255,255,255,.20)">
+                        <partial name="_ManageNav" />
+                    </div>
+                    <div class="col-md-9">
+                        @RenderBody()
+                    </div>
+                </div>
+            
         </div>
-        <div class="col-md-9">
-            @RenderBody()
-        </div>
-    </div>
+    
 </div>
+
+
 
 @section Scripts {
     @RenderSection("Scripts", required: false)
