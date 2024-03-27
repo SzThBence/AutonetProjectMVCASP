@@ -5,7 +5,7 @@ VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutonetProjectMVCASP", "AutonetProjectMVCASP\AutonetProjectMVCASP.csproj", "{0A38724E-C843-40FD-96CF-01B8AD9C1AA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutonetProjectMSTEST", "AutonetProjectMSTEST\AutonetProjectMSTEST.csproj", "{E401F711-F29C-4003-AA8F-64B3580FF8DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutonetProjectMSTEST", "AutonetProjectMSTEST\AutonetProjectMSTEST.csproj", "{E401F711-F29C-4003-AA8F-64B3580FF8DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

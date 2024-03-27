@@ -388,7 +388,7 @@ body {
     transition: 0.5s;
 }
 
-    .cardscontact_no_size :hover {
+    .cardscontact_no_size:hover {
         box-shadow: 8px 8px 0px rgb(175, 175, 175) !important;
     }
 
@@ -428,6 +428,22 @@ body {
     transition: 0.5s;
 }
 
+.bigmap:hover {
+    box-shadow: 8px 8px 0px rgb(175, 175, 175) !important;
+}
+
+.bigmap_map {
+    width: 100%;
+    padding: 10px;
+    color: white;
+    border-radius: 25px;
+    box-sizing: border-box;
+    overflow: auto;
+    border: 3px solid white;
+    min-height: 320px;
+    text-align: center;
+    transition: 0.5s;
+}
     
 
 

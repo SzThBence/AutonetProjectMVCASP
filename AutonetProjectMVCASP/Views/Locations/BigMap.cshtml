@@ -9,9 +9,10 @@
     int counter = 1;
     string img = "image1";
 
+
 }
 
-<h1>BigMap</h1>
+
 
 
     <div class="containercontact">
@@ -19,8 +20,8 @@
             
 
             <div class="bigmap bg-dark">
-                <h2>Map of all locations</h2>
-                <div id="bigmap" style="height: 80vh;"></div>
+                <h1>Map of all locations</h1>
+                <div class="bigmap_map" id="bigmap" style="height: 80vh;"></div>
             </div>
             
     
@@ -56,51 +57,67 @@
             @:id: '@img',
             @:latitude: @loc.Latitude,
             @:longitude: @loc.Longitude,
-            @:place: '@loc.Place'
+            @:place: '@loc.Place',
+            @:startTime: @loc.StartTime.ToString("HH"),
+            @:endTime: @loc.EndTime.ToString("HH")
             @:});
             counter++;
 
         }
 
             function initializeMaps() {
-                
-                    var map = new google.maps.Map(document.getElementById('bigmap'), {
-                        center: { lat: 0, lng: 0 },
-                        zoom: 3
-                    });
 
-                    
+
+                var map = new google.maps.Map(document.getElementById('bigmap'), {
+                    center: { lat: 0, lng: 0 },
+                    zoom: 3
+                });
+
                 locations.forEach(function (loc) {
-                    
+
+
+                    var markerIcon = {
+                        url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                        scaledSize: new google.maps.Size(30, 30),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(25, 50)
+                    };
+
                     var marker = new google.maps.Marker({
                         position: { lat: loc.latitude, lng: loc.longitude },
                         map: map,
-                        title: loc.place,
-                                label: {
-                            text: loc.place,
-                            color: 'white', // Label text color
-                            fontSize: '14px', // Label font size
-                            fontWeight: 'bold' // Label font weight
-                            //anchor: new google.maps.Point(0.5, -20) // Adjust the y-coordinate (-20) to position the labe
-                        }
+                        icon: markerIcon,
                     });
 
+
+                    var contentString = `
+                    <h3 class="card__title" style="color:black">${loc.place}</h3>
+                    <div class="card__text" style="color:black">
+                        Mon-Fri: ${loc.startTime}:00 - ${loc.endTime}:00 <br />
+                        Sat-Sun: Closed
+                    </div>
+                `;
+
                     var infowindow = new google.maps.InfoWindow({
-                        content: loc.place, // Display the place name as the label
-                        color: 'black'
+                        content: contentString,
                     });
 
                     marker.addListener('click', function () {
                         window.location.href = '/Locations/Details?place=' + encodeURIComponent(loc.place);
                     });
-                    
+
+                    marker.addListener('mouseover', function () {
+                        infowindow.open(map, marker);
+                    });
+
+                    marker.addListener('mouseout', function () {
+                        infowindow.close();  // Close the infowindow when mouse is moved away from the marker
+                    });
+
                     console.log('Map initialized for:', loc.place);
                 });
-
-
             }
 
-        // Call the initialization function after the Google Maps API has loaded
         function initMap() {
             console.log('Google Maps API loaded');
             initializeMaps();
