@@ -8,7 +8,9 @@
     string img = "image1";
 
 }
-<div class="container pt-4 d-flex flex-column align-items-center justify-content-center">
+<h1 class="text-center col-2 mb-3" style="background-color: rgba(33, 37, 41, 0.7) ">Locations</h1>
+
+<div class="container pt-4 d-inline-block align-items-center justify-content-center">
 
 
     @if (Model.Count() == 0)
@@ -17,14 +19,14 @@
     }
     else
     {
-        <h1 class="text-center col-2 mb-3" style="background-color: rgba(33, 37, 41, 0.7) ">Locations</h1>
-        <div class="containercontact">
+        
+        
             @foreach (var loc in Model)
             {
                 img = "image" + counter;
 
                 <div class="cardscontact bg-dark">
-                    <div id="@img" style="height: 200px;"></div>
+                    <div id="@img" style="height: 200px; border-radius:25px"></div>
                     <div class="card__content">
                         <h3 class="card__title">@loc.Place</h3>
                         <div class="card__text">
@@ -59,7 +61,7 @@
                 counter++;
 
             }
-        </div>
+        
 
     }
     <div class="row justify-content-center pt-3">
