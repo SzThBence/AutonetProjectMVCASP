@@ -185,7 +185,7 @@ namespace AutonetProjectMVCASP.Controllers
             return View(obj);
         }
 
-        [HttpDelete]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Remove(Employees obj)
         {

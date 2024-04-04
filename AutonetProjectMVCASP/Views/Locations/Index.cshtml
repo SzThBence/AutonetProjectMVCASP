@@ -8,18 +8,20 @@
     string img = "image1";
 
 }
-<h1 class="text-center col-2 mb-3" style="background-color: rgba(33, 37, 41, 0.7) ">Locations</h1>
 
-<div class="container pt-4 d-inline-block align-items-center justify-content-center">
 
 
     @if (Model.Count() == 0)
     {
-        <h2 class="text-center" style="color:antiquewhite">No Locations Found</h2>
+        <div class="container pt-4 d-inline-block align-items-center justify-content-center">
+            <h2 class="text-center" style="color:antiquewhite">No Locations Found</h2>
+        </div>
     }
     else
     {
-        
+        <h1 class="text-center col-2 mb-3" style="background-color: rgba(33, 37, 41, 0.7) ">Locations</h1>
+
+        <div class="container pt-4 d-inline-block align-items-center justify-content-center">
         
             @foreach (var loc in Model)
             {
@@ -61,6 +63,7 @@
                 counter++;
 
             }
+            </div>
         
 
     }
@@ -78,9 +81,10 @@
             <a asp-action="BigMap" class="btn btn-secondary">Big Map</a>
         </div>
     </div>
-</div>
 
-@section Scripts {
+
+@section Scripts 
+{
     <script>
         var locations = [];
 

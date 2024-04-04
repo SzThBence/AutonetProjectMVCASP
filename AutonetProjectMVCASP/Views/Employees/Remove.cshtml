@@ -34,6 +34,9 @@
                     <hr/>
                     <form asp-action="Remove">
                         <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="Name" />
+                        <input type="hidden" asp-for="Surname" />
+                        <input type="hidden" asp-for="LocationEmployees" />
                         <input type="submit" value="Delete" class="btn btn-danger" /> |
                         <a class="btn btn-secondary" href='javascript:history.go(-1)'>Go Back</a>
                     </form>
