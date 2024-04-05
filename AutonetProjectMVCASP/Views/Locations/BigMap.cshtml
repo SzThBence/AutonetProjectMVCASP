@@ -113,7 +113,8 @@
                     });
 
                     marker.addListener('click', function () {
-                        window.location.href = '/Locations/Details?place=' + encodeURIComponent(loc.place);
+                        var encodedPlace = encodeURIComponent(loc.place).replace('%26%23x27%3B', '%27');
+                        window.location.href = '/Locations/Details?place=' + encodedPlace;
                     });
 
                     marker.addListener('mouseover', function () {
