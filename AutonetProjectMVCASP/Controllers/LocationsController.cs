@@ -7,6 +7,7 @@ using NToastNotify;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace AutonetProjectMVCASP.Controllers
@@ -131,6 +132,7 @@ namespace AutonetProjectMVCASP.Controllers
             IEnumerable<Models.Locations> obj = _db.Locations;
             return View(obj);
         }
+
         [HttpGet]
         public IActionResult Edit(string? id)
         {
@@ -147,21 +149,29 @@ namespace AutonetProjectMVCASP.Controllers
                 return NotFound();
             }
 
+            // Retrieve the list of Employees from the database
+            var employees = _db.Employees?.ToList();
+
+            // Ensure ViewBag.Employees is initialized
+            ViewBag.Employees = employees ?? new List<Employees>();
+
             return View(obj);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Locations obj,List<int> employeeIds)
+        public IActionResult Edit(Locations obj, List<int> employeeIds)
         {
-            obj.LocationEmployees = new List<LocationEmployee>();
-            if (obj.Equals(null))
+            if (obj == null)
             {
                 return NotFound();
             }
+
             if (Math.Abs(obj.Latitude) > 90)
             {
                 ModelState.AddModelError("Latitude", "The latitude must be valid");
             }
+
             if (Math.Abs(obj.Longitude) > 180)
             {
                 ModelState.AddModelError("Longitude", "The longitude must be valid");
@@ -169,8 +179,13 @@ namespace AutonetProjectMVCASP.Controllers
 
             if (ModelState.IsValid)
             {
-                _db.Locations.Add(obj);
-                _db.SaveChanges();
+                // Update the existing Location object
+                _db.Entry(obj).State = EntityState.Modified;
+
+                // Remove existing LocationEmployees for the Location
+                var existingLocationEmployees = _db.LocationEmployees.Where(le => le.LocationPlace == obj.Place).ToList();
+                _db.LocationEmployees.RemoveRange(existingLocationEmployees); //first make the menu option for it
+
                 // Add the selected Employees to the Location
                 if (employeeIds != null && employeeIds.Any())
                 {
@@ -178,20 +193,17 @@ namespace AutonetProjectMVCASP.Controllers
                     {
                         var locationEmployee = new LocationEmployee
                         {
-                            LocationPlace = obj.Place, // Assuming Place is the primary key of Locations
+                            LocationPlace = obj.Place,
                             EmployeeId = employeeId
                         };
-                        //obj.LocationEmployees.Add(locationEmployee);
                         _db.LocationEmployees.Add(locationEmployee);
-
                     }
-                    _db.SaveChanges();
                 }
-                _toastNotification.Success("Creation Successful!", 3);
+
+                _db.SaveChanges();
+                _toastNotification.Success("Editing Successful!", 3);
                 return RedirectToAction("Index");
             }
-
-
 
             return View(obj);
         }
