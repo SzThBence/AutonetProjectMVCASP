@@ -58,7 +58,8 @@ namespace AutonetProjectMVCASP.Controllers
                                     .Select(le => new
                                     {
                                         // Select only the properties you need
-                                        EmployeeId = le.Employee.Name
+                                        Name = le.Employee.Name,
+                                        Surname = le.Employee.Surname
                                     })
                                     .ToList();
 
@@ -81,6 +82,9 @@ namespace AutonetProjectMVCASP.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Models.Locations obj, List<int> employeeIds)
         {
+            obj.StartTime = obj.StartTime.Date.AddHours(obj.StartTime.Hour);
+            obj.EndTime = obj.EndTime.Date.AddHours(obj.EndTime.Hour);
+
             obj.LocationEmployees = new List<LocationEmployee>();
             if (obj.Equals(null))
             {
@@ -99,7 +103,7 @@ namespace AutonetProjectMVCASP.Controllers
 
 
             if (ModelState.IsValid)
-            {
+            {            
                 _db.Locations.Add(obj);
                 _db.SaveChanges();
                 // Add the selected Employees to the Location
@@ -162,6 +166,9 @@ namespace AutonetProjectMVCASP.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Locations obj, List<int> employeeIds)
         {
+            obj.StartTime = obj.StartTime.Date.AddHours(obj.StartTime.Hour);
+            obj.EndTime = obj.EndTime.Date.AddHours(obj.EndTime.Hour);
+
             if (obj == null)
             {
                 return NotFound();

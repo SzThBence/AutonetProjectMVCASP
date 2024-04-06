@@ -22,6 +22,7 @@ using System.Configuration;
 using System.Net;
 using Hangfire;
 using SendGrid.Helpers.Mail;
+using System.Web;
 
 
 namespace AutonetProjectMVCASP.Controllers
@@ -285,6 +286,11 @@ namespace AutonetProjectMVCASP.Controllers
                                     })
                                     .ToList();
 
+            if (locationEmployees.Count == 0)
+            {
+                locationEmployees.Add(new { Id = -1, Name = "Unknown Employee", Surname = "" });
+            }
+
             // Ensure ViewBag.Employees is initialized
             ViewBag.Employees = locationEmployees;
 
@@ -363,12 +369,17 @@ namespace AutonetProjectMVCASP.Controllers
                 return NotFound();
             }
             // Retrieve the list of Employees from the database
-            var locationEmployee = _db.Employees.Where(e => e.Id == obj.EmployeeId).FirstOrDefault().Name != null ? 
+            var locationEmployeeName = _db.Employees.Where(e => e.Id == obj.EmployeeId).FirstOrDefault().Name != null ? 
                 _db.Employees.Where(e => e.Id == obj.EmployeeId).FirstOrDefault().Name : 
                 "No Employee Associated With This Appointment";
 
+            var locationEmployeeSurname = _db.Employees.Where(e => e.Id == obj.EmployeeId).FirstOrDefault().Surname != null ?
+                _db.Employees.Where(e => e.Id == obj.EmployeeId).FirstOrDefault().Surname :
+                "No Employee Associated With This Appointment";
+
             // Ensure ViewBag.Employees is initialized
-            ViewBag.locationEmployee = locationEmployee;
+            ViewBag.locationEmployeeName = locationEmployeeName;
+            ViewBag.locationEmployeeSurname = locationEmployeeSurname;
 
 
 

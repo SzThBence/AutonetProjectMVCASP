@@ -27,25 +27,25 @@
                     @Html.DisplayFor(model => model.Address)
                 </dd>
                 <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.StartTime):
+                    Start Time:
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.StartTime)
+                    @Model.StartTime.ToString("HH:mm")
                 </dd>
                 <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.EndTime):
+                    End Time:
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.EndTime)
+                    @Model.EndTime.ToString("HH:mm")
                 </dd>
                 <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.Title):
+                    Description:
                 </dt>
                 <dd class="col-sm-8">
                     @Html.DisplayFor(model => model.Title)
                 </dd>
                 <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.LocationEmployees)
+                    Employees:
                 </dt>
                 <dd class="col-sm-8">
                     @if (ViewBag.LocationEmployees != null)
@@ -58,7 +58,7 @@
                         {
                             @foreach (var employee in ViewBag.LocationEmployees)
                             {
-                                <div>@employee.EmployeeId</div>
+                                <div>@employee.Surname @employee.Name </div>
                                 <!-- Display other relevant employee details as needed -->
                             }
                         }
