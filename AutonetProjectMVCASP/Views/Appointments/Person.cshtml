@@ -61,14 +61,14 @@
                                         <td>
                                             @obj.Name
                                         </td>
-                                        <td>
+                                        <td>aj
                                             @obj.Location
                                         </td>
                                         <td>
                                             @obj.Time
                                         </td>
                                         <td>
-                                           <a class="btn btn-primary" asp-controller="Appointments" asp-action="Remove" asp-route-id="@obj.Id">Remove</a>
+                                           <a class="btn btn-danger" asp-controller="Appointments" asp-action="Remove" asp-route-id="@obj.Id">Remove</a>
                                         </td>
                                     </tr>
                                     counter++;
@@ -107,13 +107,13 @@
                  </div>
              </div>
              <div class="row pt-3">
-                 <form asp-action="GeneratePdf" method="get">
+                 <form asp-action="GeneratePersonPdf" method="get">
                      <button class="btn btn-secondary" type="submit">Generate PDF</button>
                  </form>
              </div>
              <div class="row pt-1 pb-1">
-                 <form asp-action="GenerateExcel" method="get">
-                     <button class="btn btn-secondary" type="submit">Generate Excel</button>
+                 <form asp-action="GeneratePersonExcel" method="get">
+                     <button class="btn btn-secondary" type="submit">Generate Excel</button>.
                  </form>
              </div>
 

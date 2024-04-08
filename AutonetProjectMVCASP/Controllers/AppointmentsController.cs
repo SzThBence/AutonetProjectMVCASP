@@ -543,7 +543,7 @@ namespace AutonetProjectMVCASP.Controllers
         [HttpGet]
         public IActionResult GeneratePersonPdf(Appointments obj)
         {
-            string Name = obj.UserId;
+            string Name = User.Identity.Name;
             // Define the file path where the PDF will be saved
             string filePath = Name + "Appointments.pdf";
 

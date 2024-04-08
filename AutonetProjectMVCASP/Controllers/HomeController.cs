@@ -128,7 +128,7 @@ namespace AutonetProjectMVCASP.Controllers
                     await _userManager.UpdateAsync(user);
                 }
             }
-
+            _toastNotification.Success("Roles updated successfully",3);
             return RedirectToAction("Index");
         }
 

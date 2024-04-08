@@ -12,7 +12,7 @@ namespace AutonetProjectMVCASP.Models
         public DateTime Time { get; set; }
         public string? Location { get; set; }
         [ForeignKey("AspNetUsers")]
-        public string? UserId { get; set; } //this will be the email, not the user Id, just keep that in mind (shit name)
+        public string? UserId { get; set; } //this will be the email, not the user Id, just keep that in mind
 
         [ForeignKey("Employees")]
         public int EmployeeId { get; set; }
