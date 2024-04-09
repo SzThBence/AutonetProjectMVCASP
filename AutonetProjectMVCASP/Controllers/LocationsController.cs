@@ -29,10 +29,6 @@ namespace AutonetProjectMVCASP.Controllers
         public IActionResult Index()
         {
             bool LoggedIn = (User != null) && (User.Identity.IsAuthenticated);
-            if (!LoggedIn)
-            {
-                _toastNotification.Information("You need to be logged in to make changes to this page", 5);
-            }
             IEnumerable<Models.Locations> obj = _db.Locations;
             return View(obj);
         }

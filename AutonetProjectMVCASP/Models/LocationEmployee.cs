@@ -6,7 +6,8 @@ namespace AutonetProjectMVCASP.Models
 {
     [Keyless]
     public class LocationEmployee
-    {
+    {   
+        //Identifier properties
         public string LocationPlace { get; set; }
 
         public int EmployeeId { get; set; }

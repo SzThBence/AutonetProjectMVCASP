@@ -51,7 +51,7 @@ namespace AutonetProjectMVCASP.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointments", (string)null);
                 });
 
             modelBuilder.Entity("AutonetProjectMVCASP.Models.Employees", b =>
@@ -78,7 +78,7 @@ namespace AutonetProjectMVCASP.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("AutonetProjectMVCASP.Models.LocationEmployee", b =>
@@ -93,7 +93,7 @@ namespace AutonetProjectMVCASP.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("LocationEmployees");
+                    b.ToTable("LocationEmployees", (string)null);
                 });
 
             modelBuilder.Entity("AutonetProjectMVCASP.Models.Locations", b =>
@@ -125,7 +125,7 @@ namespace AutonetProjectMVCASP.Migrations
 
                     b.HasKey("Place");
 
-                    b.ToTable("Locations");
+                    b.ToTable("Locations", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

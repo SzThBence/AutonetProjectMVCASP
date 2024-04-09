@@ -11,10 +11,10 @@ namespace AutonetProjectMVCASP.Models
         public string Address { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public float Latitude { get; set; }
+        public float Latitude { get; set; } // Latitude and Longitude for the location on a map
         public float Longitude { get; set; }
         public string? Title { get; set; }
-        public string? ImagePath { get; set; }
+        public string? ImagePath { get; set; }  // Property to store the path of the promotional image
         // Navigation property for many-to-many relationship
         public ICollection<LocationEmployee>? LocationEmployees { get; set; }
 

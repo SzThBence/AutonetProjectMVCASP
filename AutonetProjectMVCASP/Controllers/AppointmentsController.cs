@@ -353,10 +353,8 @@ namespace AutonetProjectMVCASP.Controllers
 
         [HttpGet]
         public IActionResult Remove(int? id)
-        {
-            //ViewBag.DateData = date;
+        {           
             
-
             if (id == null || id == 0)
             {
                 return NotFound();
@@ -380,15 +378,6 @@ namespace AutonetProjectMVCASP.Controllers
             // Ensure ViewBag.Employees is initialized
             ViewBag.locationEmployeeName = locationEmployeeName;
             ViewBag.locationEmployeeSurname = locationEmployeeSurname;
-
-
-
-            //_db.Appointments.Remove(obj);
-            //_db.SaveChanges();
-
-            //TempData["success"] = "Task completed!";
-
-
 
             return View(obj);
         }
@@ -418,8 +407,6 @@ namespace AutonetProjectMVCASP.Controllers
             _toastNotification.Success("Removal Successful!", 3);
 
             return RedirectToAction("Index", new RouteValueDictionary { { "location", obj.Location } });
-
-
 
 
         }
