@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using AutonetProjectMSTEST;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Identity;
 
 namespace AutonetProjectMSTEST
 {
@@ -22,6 +24,8 @@ namespace AutonetProjectMSTEST
     [TestClass]
     public class EmployeesControllerTests
     {
+        
+
         private EmployeesController _controller;
         private Mock<ApplicationDbContext> _mockDb;
         private Mock<ILogger<EmployeesController>> _mockLogger;
@@ -54,6 +58,14 @@ namespace AutonetProjectMSTEST
 
             _mockHostingEnvironment = new Mock<IWebHostEnvironment>();
             _mockHostingEnvironment.Setup(m => m.WebRootPath).Returns(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot"));
+
+            string _testpath = Path.Combine(Directory.GetCurrentDirectory());
+            _testpath = Directory.GetParent(_testpath).FullName;
+            _testpath = Directory.GetParent(_testpath).FullName;
+            _testpath = Directory.GetParent(_testpath).FullName;
+            _testpath = Path.Combine(_testpath, "wwwroot");
+
+            _mockHostingEnvironment.Setup(m => m.WebRootPath).Returns(_testpath);
 
 
             _controller = new EmployeesController(
@@ -90,30 +102,118 @@ namespace AutonetProjectMSTEST
 
         }
 
-        //[TestMethod]
-        //public void Create_WithValidModelAndImageFile_CreatesEmployeeAndRedirectsToIndex()
-        //{
-        //    // Arrange
-        //    var employee = new Employees { Name = "John", Surname = "Doe" };
-        //    var imageFile = new Mock<IFormFile>();
-        //    imageFile.Setup(f => f.Length).Returns(1);
-        //    imageFile.Setup(f => f.FileName).Returns("test.jpg");
+        [TestMethod]
+        public void Create_WithValidModelAndImageFile_CreatesEmployeeAndRedirectsToIndex()
+        {
+            // Arrange
+            var employee = new Employees { Name = "John", Surname = "Doe" };
+            var imageFile = new Mock<IFormFile>();
+            imageFile.Setup(f => f.Length).Returns(1);
+            imageFile.Setup(f => f.FileName).Returns("test.jpg");
 
-        //    // Act
-        //    var result = _controller.Create(employee, imageFile.Object);
 
-        //    // Assert
-        //    Assert.IsNotNull(result);
-        //    Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+            // Act
+            var result = _controller.Create(employee, imageFile.Object);
 
-        //    var redirectToActionResult = result as RedirectToActionResult;
-        //    Assert.AreEqual("Index", redirectToActionResult.ActionName);
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
 
-        //    _mockDb.Verify(db => db.Employees.Add(It.IsAny<Employees>()), Times.Once);
-        //    _mockDb.Verify(db => db.SaveChanges(), Times.Once);
-        //    _mockToastNotification.Verify(toast => toast.Success(It.IsAny<string>(), It.IsAny<int>()), Times.Once);
-        //}
+            var redirectToActionResult = result as RedirectToActionResult;
+            Assert.AreEqual("Index", redirectToActionResult.ActionName);
 
-        
+            _mockDb.Verify(db => db.Employees.Add(It.IsAny<Employees>()), Times.Once);
+            _mockDb.Verify(db => db.SaveChanges(), Times.Once);
+            _mockToastNotification.Verify(toast => toast.Success(It.IsAny<string>(), It.IsAny<int>()), Times.Once);
+        }
+
+        [TestMethod]
+        public void Edit_Get_ReturnsViewResult_WithEmployee()
+        {
+            // Arrange
+            var employee = new Employees { Id = 1, Name = "John", Surname = "Doe" };
+            _mockDb.Setup(db => db.Employees.Find(1)).Returns(employee);
+
+            // Act
+            var result = _controller.Edit(1);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+
+            var viewResult = result as ViewResult;
+            Assert.IsNotNull(viewResult.Model);
+            Assert.AreEqual(employee, viewResult.Model);
+        }
+
+        [TestMethod]
+        public void Edit_Post_WithValidModelAndImageFile_UpdatesEmployeeAndRedirectsToIndex()
+        {
+            // Arrange
+            var employee = new Employees { Id = 1, Name = "John", Surname = "Doe" };
+            var updatedEmployee = new Employees { Id = 1, Name = "Jane", Surname = "Doe" };
+
+            _mockDb.Setup(db => db.Employees.Find(1)).Returns(employee);
+            var imageFile = new Mock<IFormFile>();
+            imageFile.Setup(f => f.Length).Returns(1);
+            imageFile.Setup(f => f.FileName).Returns("test.jpg");
+
+            // Act
+            var result = _controller.Edit(1, updatedEmployee, imageFile.Object);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+
+            var redirectToActionResult = result as RedirectToActionResult;
+            Assert.AreEqual("Index", redirectToActionResult.ActionName);
+
+            _mockDb.Verify(db => db.SaveChanges(), Times.Once);
+            _mockToastNotification.Verify(toast => toast.Success(It.IsAny<string>(), It.IsAny<int>()), Times.Once);
+        }
+
+        [TestMethod]
+        public void Remove_Get_FindsRemoveBasedOn()
+        {
+            // Arrange
+            var employee = new Employees { Id = 1, Name = "John", Surname = "Doe" };
+            _mockDb.Setup(db => db.Employees.Find(1)).Returns(employee);
+
+            // Act
+            var result = _controller.Remove(1);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+
+            var viewResult = result as ViewResult;
+            Assert.IsNotNull(viewResult.Model);
+            Assert.AreEqual(employee, viewResult.Model);
+        }
+
+        [TestMethod]
+        public void Remove_Post_RemovesEmployeeAndRedirectsToIndex()
+        {
+            // Arrange
+            var employee = new Employees { Id = 1, Name = "John", Surname = "Doe" };
+            _mockDb.Setup(db => db.Employees.Find(1)).Returns(employee);
+
+            // Act
+            var result = _controller.Remove(employee);
+
+            // Assert
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+
+            var redirectToActionResult = result as RedirectToActionResult;
+            Assert.AreEqual("Index", redirectToActionResult.ActionName);
+
+            _mockDb.Verify(db => db.Employees.Remove(It.IsAny<Employees>()), Times.Once);
+            _mockDb.Verify(db => db.SaveChanges(), Times.Once);
+            _mockToastNotification.Verify(toast => toast.Success(It.IsAny<string>(), It.IsAny<int>()), Times.Once);
+        }
+
+
+
     }
 }

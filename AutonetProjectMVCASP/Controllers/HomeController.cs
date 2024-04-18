@@ -38,7 +38,12 @@ namespace AutonetProjectMVCASP.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
 
 
-        public HomeController(ApplicationDbContext db, ILogger<HomeController> logger, INotyfService toastNotification, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, SignInManager<IdentityUser> signInManager)
+        public HomeController(ApplicationDbContext db,
+            ILogger<HomeController> logger,
+            INotyfService toastNotification,
+            UserManager<IdentityUser> userManager,
+            RoleManager<IdentityRole> roleManager,
+            SignInManager<IdentityUser> signInManager)
         {
             _db = db;
             _logger = logger;

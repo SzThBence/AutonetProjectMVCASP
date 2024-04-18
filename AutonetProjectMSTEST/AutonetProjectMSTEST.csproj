@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
 	  <PackageReference Include="Moq" Version="4.20.70" />
+	  <PackageReference Include="Moq.EntityFrameworkCore" Version="8.0.1.2" />
 	  <PackageReference Include="MSTest" Version="3.2.2" />
 	  <PackageReference Include="MSTest.TestAdapter" Version="3.2.2" />
 	  <PackageReference Include="MSTest.TestFramework" Version="3.2.2" />
@@ -23,6 +24,11 @@
 
   <ItemGroup>
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\css\" />
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
 </Project>
