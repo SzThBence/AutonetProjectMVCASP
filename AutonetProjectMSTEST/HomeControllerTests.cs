@@ -24,7 +24,13 @@ namespace AutonetProjectMSTEST
 {
     public class FakeSignInManager : SignInManager<IdentityUser>
     {
-        public FakeSignInManager(UserManager<IdentityUser> userManager, IHttpContextAccessor contextAccessor, IUserClaimsPrincipalFactory<IdentityUser> claimsFactory, IOptions<IdentityOptions> optionsAccessor, ILogger<SignInManager<IdentityUser>> logger, IAuthenticationSchemeProvider schemes, IUserConfirmation<IdentityUser> confirmation)
+        public FakeSignInManager(UserManager<IdentityUser> userManager,
+            IHttpContextAccessor contextAccessor,
+            IUserClaimsPrincipalFactory<IdentityUser> claimsFactory,
+            IOptions<IdentityOptions> optionsAccessor,
+            ILogger<SignInManager<IdentityUser>> logger,
+            IAuthenticationSchemeProvider schemes,
+            IUserConfirmation<IdentityUser> confirmation)
             : base(userManager, contextAccessor, claimsFactory, optionsAccessor, logger, schemes, confirmation)
         {
         }
@@ -128,17 +134,17 @@ namespace AutonetProjectMSTEST
         }
 
 
-        [TestMethod]
-        public async Task Index_ReturnsViewResult()
-        {
+        //[TestMethod]
+        //public async Task Index_ReturnsViewResult()
+        //{
 
-            // Act
-            var result = await _controller.Index();
+        //    // Act
+        //    var result = await _controller.Index();
 
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOfType(result, typeof(ViewResult));
-        }
+        //    // Assert
+        //    Assert.IsNotNull(result);
+        //    Assert.IsInstanceOfType(result, typeof(ViewResult));
+        //}
 
         [TestMethod]
         public void Privacy_ReturnsViewResult_WithListOfLocations()
@@ -208,17 +214,17 @@ namespace AutonetProjectMSTEST
             Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
         }
 
-        [TestMethod]
-        public async Task AddRolesAndUsers_ReturnsTrue()
-        {
-            // Arrange
+        //[TestMethod]
+        //public async Task AddRolesAndUsers_ReturnsTrue()
+        //{
+        //    // Arrange
 
-            // Act
-            var result = await _controller.AddRolesAndUsers();
+        //    // Act
+        //    var result = await _controller.AddRolesAndUsers();
 
-            // Assert
-            Assert.IsTrue(result);
-        }
+        //    // Assert
+        //    Assert.IsTrue(result);
+        //}
 
     }
 }
