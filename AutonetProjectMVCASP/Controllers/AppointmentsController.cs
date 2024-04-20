@@ -264,6 +264,96 @@ namespace AutonetProjectMVCASP.Controllers
 
         }
 
+        //Exact copy of the function above without hangfire, used for testing
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateNoHangfire(Appointments obj)
+        {
+            IEnumerable<Models.Locations> loc = _db.Locations;
+            if (obj.Time <= DateTime.Now)
+            {
+                ModelState.AddModelError("Time", "The date and time must be in the future");
+            }
+
+            if (obj.Time.DayOfWeek == DayOfWeek.Saturday || obj.Time.DayOfWeek == DayOfWeek.Sunday)
+            {
+                ModelState.AddModelError("Time", "The date and time must be a weekday");
+            }
+
+            if (obj.Time.Hour < _db.Locations.Find(obj.Location).StartTime.Hour || obj.Time.Hour > _db.Locations.Find(obj.Location).EndTime.Hour)
+            {
+                ModelState.AddModelError("Time", "The date and time must be between 9am and 5pm");
+            }
+
+            bool isLocation = false;
+            foreach (var item in loc)
+            {
+                if (item.Place == obj.Location)
+                {
+                    isLocation = true;
+                }
+            }
+
+            if (!isLocation)
+            {
+                ModelState.AddModelError("Location", "The location must be a valid location");
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                // Schedule email reminder
+                var reminderTime = obj.Time.AddDays(-1); // Send reminder one day before the appointment
+                var subject = "Reminder: Appointment Tomorrow";
+                var body = $"This is a reminder that your appointment is scheduled for {obj.Time.ToString("dddd, MMMM dd, yyyy HH:mm")}.";
+
+                //get the email we use
+                var email = obj.UserId;
+
+                //SendEmailAsync(email, subject, body);
+
+
+                //BackgroundJob.Schedule(() => EmailMethods.SendEmailAsync(email, subject, body, _configuration),
+                    //reminderTime);
+
+                //Save appointment to database
+                _db.Appointments.Add(obj);
+                _db.SaveChanges();
+                _toastNotification.Success("Creation Successful!", 3);
+                return RedirectToAction("Select");
+            }
+
+
+
+            return View(obj);
+
+        }
+
+        //[HttpGet]
+        //public IActionResult CreateWithDataTesting(LocDateData info)
+        //{
+        //    //ViewBag.DateData = date;
+        //    var model = new Appointments
+        //    {
+        //        Location = info.Location,
+        //        Time = info.Date
+        //    };
+
+        //    // Retrieve the list of Employees from the database
+        //    var locationEmployees = (new { Id = 0, Name = "Testing", Surname = "Employee" };
+
+        //    if (locationEmployees.Count == 0)
+        //    {
+        //        locationEmployees.Add(new { Id = -1, Name = "Unknown Employee", Surname = "" });
+        //    }
+
+        //    // Ensure ViewBag.Employees is initialized
+        //    ViewBag.Employees = locationEmployees;
+
+
+        //    return View(model);
+        //}
+
         [HttpGet]
         public IActionResult CreateWithData(LocDateData info)
         {

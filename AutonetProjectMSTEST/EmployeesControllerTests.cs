@@ -78,14 +78,6 @@ namespace AutonetProjectMSTEST
         [TestMethod]
         public void Index_ReturnsViewResult_WithListOfEmployees()
         {
-            //// Arrange
-            //var employees = new List<Employees>
-            //{
-            //    new Employees { Id = 1, Name = "John", Surname = "Doe" },
-            //    new Employees { Id = 2, Name = "Jane", Surname = "Doe" }
-            //}.AsQueryable();
-
-            //HelpFunctions<Employees>.ReturnsDbSet(_mockDb, employees);
 
             // Act
             var result = _controller.Index();
