@@ -24,10 +24,11 @@
                         <span id="locationInput" asp-validation-for="Location" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="EmployeeId" class="control-label"></label>
+                        <label asp-for="EmployeeId" class="control-label">Employee Assigned</label>
                         <select asp-for="EmployeeId" class="form-control">
                         @if (ViewBag.Employees != null)
                         {
+                            //display all employees associated with the location in a list as options
                             foreach (var employee in ViewBag.Employees)
                             {
                                 <div>
@@ -37,6 +38,7 @@
                         }
                         else
                         {
+                            //option, if employee list is empty or not available
                             <option value="0" disabled>No Employees</option>
                         }
                         </select>

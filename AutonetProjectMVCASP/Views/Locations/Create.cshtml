@@ -29,12 +29,12 @@
                                 <span asp-validation-for="Address" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="StartTime" class="control-label"></label>
+                                <label asp-for="StartTime" class="control-label">Start Time</label>
                                 <input asp-for="StartTime" class="form-control" />
                                 <span asp-validation-for="StartTime" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="EndTime" class="control-label"></label>
+                                <label asp-for="EndTime" class="control-label">End Time</label>
                                 <input asp-for="EndTime" class="form-control" />
                                 <span asp-validation-for="EndTime" class="text-danger"></span>
                             </div>
@@ -49,17 +49,17 @@
                                 <span asp-validation-for="Longitude" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="Title" class="control-label"></label>
+                                <label asp-for="Title" class="control-label">Short Description</label>
                                 <input asp-for="Title" class="form-control" />
                                 <span asp-validation-for="Title" class="text-danger"></span>
                             </div>
                             <div>
-                                <label asp-for="LocationEmployees" class="control-label"></label>
+                                <label asp-for="LocationEmployees" class="control-label">Employees</label>
                                 @if (ViewBag.Employees != null)
                                 {
                                     foreach (var employee in ViewBag.Employees)
                                     {
-                                        
+                                        //display all employees in a list as options
                                             <div class="checkbox-wrapper-2">
                                             <input class="sc-gJwTLC ikxBAC" type="checkbox" name="employeeIds" value="@employee.Id" />
                                             <label>@employee.Name</label>
@@ -70,10 +70,11 @@
                                 <span asp-validation-for="LocationEmployees" class="text-danger"></span>
                             </div>
                             <div>
-                                <label asp-for="ImagePath" class="control-label"></label>
+                                <label asp-for="ImagePath" class="control-label">Promotional Picture</label>
                                 <select asp-for="ImagePath" class="form-control">
                                 @for (int i = 1; i <= 6; i++)
                                 {
+                                    //promotional images for location
                                     loc = "image" + i;
                                     <option value=@loc><div class="employee_image @loc">@i</option>
                                 }

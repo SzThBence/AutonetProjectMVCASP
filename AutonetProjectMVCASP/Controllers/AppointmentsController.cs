@@ -147,7 +147,7 @@ namespace AutonetProjectMVCASP.Controllers
         }
 
 
-
+        //Location selection page for appointments
         [HttpGet]
         public IActionResult Select()
         {
@@ -170,20 +170,22 @@ namespace AutonetProjectMVCASP.Controllers
 
             return View(loc);
         }
+        //Appointment table for the given location, used for making appointments in the next five working days
         [HttpGet]
         public IActionResult Index(string location)
         {
+            //check if user is logged in
             bool LoggedIn = (User != null) && (User.Identity.IsAuthenticated);
             if (!LoggedIn)
             {
                 _toastNotification.Information("You need to be logged in to make an appointment", 5);
             }
-
+            //good data?
             if ((location == null))
             {
                 ModelState.AddModelError("Location", "The location must be a valid location");
             }
-
+            //data for the view
             ViewData["Location"] = location;
             ViewData["ActualLocation"] = _db?.Locations.Find(location);
 
@@ -192,7 +194,7 @@ namespace AutonetProjectMVCASP.Controllers
             IEnumerable<Models.Appointments> loc = obj.Obj;
             return View(loc);
         }
-
+        //Unused for now, kept for later updates
         [HttpGet]
         public IActionResult Create()
         {
@@ -204,6 +206,7 @@ namespace AutonetProjectMVCASP.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Appointments obj)
         {
+            //static checks
             IEnumerable<Models.Locations> loc = _db.Locations;
             if (obj.Time <= DateTime.Now)
             {
@@ -247,7 +250,7 @@ namespace AutonetProjectMVCASP.Controllers
 
                 //SendEmailAsync(email, subject, body);
 
-
+                //schedule the email
                 BackgroundJob.Schedule(() => EmailMethods.SendEmailAsync(email, subject, body,_configuration),
                     reminderTime);
 
@@ -354,10 +357,12 @@ namespace AutonetProjectMVCASP.Controllers
         //    return View(model);
         //}
 
+        //Creation with the data from the previous page, location and time given
         [HttpGet]
         public IActionResult CreateWithData(LocDateData info)
         {
             //ViewBag.DateData = date;
+            //data reformating for view
             var model = new Appointments
             {
                 Location = info.Location,
@@ -375,7 +380,7 @@ namespace AutonetProjectMVCASP.Controllers
                                         Surname = le.Employee.Surname
                                     })
                                     .ToList();
-
+            // Add a default employee if no employees are found
             if (locationEmployees.Count == 0)
             {
                 locationEmployees.Add(new { Id = -1, Name = "Unknown Employee", Surname = "" });
@@ -392,6 +397,7 @@ namespace AutonetProjectMVCASP.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateWithData(Appointments obj)
         {
+            //static checks, but because of the constraints of the page, all data must be valid
             if (ModelState.IsValid)
             {
 
@@ -444,12 +450,12 @@ namespace AutonetProjectMVCASP.Controllers
         [HttpGet]
         public IActionResult Remove(int? id)
         {           
-            
+            //data check
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-
+            //base data retrieval
             var obj = _db.Appointments.Find(id);
 
             if (obj == null)
@@ -487,6 +493,7 @@ namespace AutonetProjectMVCASP.Controllers
             //Send creation confirmation
             EmailMethods.SendEmailAsync(email, subjectNow, bodyNow,_configuration);
 
+            //retrieval, deletion, and notification
             string loc = obj.Location;
 
             BackgroundJob.Delete(obj.JobId);
@@ -495,12 +502,12 @@ namespace AutonetProjectMVCASP.Controllers
             _db.SaveChanges();
 
             _toastNotification.Success("Removal Successful!", 3);
-
+            //back to main page of the given location
             return RedirectToAction("Index", new RouteValueDictionary { { "location", obj.Location } });
 
 
         }
-
+        //Appointments associated with the given user
         [HttpGet]
         public IActionResult Person()
         {
@@ -523,7 +530,7 @@ namespace AutonetProjectMVCASP.Controllers
         }
 
 
-
+        //Pdf generation of all data
         [HttpGet]
         public IActionResult GeneratePdf()
         {
@@ -616,7 +623,7 @@ namespace AutonetProjectMVCASP.Controllers
                 return BadRequest("Error generating PDF: " + ex.Message);
             }
         }
-
+        //Pdf generation of the appointments associated with the given user
         [HttpGet]
         public IActionResult GeneratePersonPdf(Appointments obj)
         {
@@ -715,16 +722,18 @@ namespace AutonetProjectMVCASP.Controllers
                 return BadRequest("Error generating PDF: " + ex.Message);
             }
         }
-
+        //Helper function for creating an excel file
         public byte[] GenerateExcelFile (List<Appointments> data)
         {
             using (var package = new ExcelPackage())
             {
+                //create base excel file
                 var workSheet = package.Workbook.Worksheets.Add("Appointments");
                 workSheet.Cells.LoadFromCollection(data, true);
                 return package.GetAsByteArray();
             }
         }
+        //Excel generation of all data
         [HttpGet]
         public IActionResult GenerateExcel()
         {
@@ -732,6 +741,7 @@ namespace AutonetProjectMVCASP.Controllers
             var fileBytes = GenerateExcelFile(data);
             return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Appointments.xlsx");
         }
+        //Excel generation of the appointments associated with the given user
         [HttpGet]
         public IActionResult GeneratePersonExcel()
         {

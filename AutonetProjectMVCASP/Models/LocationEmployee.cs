@@ -8,13 +8,13 @@ namespace AutonetProjectMVCASP.Models
     public class LocationEmployee
     {   
         //Identifier properties
-        public string LocationPlace { get; set; }
+        public string LocationPlace { get; set; }   //location
 
-        public int EmployeeId { get; set; }
+        public int EmployeeId { get; set; }         //employee
 
         // Navigation properties
-        public Locations Location { get; set; }
+        public Locations Location { get; set; } //location
 
-        public Employees Employee { get; set; }
+        public Employees Employee { get; set; } //employee
     }
 }

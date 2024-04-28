@@ -71,11 +71,11 @@ namespace AutonetProjectMVCASP.Controllers
             //// Sign in the user again
             //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, user);
 
-            // Example of signing out
+            // Signing out, so it can enter with the new roles if needed
             await HttpContext.SignOutAsync();
             if (_signInManager.IsSignedIn(User))
             {
-                // Example of signing in again
+                // Signing in again
                 var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 var claims = await _userManager.GetClaimsAsync(user); // You may need to retrieve claims if necessary
 
@@ -92,20 +92,21 @@ namespace AutonetProjectMVCASP.Controllers
 
             return View();
         }
+        //Repurposed privacy page for locations, now it show base data with marketing pictures for locations
         [HttpGet]
         public IActionResult Privacy()
         {
             IEnumerable<Models.Locations> loc = _db.Locations;
             return View(loc);
         }
-
+        //Role management page, lists all users and their roles, can change roles
         [HttpGet]
         public IActionResult Users()
         {
             UsersAndRolesManagers usersAndRoles = new UsersAndRolesManagers(_userManager, _roleManager);
             return View(usersAndRoles);
         }
-
+        //Role changer, changes roles for users
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RoleChanger(Dictionary<string, List<string>> roles)
@@ -143,6 +144,7 @@ namespace AutonetProjectMVCASP.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        //Helper for adding roles and users, run every time we get to index, so new employees will have roles
         [HttpGet]
         public async Task<Boolean> AddRolesAndUsers()
         {

@@ -32,6 +32,7 @@
 
             @foreach (var person in Model)
             {
+                //card for each employee
                 <div class="cardscontact bg-dark">
                     <div class="image-wrapper">
                         <img src="@Url.Content(person.ImagePath)" class="employee-image" alt="Employee Image" />
@@ -44,6 +45,7 @@
                         </div>
                                 @if (LoggedIn && (User.IsInRole("Admin") || User.IsInRole("Boss")))
                                 {
+                                    //edit and delete options, if we are logged in with higher privileges
                         <div class="card__info">
                             
                                 <br />

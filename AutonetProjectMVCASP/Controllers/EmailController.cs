@@ -13,6 +13,7 @@ using MailKit.Security;
 
 namespace AutonetProjectMVCASP.Controllers
 {
+    //SmptSettings class for email configuration
     public class SmtpSettings
     {
         public string Server { get; set; }
@@ -31,18 +32,21 @@ namespace AutonetProjectMVCASP.Controllers
             _smtpSettings = new SmtpSettings();
             configuration.GetSection("SmtpSettings").Bind(_smtpSettings);
         }
-
+        //Email sender from the company email, will be used in the future
         public async Task SendEmailAsync(string to, string subject, string body)
         {
+            //message creation with base data
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("carservicemanagerproject@gmail.com", "carservicemanagerproject@gmail.com"));
             message.To.Add(new MailboxAddress(to, to));
             message.Subject = subject;
 
+            //message body creation
             var bodyBuilder = new BodyBuilder();
             bodyBuilder.HtmlBody = body;
             message.Body = bodyBuilder.ToMessageBody();
 
+            //email sending
             using (var client = new SmtpClient())
             {
                 client.CheckCertificateRevocation = false;

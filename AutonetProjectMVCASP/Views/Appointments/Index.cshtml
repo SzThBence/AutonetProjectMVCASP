@@ -38,6 +38,8 @@
                     <tbody>
                         @for (int i = 8; i <= 20; i++)
                         {
+                            //creation tool for all the appointments, based on a table
+                            //each row is a different hour, each column is a different day
                             <tr>
                                 <th>
                                     <div>@i</div>
@@ -45,13 +47,17 @@
                                 @for (int j = 0, slotsAdded = 0; slotsAdded < 5; j++)
                                 {
                                     DateTime currentDate = startDate.AddDays(j);
+                                    //leave weekends out
                                     if (currentDate.DayOfWeek == DayOfWeek.Saturday || currentDate.DayOfWeek == DayOfWeek.Sunday)
                                     {
                                         continue;
                                     }
+                                    //if the current date is today, check if the time is already past
                                     bool isTooLate = currentDate.Date == DateTime.Today && i <= DateTime.Now.Hour;
+                                    //check if the slot is occupied
                                     bool isOccupied = Model.Any(obj => obj != null && obj.Time.Hour == i && obj.Time.Date == currentDate);
                                     DateTime nowDate = DateTime.Now;
+                                    //check if they are working at this time
                                     bool isValidTime = (actualLocation != null) && (actualLocation.StartTime.Hour <= i) && (actualLocation.EndTime.Hour > i);
                                     <td>
                                         <b>
@@ -61,12 +67,12 @@
                                                     @if (isTooLate)
                                                     {
                                                         {
-                                                            <div style="text-decoration:none; color:dimgray;">Not Available</div>
+                                                            <div style="text-decoration:none; color:dimgray;">Not Available</div> //time has already passed
                                                         }
                                                     }
                                                     else
                                                     {
-                                                   
+                                                        //occupation check
                                                         @if (isOccupied)
                                                         {
                                                        
@@ -76,13 +82,16 @@
                                                             var userId = appointment?.UserId;
                                                             if (appointmentId != null)
                                                             {
+                                                                //check if the user is the one who made the appointment
                                                                 if (LoggedIn && User.Identity.Name == userId)
                                                                 {
-                                                                    <a class="text-danger" style="text-decoration:none; color:red;" asp-controller="Appointments" asp-action="Remove" asp-route-id="@appointmentId">Occupied</a>
+                                                                    <a class="text-danger" style="text-decoration:none; color:red;" asp-controller="Appointments" asp-action="Remove" asp-route-id="@appointmentId">Occupied</a>    
+                                                                    //user can cancel if it is his
                                                                 }
                                                                 else
                                                                 {
                                                                     <div style="text-decoration:none; color:darkred;">Occupied</div>
+                                                                    //if it is not his, he can't cancel
                                                                 }
                                                             }
                                                         
@@ -91,17 +100,19 @@
                                                         else
                                                         {
 
-
+                                                            //free place
                                                             var loc = location;
                                                             var date = startDate.AddDays(j).AddHours(i);
                                                             string locEncoded = loc != null ? loc : string.Empty;
                                                             if (LoggedIn)
                                                             {
                                                                 <a class="text-success" style="text-decoration:none" asp-controller="Appointments" asp-action="CreateWithData" asp-route-location="@locEncoded" asp-route-date="@date.ToString("yyyy-MM-ddTHH:mm:ss")">Free</a>
+                                                                //if the user is logged in, he can make an appointment
                                                             }
                                                             else
                                                             {
                                                                 <div class="text-success" style="text-decoration:none">Free</div>
+                                                                //if the user is not logged in, he can't make an appointment
                                                             }
                                                         }
                                                     }
@@ -109,8 +120,10 @@
                                             }
                                             else
                                             {
+                                                //not working hours
                                                 <div style="color:orangered">
                                                     Closed
+                                                    
                                                 </div>
                                             }
                                         </b>

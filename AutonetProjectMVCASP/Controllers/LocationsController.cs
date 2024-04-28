@@ -25,15 +25,17 @@ namespace AutonetProjectMVCASP.Controllers
             _logger = logger;
             _toastNotification = toastNotification;
         }
+        //Lists all locations in cards
         [HttpGet]
         public IActionResult Index()
         {
+            //check if user is logged in, can be used later
             bool LoggedIn = (User != null) && (User.Identity.IsAuthenticated);
             IEnumerable<Models.Locations> obj = _db.Locations;
             return View(obj);
         }
 
-
+        //Specifics of one location
         [HttpGet]
         public IActionResult Details(string? place)
         {
@@ -48,7 +50,7 @@ namespace AutonetProjectMVCASP.Controllers
             {
                 return NotFound();
             }
-
+            //Gets the employees that work at the location
             var locationEmployees = _db.LocationEmployees
                                     .Where(le => le.LocationPlace == place)
                                     .Select(le => new
@@ -82,6 +84,7 @@ namespace AutonetProjectMVCASP.Controllers
             obj.EndTime = obj.EndTime.Date.AddHours(obj.EndTime.Hour);
 
             obj.LocationEmployees = new List<LocationEmployee>();
+            //static checks
             if (obj.Equals(null))
             {
                 return NotFound();
@@ -126,8 +129,9 @@ namespace AutonetProjectMVCASP.Controllers
 
             return View(obj);
         }
+        //World map with all locations on one map
         [HttpGet]
-        public IActionResult BigMap()
+        public IActionResult BigMap(string alma)
         {
             IEnumerable<Models.Locations> obj = _db.Locations;
             return View(obj);
@@ -165,7 +169,7 @@ namespace AutonetProjectMVCASP.Controllers
         {
             obj.StartTime = obj.StartTime.Date.AddHours(obj.StartTime.Hour);
             obj.EndTime = obj.EndTime.Date.AddHours(obj.EndTime.Hour);
-
+            //static checks
             if (obj == null)
             {
                 return NotFound();
@@ -234,6 +238,9 @@ namespace AutonetProjectMVCASP.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Remove(Locations obj)
         {
+            //remove locationEmployees elemets first, so we dont leave bad data
+            _db.LocationEmployees.RemoveRange(_db.LocationEmployees.Where(le => le.LocationPlace == obj.Place));
+            //remove location
             _db.Locations.Remove(obj);
             _db.SaveChanges();
             _toastNotification.Success("Removal Successful!", 3);

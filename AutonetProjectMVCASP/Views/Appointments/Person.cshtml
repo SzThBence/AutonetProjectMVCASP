@@ -55,6 +55,7 @@
                         <tbody>
                             @foreach (var obj in Model)
                             {
+                                //table of each appointment associated with the user
                                 @if (User.Identity.Name == obj.UserId)
                                 {
                                     <tr>

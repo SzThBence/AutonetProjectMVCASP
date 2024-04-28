@@ -26,9 +26,11 @@ namespace AutonetProjectMVCASP.Controllers
             _toastNotification = toastNotification;
             _hostingEnvironment = hostingEnvironment;
         }
+        //Lists all employees in cards
         [HttpGet]
         public IActionResult Index()
         {
+            //check if user is logged in
             bool LoggedIn = (User != null) && (User.Identity.IsAuthenticated);
             if (!LoggedIn)
             {
@@ -50,6 +52,7 @@ namespace AutonetProjectMVCASP.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Employees obj, IFormFile imageFile)
         {
+            //state validation
             if (obj.Name == null)
             {
                 ModelState.AddModelError("Name", "The name field is required");
@@ -97,6 +100,7 @@ namespace AutonetProjectMVCASP.Controllers
         [HttpGet]
         public IActionResult Edit(int? id)
         {
+            //base data check
             if (id == null || id == 0)
             {
                 return NotFound();
@@ -104,6 +108,7 @@ namespace AutonetProjectMVCASP.Controllers
 
             var obj = _db.Employees.Find(id);
 
+            //found data check
             if (obj == null)
             {
                 return NotFound();
@@ -115,6 +120,7 @@ namespace AutonetProjectMVCASP.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Employees updatedEmployee, IFormFile imageFile)
         {
+            //check for id corruption
             if (id != updatedEmployee.Id)
             {
                 return NotFound();
@@ -124,6 +130,7 @@ namespace AutonetProjectMVCASP.Controllers
             {
                 try
                 {
+                    //get base employee
                     var existingEmployee = _db.Employees.Find(id);
 
                     if (existingEmployee == null)
@@ -131,13 +138,14 @@ namespace AutonetProjectMVCASP.Controllers
                         return NotFound();
                     }
 
+                    //update data
                     existingEmployee.Name = updatedEmployee.Name;
                     existingEmployee.Surname = updatedEmployee.Surname;
                     existingEmployee.Job = updatedEmployee.Job;
 
                     if (imageFile != null && imageFile.Length > 0)
                     {
-                        // Save the uploaded image file to a directory or store it in the database
+                        // Save the uploaded image file to a directory or store it in the database, then update employee's image path
                         var imagePath = Path.Combine("images", imageFile.FileName);
                         using (var stream = new FileStream(Path.Combine(_hostingEnvironment.WebRootPath, imagePath), FileMode.Create))
                         {
@@ -147,6 +155,7 @@ namespace AutonetProjectMVCASP.Controllers
                     }
                     else
                     {
+                        //no image
                         _toastNotification.Error("Please select an image file", 3);
                         ModelState.AddModelError("ImageFile", "Please select an image file");
                     }
@@ -170,6 +179,7 @@ namespace AutonetProjectMVCASP.Controllers
         [HttpGet]
         public IActionResult Remove(int? id)
         {
+            //base check
             if (id == null || id == 0)
             {
                 return NotFound();
@@ -177,6 +187,7 @@ namespace AutonetProjectMVCASP.Controllers
 
             var obj = _db.Employees.Find(id);
 
+            //found check
             if (obj == null)
             {
                 return NotFound();

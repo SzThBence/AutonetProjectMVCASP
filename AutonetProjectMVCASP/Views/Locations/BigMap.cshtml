@@ -62,6 +62,7 @@
 
         @foreach (var loc in Model)
         {
+            //each location is pushed
             img = "image" + counter;
             @:locations.push({
             @:id: '@img',
@@ -77,7 +78,7 @@
 
             function initializeMaps() {
 
-
+                //map initialization
                 var map = new google.maps.Map(document.getElementById('bigmap'), {
                     center: { lat: 0, lng: 0 },
                     zoom: 2
@@ -99,7 +100,7 @@
                         icon: markerIcon,
                     });
 
-
+                    //content of info on hover
                     var contentString = `
                     <h3 class="card__title" style="color:black">${loc.place}</h3>
                     <div class="card__text" style="color:black">
@@ -111,12 +112,13 @@
                     var infowindow = new google.maps.InfoWindow({
                         content: contentString,
                     });
-
+                    //details on click
                     marker.addListener('click', function () {
+                        // solution for weird behaviour with '
                         var encodedPlace = encodeURIComponent(loc.place).replace('%26%23x27%3B', '%27');
                         window.location.href = '/Locations/Details?place=' + encodedPlace;
                     });
-
+                    //info on hover
                     marker.addListener('mouseover', function () {
                         infowindow.open(map, marker);
                     });
