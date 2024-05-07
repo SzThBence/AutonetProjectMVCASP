@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\css\Media\body_background.jpg" />
+    <Content Remove="wwwroot\css\Media\body_backgroundold.jpg" />
+    <Content Remove="wwwroot\css\Media\body_backgroundstock.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,7 +46,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\css\Media\body_background.jpg" />
+    <None Include="wwwroot\css\Media\body_backgroundold.jpg" />
+    <None Include="wwwroot\css\Media\body_backgroundstock.jpg" />
   </ItemGroup>
 
   <ItemGroup>

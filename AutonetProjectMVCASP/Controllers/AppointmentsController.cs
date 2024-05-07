@@ -443,8 +443,10 @@ namespace AutonetProjectMVCASP.Controllers
                 return RedirectToAction("Index", new RouteValueDictionary { { "location", obj.Location } });
             }
 
-            TempData["success"] = "Task completed!";
-            return View(obj);
+            _toastNotification.Error("Name field is required", 3);
+
+            string previousUrl = Request.Headers["Referer"].ToString();
+            return Redirect(previousUrl);
         }
 
         [HttpGet]

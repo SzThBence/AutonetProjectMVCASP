@@ -11,7 +11,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
     flex-direction: column;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.7)), url("Media/body_background.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url("Media/body_backgroudnew.JPG");
     background-color: #ff6000;
     background-blend-mode: multiply;
     background-size: cover;
@@ -462,19 +462,19 @@ body {
 }
 
     .card__image.image1 {
-        background-image: url("Media/service1-min.jpg");
+        background-image: url("Media/service1-min.JPG");
     }
 
     .card__image.image2 {
-        background-image: url("Media/service2-min.jpg");
+        background-image: url("Media/service2-min.JPG");
     }
 
     .card__image.image3 {
-        background-image: url("Media/service3-min.jpg");
+        background-image: url("Media/service3-min.JPG");
     }
 
     .card__image.image4 {
-        background-image: url("Media/service4-min.jpg");
+        background-image: url("Media/service4-min.JPG");
     }
 
     .card__image.image5 {

@@ -126,53 +126,63 @@ namespace AutonetProjectMVCASP.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (imageFile != null)
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    //get base employee
-                    var existingEmployee = _db.Employees.Find(id);
-
-                    if (existingEmployee == null)
+                    try
                     {
-                        return NotFound();
-                    }
+                        //get base employee
+                        var existingEmployee = _db.Employees.Find(id);
 
-                    //update data
-                    existingEmployee.Name = updatedEmployee.Name;
-                    existingEmployee.Surname = updatedEmployee.Surname;
-                    existingEmployee.Job = updatedEmployee.Job;
-
-                    if (imageFile != null && imageFile.Length > 0)
-                    {
-                        // Save the uploaded image file to a directory or store it in the database, then update employee's image path
-                        var imagePath = Path.Combine("images", imageFile.FileName);
-                        using (var stream = new FileStream(Path.Combine(_hostingEnvironment.WebRootPath, imagePath), FileMode.Create))
+                        if (existingEmployee == null)
                         {
-                            imageFile.CopyTo(stream);
+                            return NotFound();
                         }
-                        existingEmployee.ImagePath = imagePath;
-                    }
-                    else
-                    {
-                        //no image
-                        _toastNotification.Error("Please select an image file", 3);
-                        ModelState.AddModelError("ImageFile", "Please select an image file");
-                    }
 
-                    _db.SaveChanges();
-                    _toastNotification.Success("Edit Successful!", 3);
-                    return RedirectToAction("Index");
+                        //update data
+                        existingEmployee.Name = updatedEmployee.Name;
+                        existingEmployee.Surname = updatedEmployee.Surname;
+                        existingEmployee.Job = updatedEmployee.Job;
+
+                        if (imageFile != null && imageFile.Length > 0)
+                        {
+                            // Save the uploaded image file to a directory or store it in the database, then update employee's image path
+                            var imagePath = Path.Combine("images", imageFile.FileName);
+                            using (var stream = new FileStream(Path.Combine(_hostingEnvironment.WebRootPath, imagePath), FileMode.Create))
+                            {
+                                imageFile.CopyTo(stream);
+                            }
+                            existingEmployee.ImagePath = imagePath;
+                        }
+                        else
+                        {
+                            //no image
+                            _toastNotification.Error("Please select an image file", 3);
+                            ModelState.AddModelError("ImageFile", "Please select an image file");
+                        }
+
+                        _db.SaveChanges();
+                        _toastNotification.Success("Edit Successful!", 3);
+                        return RedirectToAction("Index");
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        // Handle concurrency exception if necessary
+                        _toastNotification.Error("Concurrency error occurred!", 3);
+                        return View(updatedEmployee);
+                    }
                 }
-                catch (DbUpdateConcurrencyException)
+                else
                 {
-                    // Handle concurrency exception if necessary
-                    _toastNotification.Error("Concurrency error occurred!", 3);
+                    _toastNotification.Error("Edit Failed!", 3);
+                    // If ModelState is not valid, return to the edit view with errors
                     return View(updatedEmployee);
                 }
-            }
 
-            _toastNotification.Error("Edit Failed!", 3);
+                
+            }
+            _toastNotification.Error("Please select an image file", 3);
             // If ModelState is not valid, return to the edit view with errors
             return View(updatedEmployee);
         }
