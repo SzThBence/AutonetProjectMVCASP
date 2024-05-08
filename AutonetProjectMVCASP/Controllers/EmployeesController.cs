@@ -32,10 +32,7 @@ namespace AutonetProjectMVCASP.Controllers
         {
             //check if user is logged in
             bool LoggedIn = (User != null) && (User.Identity.IsAuthenticated);
-            if (!LoggedIn)
-            {
-                _toastNotification.Information("You need to be logged in to make changes to this page", 5);
-            }
+            
 
             IEnumerable<Models.Employees> obj = _db.Employees;
             return View(obj);
